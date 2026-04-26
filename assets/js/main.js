@@ -1,0 +1,1 @@
+console.log("🚀 HUB GLOBAL cargado");
