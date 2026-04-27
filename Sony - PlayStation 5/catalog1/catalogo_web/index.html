@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Catálogo PS5 CEMT (1)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #0b0f19;
+  color: white;
+}
+
+/* =========================
+   HEADER
+========================= */
+header {
+  padding: 14px;
+  background: #101b2d;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+
+  overflow: hidden; /* 🔥 evita franjas raras */
+}
+
+/* LEFT SIDE (LOGO + NAV) */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* LOGO */
+.logo {
+  height: 32px;
+  width: auto;
+  display: block;
+}
+
+/* NAV */
+.nav-controls {
+  display: flex;
+  align-items: center;
+  background: #1a2436;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: white;
+  padding: 6px 10px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-link:hover {
+  background: #2d6cdf;
+}
+
+/* =========================
+   SEARCH BAR
+========================= */
+.search-bar {
+  margin-top: 10px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.search-bar input {
+  flex: 1;
+  max-width: 300px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  background: #1a2436;
+  color: white;
+}
+
+.search-bar select {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  background: #1a2436;
+  color: white;
+  font-size: 13px;
+  cursor: pointer;
+  min-width: 180px;
+  max-width: 220px;
+}
+
+.search-bar select:hover {
+  background: #22304a;
+}
+
+.search-bar select:focus {
+  box-shadow: 0 0 0 2px #2d6cdf55;
+}
+
+/* =========================
+   GRID
+========================= */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  padding: 20px;
+}
+
+.card {
+  background: #111826;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+
+.img-box {
+  width: 100%;
+  height: 320px;
+}
+
+.img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+
+.title {
+  padding: 8px 10px 0;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.size {
+  padding: 0 10px 10px;
+  font-size: 12px;
+  color: #aaa;
+}
+
+/* =========================
+   MOBILE GRID + HEADER FIX
+========================= */
+@media (max-width: 768px) {
+
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding-bottom: 10px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+    padding: 6px;
+  }
+
+  .img-box { height: 110px; }
+
+  .title { font-size: 9px; }
+  .size { font-size: 8px; }
+
+  .search-bar {
+    flex-wrap: nowrap;
+    gap: 6px;
+    width: 100%;
+  }
+
+  .search-bar input {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .search-bar select {
+    flex: 0 0 140px;
+    max-width: 140px;
+  }
+}
+
+/* =========================
+   MODAL (PC)
+========================= */
+#modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.92);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+#modal-content {
+  width: 92%;
+  max-width: 1000px;
+  max-height: 92vh;
+  overflow-y: auto;
+  background: #111826;
+  border-radius: 14px;
+  padding: 16px;
+  position: relative;
+}
+
+#modal-body {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+#modal-img {
+  width: 240px;
+  object-fit: contain;
+  border-radius: 10px;
+  align-self: flex-start;
+  margin-top: 0;
+}
+
+#modal-info {
+  flex: 1;
+}
+
+.meta {
+  margin: 6px 0;
+  font-size: 13px;
+  color: #ddd;
+}
+
+#modal-desc {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #ccc;
+  line-height: 1.4;
+}
+
+#modal-banner img {
+  width: 100%;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+/* BOTÓN CERRAR */
+#close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #ff3b3b;
+  border: none;
+  color: white;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* =========================
+   MOBILE MODAL
+========================= */
+@media (max-width: 768px) {
+
+  #modal-body {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #modal-img {
+    width: 70%;
+    display: block;
+    margin: 0 auto;
+  }
+
+  #modal-info {
+    text-align: center;
+  }
+}
+
+/* =========================
+   PDF BUTTON
+========================= */
+#downloadPdfBtn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 55px;
+  height: 55px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  background: #2d6cdf;
+  color: white;
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: bold;
+
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  z-index: 1000;
+
+  transition: transform 0.2s ease, background 0.2s ease;
+  backdrop-filter: blur(6px);
+}
+
+#downloadPdfBtn:hover {
+  transform: scale(1.1);
+  background: #1f4fb8;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-left">
+    <img src="logo.png" class="logo" alt="Logo">
+
+    <div class="nav-controls">
+      <a href="../../catalog2/catalogo_web/index.html" class="nav-link">◀◀</a>
+      <a href="../../index.html" class="nav-link">INICIO</a>
+      <a href="../../catalog2/catalogo_web/index.html" class="nav-link">▶▶</a>
+    </div>
+  </div>
+
+  <div class="search-bar">
+    <input id="searchInput" type="text" placeholder="Buscar juego...">
+
+    <select id="filterSelect"></select>
+  </div>
+</header>
+
+<div id="grid" class="grid"></div>
+
+<!-- MODAL RESTAURADO -->
+<div id="modal">
+  <div id="modal-content">
+    <button id="close-btn">✕</button>
+
+    <div id="modal-body">
+      <img id="modal-img">
+
+      <div id="modal-info">
+        <h2 id="modal-title"></h2>
+
+        <div class="meta">🎮 Nombre: <span id="modal-name"></span></div>
+        <div class="meta">💾 Tamaño: <span id="modal-size"></span> GB</div>
+        <div class="meta">⭐ Rating: <span id="modal-rating"></span></div>
+        <div class="meta">📅 Fecha: <span id="modal-release"></span></div>
+        <div class="meta">🏷️ Géneros: <span id="modal-genres"></span></div>
+        <div class="meta">🎯 Plataformas: <span id="modal-platforms"></span></div>
+
+        <div class="meta">📊 Metacritic:
+          <a id="modal-metacritic-link" target="_blank"></a>
+        </div>
+
+        <div id="modal-desc"></div>
+
+        <div id="modal-banner">
+          <img id="modal-background">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<a href="catalogo_whatsapp.pdf" download id="downloadPdfBtn">
+  ⬇ PDF
+</a>
+
+<script src="app.js"></script>
+
+</body>
+</html>
