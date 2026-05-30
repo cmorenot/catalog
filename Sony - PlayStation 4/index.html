@@ -1,64 +1,318 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Selector de Catálogos</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial;
-      background: #0b0f19;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+<title>PS4 Catálogos Hub</title>
+
+<style>
+
+:root{
+    --blue:#0070d1;
+    --blue-light:#00a8ff;
+    --bg:#050b14;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Segoe UI', Arial, sans-serif;
+    min-height:100vh;
+    color:white;
+
+    background:
+    radial-gradient(circle at top,
+    rgba(0,112,209,.25),
+    transparent 40%),
+    linear-gradient(180deg,#07111f,#050b14);
+}
+
+/* Fondo decorativo */
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+
+    background:
+    radial-gradient(circle at 20% 20%, rgba(0,168,255,.08), transparent 30%),
+    radial-gradient(circle at 80% 80%, rgba(0,112,209,.10), transparent 30%);
+
+    pointer-events:none;
+}
+
+/* HEADER */
+.header{
+    text-align:center;
+    padding:50px 20px 35px;
+}
+
+.header h1{
+    font-size:3rem;
+    font-weight:700;
+}
+
+.header h1 span{
+    color:var(--blue-light);
+}
+
+.header p{
+    margin-top:10px;
+    color:#9db2cc;
+}
+
+/* GRID */
+.catalogs{
+    width:min(1200px,92%);
+    margin:auto;
+
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:25px;
+
+    padding-bottom:60px;
+}
+
+/* CARD */
+.card{
+    background:rgba(13,21,37,.85);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:22px;
+    overflow:hidden;
+    backdrop-filter:blur(10px);
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+    border-color:var(--blue-light);
+    box-shadow:0 20px 50px rgba(0,168,255,.25);
+}
+
+/* IMAGEN */
+.card-image{
+    position:relative;
+    height:180px;
+    overflow:hidden;
+}
+
+.card-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition:.5s;
+}
+
+.card:hover img{
+    transform:scale(1.08);
+}
+
+/* OVERLAY */
+.card-image::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(
+        to top,
+        rgba(13,21,37,.95),
+        rgba(13,21,37,.10)
+    );
+}
+
+/* BADGE */
+.badge{
+    position:absolute;
+    top:12px;
+    left:12px;
+    background:var(--blue);
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:.75rem;
+    font-weight:bold;
+    z-index:2;
+}
+
+/* CONTENT */
+.content{
+    padding:20px;
+}
+
+.content h2{
+    font-size:1.3rem;
+    margin-bottom:6px;
+}
+
+.firmware{
+    color:var(--blue-light);
+    font-weight:600;
+    margin-bottom:10px;
+    font-size:.9rem;
+}
+
+.games{
+    color:#aebed6;
+    margin-bottom:18px;
+    font-size:.9rem;
+}
+
+/* BUTTON */
+.btn{
+    display:block;
+    text-align:center;
+    text-decoration:none;
+
+    background:var(--blue);
+    color:white;
+
+    padding:13px;
+    border-radius:12px;
+
+    font-weight:600;
+
+    transition:.3s;
+}
+
+.btn:hover{
+    background:var(--blue-light);
+}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+
+    .header h1{
+        font-size:2.2rem;
     }
 
-    .box {
-      text-align: center;
+    .card-image{
+        height:160px;
     }
+}
 
-    h1 {
-      margin-bottom: 20px;
-    }
-
-    .links {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    a {
-      text-decoration: none;
-      color: white;
-      background: #2d6cdf;
-      padding: 12px 20px;
-      border-radius: 10px;
-      display: inline-block;
-      transition: 0.2s;
-    }
-
-    a:hover {
-      background: #1f4fb8;
-      transform: scale(1.05);
-    }
-  </style>
+</style>
 </head>
 
 <body>
 
-  <div class="box">
-    <h1>🎮 Selector de Catálogos</h1>
+<div class="header">
 
-    <div class="links">
-      <a href="catalog1/catalogo_web/index.html">📁 Catálogo 1(505)</a>
-      <a href="catalog2/catalogo_web/index.html">📁 Catálogo 2(600-700)</a>
-      <a href="catalog3/catalogo_web/index.html">📁 Catálogo 3(900)</a>
-      <a href="catalog4/catalogo_web/index.html">📁 Catálogo 4(1100)</a>
+    <h1>PS4 <span>CATÁLOGOS</span></h1>
+    <p>Selecciona un catálogo para explorar juegos</p>
+
+</div>
+
+<div class="catalogs">
+
+      <!-- CAT 1 -->
+    <div class="card">
+
+        <div class="card-image">
+            <div class="badge">CATÁLOGO 1</div>
+            <img src="images/catalogo1.jpg" alt="Catalogo 1">
+        </div>
+
+        <div class="content">
+            <h2>Catálogo PS4 505</h2>
+            <div class="firmware">Biblioteca PS4 • Firmware 5.05</div>
+            <div class="games">Colección de juegos organizados por compatibilidad</div>
+            <a class="btn" href="catalog1/catalogo_web/index.html">Abrir catálogo</a>
+        </div>
+
     </div>
-  </div>
+
+    <!-- CAT 2 -->
+    <div class="card">
+
+        <div class="card-image">
+            <div class="badge">CATÁLOGO 2</div>
+            <img src="images/catalogo2.jpg" alt="Catalogo 2">
+        </div>
+
+        <div class="content">
+            <h2>Catálogo PS4 6.72</h2>
+            <div class="firmware">Biblioteca PS4 • Firmware 6.xx</div>
+            <div class="games">Colección ampliada de juegos PS4, más de 3000 títulos</div>
+            <a class="btn" href="catalog2/catalogo_web/index.html">Abrir catálogo</a>
+        </div>
+
+    </div>
+
+    <!-- CAT 3 -->
+    <div class="card">
+
+        <div class="card-image">
+            <div class="badge">CATÁLOGO 3</div>
+            <img src="images/catalogo3.jpg" alt="Catalogo 3">
+        </div>
+
+        <div class="content">
+            <h2>Catálogo PS4 9.00</h2>
+            <div class="firmware">Biblioteca PS4 • Firmware 9.xx</div>
+            <div class="games">Gran colección de títulos de todas las categorías</div>
+            <a class="btn" href="catalog3/catalogo_web/index.html">Abrir catálogo</a>
+        </div>
+
+    </div>
+
+    <!-- CAT 4 -->
+    <div class="card">
+
+        <div class="card-image">
+            <div class="badge">CATÁLOGO 4</div>
+            <img src="images/catalogo4.jpg" alt="Catalogo 4">
+        </div>
+
+        <div class="content">
+            <h2>Catálogo PS4 11.00</h2>
+            <div class="firmware">Biblioteca PS4 • Última compilación</div>
+            <div class="games">Selección completa de juegos de la plataforma</div>
+            <a class="btn" href="catalog4/catalogo_web/index.html">Abrir catálogo</a>
+        </div>
+
+    </div>
+
+    <!-- CAT 5 -->
+    <div class="card">
+
+        <div class="card-image">
+            <div class="badge">VR</div>
+            <img src="images/vr.jpg" alt="VR">
+        </div>
+
+        <div class="content">
+            <h2>Catálogo VR</h2>
+            <div class="firmware">PlayStation VR</div>
+            <div class="games">Experiencias inmersivas</div>
+            <a class="btn" href="#">Abrir catálogo</a>
+        </div>
+
+    </div>
+
+    <!-- CAT 6 -->
+    <div class="card">
+
+        <div class="card-image">
+            <div class="badge">RETRO</div>
+            <img src="images/retro.jpg" alt="Retro">
+        </div>
+
+        <div class="content">
+            <h2>Catálogo Retro</h2>
+            <div class="firmware">PS1 / PS2 / Clásicos</div>
+            <div class="games">Más de 1200 juegos clásicos</div>
+            <a class="btn" href="#">Abrir catálogo</a>
+        </div>
+
+    </div>
+
+
+
+
+
+</div>
 
 </body>
 </html>
