@@ -1,61 +1,302 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Selector de Catálogos</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial;
-      background: #0b0f19;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
+<title>Nintendo Switch Catálogos Hub</title>
 
-    .box {
-      text-align: center;
-    }
+<style>
 
-    h1 {
-      margin-bottom: 20px;
-    }
+:root{
+    --red:#e60012;
+    --red-light:#ff3b4a;
+}
 
-    .links {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
+/* RESET */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-    a {
-      text-decoration: none;
-      color: white;
-      background: #2d6cdf;
-      padding: 12px 20px;
-      border-radius: 10px;
-      display: inline-block;
-      transition: 0.2s;
-    }
+body{
+    font-family:'Segoe UI', Arial, sans-serif;
+    min-height:100vh;
+    color:#111;
 
-    a:hover {
-      background: #1f4fb8;
-      transform: scale(1.05);
+    background:
+    radial-gradient(circle at top,
+    rgba(230,0,18,.10),
+    transparent 45%),
+    linear-gradient(180deg,#ffffff,#f3f4f7);
+}
+
+/* LUZ SUAVE */
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+
+    background:
+    radial-gradient(circle at 50% 15%,
+    rgba(230,0,18,.12),
+    transparent 60%);
+
+    pointer-events:none;
+}
+
+/* ===================== */
+/* BANNER (IGUAL PS4/PS5) */
+/* ===================== */
+
+.top-banner{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:60px;
+
+    background:rgba(255,255,255,.85);
+    backdrop-filter:blur(14px);
+
+    border-bottom:1px solid rgba(0,0,0,.08);
+
+    z-index:999;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.top-banner .inner{
+    width:min(1200px,92%);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+/* BOTÓN PLATAFORMAS */
+.top-banner a{
+    text-decoration:none;
+    color:#444;
+    font-weight:600;
+    font-size:.9rem;
+}
+
+/* LOGO */
+.logo img{
+    height:38px;
+}
+
+/* STATUS */
+.status{
+    font-size:.85rem;
+    color:#666;
+}
+
+/* evita que tape contenido */
+body{
+    padding-top:60px;
+}
+
+/* ===================== */
+/* GRID                 */
+/* ===================== */
+
+.catalogs{
+    width:min(1200px,92%);
+    margin:auto;
+    padding:50px 0;
+
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:25px;
+}
+
+/* CARD SWITCH PRO */
+.card{
+    background:#fff;
+
+    border:1px solid rgba(0,0,0,.08);
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    transition:.3s;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.05);
+}
+
+.card:hover{
+    transform:translateY(-6px);
+    border-color:var(--red);
+    box-shadow:0 20px 40px rgba(230,0,18,.15);
+}
+
+/* IMAGEN */
+.card-image{
+    position:relative;
+    height:180px;
+    overflow:hidden;
+}
+
+.card-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition:.5s;
+}
+
+.card:hover img{
+    transform:scale(1.06);
+}
+
+/* overlay */
+.card-image::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(
+        to top,
+        rgba(255,255,255,.85),
+        rgba(255,255,255,.10)
+    );
+}
+
+/* BADGE */
+.badge{
+    position:absolute;
+    top:12px;
+    left:12px;
+
+    background:var(--red);
+    color:white;
+
+    padding:6px 12px;
+    border-radius:20px;
+
+    font-size:.75rem;
+    font-weight:700;
+
+    z-index:2;
+}
+
+/* CONTENT */
+.content{
+    padding:20px;
+}
+
+.content h2{
+    font-size:1.2rem;
+    margin-bottom:6px;
+    color:#111;
+}
+
+.firmware{
+    color:var(--red);
+    font-weight:600;
+    margin-bottom:10px;
+    font-size:.9rem;
+}
+
+.games{
+    color:#555;
+    margin-bottom:18px;
+    font-size:.9rem;
+}
+
+/* BOTÓN */
+.btn{
+    display:block;
+    text-align:center;
+    text-decoration:none;
+
+    background:var(--red);
+    color:white;
+
+    padding:13px;
+
+    border-radius:12px;
+
+    font-weight:600;
+
+    transition:.3s;
+}
+
+.btn:hover{
+    background:var(--red-light);
+}
+
+@media(max-width:600px){
+    .card-image{
+        height:160px;
     }
-  </style>
+}
+
+</style>
 </head>
 
 <body>
 
-  <div class="box">
-    <h1>🎮 Selector de Catálogos</h1>
+<!-- BANNER -->
+<div class="top-banner">
 
-    <div class="links">
-      <a href="catalog1/catalogo_web/index.html">📁 Catálogo 1</a>
+    <div class="inner">
+
+        <a href="../index.html">🏠 Plataformas</a>
+
+        <div class="logo">
+            <img src="images/logo.png" alt="Switch Logo">
+        </div>
+
+        <div class="status">
+            Catálogos Nintendo Switch activos
+        </div>
+
     </div>
-  </div>
+
+</div>
+
+<!-- GRID -->
+<div class="catalogs">
+
+    <!-- CAT 1 -->
+    <div class="card">
+
+        <div class="card-image">
+            <div class="badge">CAT 1</div>
+            <img src="images/catalogo1.jpg" alt="Catalogo 1">
+        </div>
+
+        <div class="content">
+            <h2>Catálogo Switch 1</h2>
+            <div class="firmware">Biblioteca Nintendo Switch</div>
+            <div class="games">Colección de juegos organizados</div>
+            <a class="btn" href="catalog1/catalogo_web/index.html">Abrir catálogo</a>
+        </div>
+
+    </div>
+
+    <!-- CAT 2 -->
+    <div class="card">
+
+        <div class="card-image">
+            <div class="badge">CAT 2</div>
+            <img src="images/catalogo2.jpg" alt="Catalogo 2">
+        </div>
+
+        <div class="content">
+            <h2>Catálogo Switch 2</h2>
+            <div class="firmware">Biblioteca Nintendo Switch</div>
+            <div class="games">Selección ampliada de títulos</div>
+            <a class="btn" href="catalog2/catalogo_web/index.html">Abrir catálogo</a>
+        </div>
+
+    </div>
+
+</div>
 
 </body>
 </html>
