@@ -192,10 +192,83 @@ body::before{
     }
 }
 
+/* BANNER FIJO SUPERIOR */
+.top-banner{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:60px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:rgba(5,11,20,.85);
+    backdrop-filter:blur(12px);
+
+    border-bottom:1px solid rgba(0,168,255,.25);
+
+    z-index:999;
+}
+
+/* contenido del banner */
+.top-banner .inner{
+    width:min(1200px,92%);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+/* logo */
+.top-banner .logo{
+    font-weight:700;
+    color:white;
+    letter-spacing:1px;
+}
+
+.top-banner .logo span{
+    color:#00a8ff;
+}
+
+/* texto derecho */
+.top-banner .status{
+    font-size:.85rem;
+    color:#9db2cc;
+}
+
+/* evita que el contenido quede debajo del banner */
+body{
+    padding-top:60px;
+}
+
+.top-banner .logo img{
+    height:42px;
+    filter:drop-shadow(0 0 10px rgba(0,168,255,.35));
+}
+
 </style>
 </head>
 
 <body>
+
+<div class="top-banner">
+
+    <div class="inner">
+    <a href="../index.html">
+        <div class="logo">
+           <img src="images/logo.png" alt="PS4 Logo" style="height:40px; vertical-align:middle;">
+        </div>
+
+    </a>
+
+        <div class="status">
+            Biblioteca de catálogos activos
+        </div>
+
+    </div>
+
+</div>
 
 <div class="header">
 
