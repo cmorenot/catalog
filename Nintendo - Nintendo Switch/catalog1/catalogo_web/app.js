@@ -9,21 +9,21 @@ const modal = document.getElementById("modal");
 const searchInput = document.getElementById("searchInput");
 const filterSelect = document.getElementById("filterSelect");
 const genresList = [
-  "Action",
-  "Shooter",
-  "Arcade",
-  "Indie",
-  "Simulation",
-  "Sports",
-  "Racing",
-  "Adventure",
-  "RPG",
-  "Strategy",
-  "Platformer",
-  "Massively Multiplayer",
-  "Casual",
-  "Puzzle",
-  "Fighting"
+  { value: "action", label: "Acción" },
+  { value: "shooter", label: "Disparos" },
+  { value: "arcade", label: "Arcade" },
+  { value: "indie", label: "Indie" },
+  { value: "simulation", label: "Simulación" },
+  { value: "sports", label: "Deportes" },
+  { value: "racing", label: "Carreras" },
+  { value: "adventure", label: "Aventura" },
+  { value: "rpg", label: "RPG" },
+  { value: "strategy", label: "Estrategia" },
+  { value: "platformer", label: "Plataformas" },
+  { value: "massively multiplayer", label: "Multijugador masivo" },
+  { value: "casual", label: "Casual" },
+  { value: "puzzle", label: "Rompecabezas" },
+  { value: "fighting", label: "Lucha" }
 ];
 
 const allOption = document.createElement("option");
@@ -31,18 +31,10 @@ allOption.value = "";
 allOption.textContent = "🎮 Todos los géneros";
 filterSelect.appendChild(allOption);
 
-
 genresList.forEach(g => {
   const option = document.createElement("option");
-  option.value = g.toLowerCase();
-  option.textContent = g;
-  filterSelect.appendChild(option);
-});
-
-genresList.forEach(g => {
-  const option = document.createElement("option");
-  option.value = g.toLowerCase();
-  option.textContent = g;
+  option.value = g.value;
+  option.textContent = g.label;
   filterSelect.appendChild(option);
 });
 
@@ -108,10 +100,18 @@ function openModal(g) {
   mc.innerText = g.metacritic || "";
   mc.href = g.metacritic_url || "#";
 
-  document.getElementById("modal-desc").innerText = g.description || "";
+  const descEl = document.getElementById("modal-desc");
+  if (descEl) descEl.innerText = g.description || "";
   document.getElementById("modal-background").src = g.background_image || "";
 
+  const descCard = document.getElementById("modal-desc-card");
+
+  // make modal visible
   modal.style.display = "flex";
+
+  if (descCard) {
+    descCard.classList.remove("expanded");
+  }
 }
 
 /* =========================
@@ -120,6 +120,8 @@ function openModal(g) {
 document.getElementById("close-btn").onclick = () => {
   modal.style.display = "none";
 };
+
+// expand button handler is attached inside openModal when needed
 
 modal.onclick = (e) => {
   if (e.target === modal) modal.style.display = "none";

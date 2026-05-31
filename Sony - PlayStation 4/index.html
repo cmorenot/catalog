@@ -45,28 +45,10 @@ body::before{
     pointer-events:none;
 }
 
-/* HEADER */
-.header{
-    text-align:center;
-    padding:50px 20px 35px;
-}
-
-.header h1{
-    font-size:3rem;
-    font-weight:700;
-}
-
-.header h1 span{
-    color:var(--blue-light);
-}
-
-.header p{
-    margin-top:10px;
-    color:#9db2cc;
-}
 
 /* GRID */
 .catalogs{
+    margin-top:25px;
     width:min(1200px,92%);
     margin:auto;
 
@@ -233,8 +215,10 @@ body::before{
 
 /* texto derecho */
 .top-banner .status{
-    font-size:.85rem;
-    color:#9db2cc;
+    font-size:1rem;
+    font-weight:600;
+    letter-spacing:1px;
+    color:#cfe2ff;
 }
 
 /* evita que el contenido quede debajo del banner */
@@ -245,6 +229,39 @@ body{
 .top-banner .logo img{
     height:42px;
     filter:drop-shadow(0 0 10px rgba(0,168,255,.35));
+}
+
+.price-info{
+
+    width:min(1200px,92%);
+    margin:35px auto 25px;
+
+    padding:18px 20px;
+
+    border-radius:16px;
+
+    background:rgba(20,25,45,.75);
+
+    border:1px solid rgba(0,168,255,.25);
+
+    backdrop-filter:blur(10px);
+
+    color:white;
+}
+
+.price-info h3{
+    margin-bottom:10px;
+    color:#4cc9ff;
+    font-size:1.1rem;
+}
+
+.price-info ul{
+    list-style:none;
+}
+
+.price-info li{
+    padding:4px 0;
+    color:#cfe2ff;
 }
 
 </style>
@@ -263,19 +280,27 @@ body{
         </a>
 
         <div class="status">
-            Biblioteca de catálogos activos
+            PS4 <span style="color:#00a8ff;font-weight:700;">CATÁLOGOS</span>
         </div>
 
     </div>
 
 </div>
 
-<div class="header">
 
-    <h1>PS4 <span>CATÁLOGOS</span></h1>
-    <p>Selecciona un catálogo para explorar juegos</p>
+<div class="price-info">
+
+    <h3>💰 Sistema de precios PS4</h3>
+
+    <ul>
+        <li>📦 Menores de 10GB → <b>150 CUP</b></li>
+        <li>📦 Mayores de 10GB → <b>200 CUP</b></li>
+        <li>📦 Mayores de 100GB → <b>250 CUP</b></li>
+        <li>⭐ FC 26 → <b>300 CUP</b></li>
+    </ul>
 
 </div>
+
 
 <div class="catalogs">
 

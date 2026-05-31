@@ -1,40 +1,417 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Catálogos</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- CSS GLOBAL -->
-  <link rel="stylesheet" href="assets/css/global.css">
+<title>Biblioteca Multiplataforma</title>
+
+<style>
+
+:root{
+    --ps4:#0070d1;
+    --ps5:#2d7dff;
+    --switch:#e60012;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Segoe UI', Arial, sans-serif;
+    min-height:100vh;
+    color:white;
+
+    background:
+    radial-gradient(circle at top,
+    rgba(0,112,209,.15),
+    transparent 40%),
+    linear-gradient(180deg,#07111f,#050b14);
+}
+
+/* ===================== */
+/* BANNER                */
+/* ===================== */
+
+.top-banner{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:60px;
+
+    background:rgba(5,11,20,.92);
+    backdrop-filter:blur(14px);
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+    z-index:999;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.top-banner .inner{
+    width:min(1400px,92%);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo img{
+    height:40px;
+}
+
+.status{
+    color:#9db2cc;
+    font-size:.9rem;
+}
+
+/* ===================== */
+/* HERO                  */
+/* ===================== */
+
+.hero{
+    text-align:center;
+    padding:110px 20px 50px;
+}
+
+.hero h1{
+    font-size:3rem;
+    margin-bottom:10px;
+}
+
+.hero p{
+    color:#9db2cc;
+    max-width:700px;
+    margin:auto;
+}
+
+/* ===================== */
+/* GRID                  */
+/* ===================== */
+
+.platforms{
+
+    width:min(1400px,92%);
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(320px,1fr));
+
+    gap:30px;
+
+    padding-bottom:50px;
+}
+
+/* ===================== */
+/* CARD GENERAL          */
+/* ===================== */
+
+.platform{
+
+    text-decoration:none;
+    color:white;
+
+    border-radius:24px;
+
+    overflow:hidden;
+
+    min-height:420px;
+
+    position:relative;
+
+    transition:.35s;
+
+    display:flex;
+    flex-direction:column;
+}
+
+.platform:hover{
+    transform:translateY(-10px);
+}
+
+/* ===================== */
+/* IMAGEN                */
+/* ===================== */
+
+.platform-image{
+    position:relative;
+    height:260px;
+    overflow:hidden;
+}
+
+.platform-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition:.5s;
+}
+
+.platform:hover img{
+    transform:scale(1.08);
+}
+
+.platform-image::after{
+    content:"";
+    position:absolute;
+    inset:0;
+
+    background:linear-gradient(
+        to top,
+        rgba(0,0,0,.55),
+        rgba(0,0,0,.05)
+    );
+}
+
+/* ===================== */
+/* CONTENIDO             */
+/* ===================== */
+
+.platform-content{
+    padding:25px;
+}
+
+.platform-content h2{
+    font-size:1.8rem;
+    margin-bottom:10px;
+}
+
+.platform-content p{
+    line-height:1.6;
+    opacity:.9;
+}
+
+.open-btn{
+
+    display:inline-block;
+
+    margin-top:20px;
+
+    padding:12px 18px;
+
+    border-radius:12px;
+
+    text-decoration:none;
+
+    color:white;
+
+    font-weight:600;
+
+    background:rgba(255,255,255,.15);
+
+    backdrop-filter:blur(8px);
+
+    transition:.3s;
+}
+
+.open-btn:hover{
+    transform:translateY(-2px);
+    background:rgba(255,255,255,.25);
+}
+
+/* ===================== */
+/* PS4                   */
+/* ===================== */
+
+.ps4{
+
+    background:
+    linear-gradient(
+    180deg,
+    #0d2245,
+    #07111f);
+
+    border:1px solid rgba(0,112,209,.35);
+}
+
+.ps4:hover{
+    box-shadow:0 20px 60px rgba(0,112,209,.30);
+}
+
+/* ===================== */
+/* PS5                   */
+/* ===================== */
+
+.ps5{
+
+    background:
+    linear-gradient(
+    180deg,
+    #e8eefc,
+    #a8b8d6);
+
+    color:#111;
+
+    border:1px solid rgba(255,255,255,.4);
+}
+
+.ps5 .open-btn{
+    background:rgba(45,125,255,.15);
+}
+
+.ps5:hover{
+    box-shadow:0 20px 60px rgba(255,255,255,.15);
+}
+
+/* ===================== */
+/* SWITCH                */
+/* ===================== */
+
+.switch{
+
+    background:
+    linear-gradient(
+    180deg,
+    #ff2c3b,
+    #c90010);
+
+    border:1px solid rgba(255,255,255,.2);
+}
+
+.switch:hover{
+    box-shadow:0 20px 60px rgba(230,0,18,.35);
+}
+
+/* ===================== */
+/* MOBILE                */
+/* ===================== */
+
+@media(max-width:700px){
+
+    .hero h1{
+        font-size:2.2rem;
+    }
+
+    .platform{
+        min-height:auto;
+    }
+
+    .platform-image{
+        height:220px;
+    }
+
+}
+
+</style>
 </head>
 
 <body>
 
-  <div class="container">
-    <h1>🎮 Selecciona Consola</h1>
+<!-- BANNER -->
 
-    <div class="grid">
+<div class="top-banner">
 
-      <a href="Sony - PlayStation 4/index.html" class="card">
-        <img src="assets/images/ps4.png">
-        <span>PlayStation 4</span>
-      </a>
+    <div class="inner">
 
-      <a href="Sony - PlayStation 5/index.html" class="card">
-        <img src="assets/images/ps5.png">
-        <span>PlayStation 5</span>
-      </a>
+        <div class="logo">
+            <img src="assets/images/logo.png" alt="Logo">
+        </div>
 
-      <a href="Nintendo - Nintendo Switch/index.html" class="card">
-        <img src="assets/images/switch.png">
-        <span>Nintendo Switch</span>
-      </a>
+        <div class="status">
+            Biblioteca Multiplataforma
+        </div>
 
     </div>
-  </div>
 
-  <!-- JS GLOBAL -->
-  <script src="assets/js/main.js"></script>
+</div>
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <h1>Biblioteca de Juegos</h1>
+
+    <p>
+        Selecciona una plataforma para acceder a sus catálogos
+        y explorar miles de títulos organizados.
+    </p>
+
+</section>
+
+<!-- PLATAFORMAS -->
+
+<div class="platforms">
+
+    <!-- PS4 -->
+
+    <a href="Sony - PlayStation 4/index.html" class="platform ps4">
+
+        <div class="platform-image">
+            <img src="assets/images/ps4.png" alt="PS4">
+        </div>
+
+        <div class="platform-content">
+
+            <h2>PlayStation 4</h2>
+
+            <p>
+                Catálogos organizados por firmware y compatibilidad.
+            </p>
+
+            <span class="open-btn">
+                Abrir plataforma →
+            </span>
+
+        </div>
+
+    </a>
+
+    <!-- PS5 -->
+
+  <a href="Sony - PlayStation 5/index.html" class="platform ps5">
+
+      <div class="platform-image">
+          <img src="assets/images/ps5.png" alt="PS5">
+      </div>
+
+      <div class="platform-content">
+
+          <h2>PlayStation 5</h2>
+
+          <p>
+              Biblioteca de juegos de nueva generación.
+          </p>
+
+          <span class="open-btn">
+              Abrir plataforma →
+          </span>
+
+      </div>
+
+  </a>
+
+    <!-- SWITCH -->
+
+    <a href="Nintendo - Nintendo Switch/index.html" class="platform switch">
+
+        <div class="platform-image">
+            <img src="assets/images/switch.png" alt="Switch">
+        </div>
+
+        <div class="platform-content">
+
+            <h2>Nintendo Switch</h2>
+
+            <p>
+                Catálogos de juegos y exclusivos de Nintendo.
+            </p>
+
+            <span class="open-btn">
+                Abrir plataforma →
+            </span>
+
+        </div>
+
+</a>
+
+</div>
 
 </body>
 </html>
