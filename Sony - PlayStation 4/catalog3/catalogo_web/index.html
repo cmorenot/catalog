@@ -1,61 +1,129 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <title>Catálogo PS4 CEMT (800-900)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#071633">
 
 <style>
+/* Colores PlayStation (sin fuentes externas: carga más rápido) */
+:root {
+  --ps-blue: #0070D1;
+  --ps-blue-light: #3D9BFF;
+  --ps-blue-dark: #00439C;
+  --ps-bg: #050B18;
+  --ps-panel: #0F1B30;
+  --ps-panel-2: #16263F;
+  --ps-line: rgba(148, 179, 225, 0.18);
+  --ps-text: #F4F7FC;
+  --ps-muted: #8FA3C2;
+  /* botones del control */
+  --ps-triangle: #2ECFA8;
+  --ps-circle: #FF5A5F;
+  --ps-cross: #7FA8FF;
+  --ps-square: #F28FC4;
+}
+
+* { box-sizing: border-box; }
+
 body {
   margin: 0;
-  font-family: Arial;
-  background: #0b0f19;
-  color: white;
+  font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  /* azul profundo del menú de PS4 + las 4 figuras del control a color, muy tenues */
+  background:
+    radial-gradient(ellipse 90% 55% at 50% -12%, rgba(0, 112, 209, 0.5), transparent 70%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' fill='none' stroke-width='2.2' stroke-opacity='.10' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath stroke='%232ECFA8' d='M38 22 54 50H22z'/%3E%3Ccircle stroke='%23FF5A5F' cx='160' cy='40' r='15'/%3E%3Cpath stroke='%237FA8FF' d='m40 146 22 22m0-22-22 22'/%3E%3Crect stroke='%23F28FC4' x='146' y='146' width='26' height='26' rx='2' transform='rotate(12 159 159)'/%3E%3C/svg%3E"),
+    linear-gradient(180deg, #071633 0%, var(--ps-bg) 55%);
+  background-attachment: fixed;
+  color: var(--ps-text);
+  min-height: 100vh;
 }
+
+/* las ondas de luz del menú de PS4: se mueven lento detrás de todo */
+body::before {
+  content: "";
+  position: fixed;
+  left: 0;
+  bottom: -6vh;
+  z-index: -1;
+  width: calc(100% + 1440px);
+  height: 62vh;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 400' preserveAspectRatio='none' fill='none' stroke-linecap='round'%3E%3Cpath d='M0 230Q180 150 360 230T720 230T1080 230T1440 230' stroke='%233D9BFF' stroke-opacity='.35' stroke-width='3'/%3E%3Cpath d='M0 250Q180 190 360 250T720 250T1080 250T1440 250' stroke='%23ffffff' stroke-opacity='.18' stroke-width='1.5'/%3E%3Cpath d='M0 270Q180 330 360 270T720 270T1080 270T1440 270' stroke='%237FA8FF' stroke-opacity='.22' stroke-width='2'/%3E%3Cpath d='M0 300Q180 220 360 300T720 300T1080 300T1440 300' stroke='%23ffffff' stroke-opacity='.10' stroke-width='6'/%3E%3Cpath d='M0 320Q180 370 360 320T720 320T1080 320T1440 320' stroke='%233D9BFF' stroke-opacity='.16' stroke-width='1'/%3E%3C/svg%3E") repeat-x 0 0 / 1440px 100%;
+  filter: drop-shadow(0 0 6px rgba(61, 155, 255, 0.55));
+  pointer-events: none;
+  animation: ondas 70s linear infinite;
+}
+
+/* brillo azul que respira debajo de las ondas */
+body::after {
+  content: "";
+  position: fixed;
+  left: -10%;
+  right: -10%;
+  bottom: -18vh;
+  z-index: -2;
+  height: 55vh;
+  background: radial-gradient(ellipse at 50% 60%, rgba(0, 112, 209, 0.35), transparent 65%);
+  pointer-events: none;
+  animation: respira 9s ease-in-out infinite;
+}
+
+@keyframes ondas { to { transform: translateX(-1440px); } }
+@keyframes respira { 50% { opacity: 0.55; } }
 
 /* =========================
    HEADER
 ========================= */
 header {
-  padding: 14px;
-  background: #101b2d;
+  padding: 12px 18px;
+  background: linear-gradient(90deg, rgba(0, 67, 156, 0.92), rgba(10, 42, 102, 0.9) 60%, rgba(11, 29, 64, 0.9));
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
   position: sticky;
   top: 0;
   z-index: 10;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-
-  overflow: hidden; /* 🔥 evita franjas raras */
+  gap: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
 }
 
-/* LEFT SIDE (LOGO + NAV) */
+/* barra de luz azul, como la del DualShock 4 */
+header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--ps-blue-light) 18%, #9FD0FF 50%, var(--ps-blue-light) 82%, transparent);
+  box-shadow: 0 0 14px rgba(61, 155, 255, 0.9);
+  pointer-events: none;
+}
+
 .header-left {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-/* LOGO */
 .logo {
   height: 32px;
   width: auto;
   display: block;
 }
 
-/* NAV */
 .nav-controls {
   display: flex;
   align-items: center;
   gap: 5px;
   padding: 5px;
-  background: linear-gradient(145deg, #1a2941, #111a2b);
-  border: 1px solid rgba(148, 179, 225, 0.18);
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--ps-line);
   border-radius: 16px;
-  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.25);
 }
 
 .nav-link {
@@ -65,27 +133,17 @@ header {
   justify-content: center;
   gap: 7px;
   min-width: 40px;
-  height: 40px;
+  height: 38px;
   padding: 0 10px;
-  border: 1px solid transparent;
   border-radius: 11px;
-  color: #cbd7ec;
+  color: #CBD7EC;
   font-size: 12px;
   font-weight: 700;
-  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  transition: color 0.2s, background 0.2s, transform 0.2s;
 }
 
-.nav-link:not(.nav-home):hover {
-  color: #fff;
-  background: #263852;
-  border-color: rgba(148, 179, 225, 0.2);
-  transform: translateY(-1px);
-}
-
-.nav-link:focus-visible {
-  outline: 2px solid #78aaff;
-  outline-offset: 2px;
-}
+.nav-link:hover { color: #fff; background: rgba(255, 255, 255, 0.1); transform: translateY(-1px); }
+.nav-link:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 
 .nav-icon {
   width: 19px;
@@ -101,53 +159,45 @@ header {
 .nav-home {
   min-width: 92px;
   color: #fff;
-  background: linear-gradient(135deg, #347df0, #2458c4);
-  box-shadow: 0 4px 12px rgba(45, 108, 223, 0.28);
+  background: linear-gradient(180deg, var(--ps-blue-light), var(--ps-blue));
+  box-shadow: 0 4px 14px rgba(0, 112, 209, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
-.nav-home:hover {
-  color: #fff;
-  background: linear-gradient(135deg, #4b8cff, #2d6cdf);
-  border-color: rgba(255, 255, 255, 0.2);
-  transform: translateY(-1px);
-}
+.nav-home:hover { background: var(--ps-blue-light); }
 
 /* =========================
-   SEARCH BAR
+   BUSCADOR
 ========================= */
 .search-bar {
   display: flex;
   gap: 10px;
   align-items: center;
-  margin-top: 10px;
 }
 
-.search-field,
-.genre-filter {
+.search-field {
   display: flex;
   align-items: center;
   height: 42px;
-  box-sizing: border-box;
-  border: 1px solid rgba(148, 179, 225, 0.18);
-  border-radius: 13px;
-  background: linear-gradient(145deg, #1a2941, #111a2b);
-  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.18);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  border: 2px solid transparent;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.1);
+  transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
 }
 
 .search-field {
   flex: 1;
+  width: 330px;
   max-width: 330px;
-  min-width: 180px;
+  min-width: 0;
   gap: 9px;
-  padding: 0 12px;
+  padding: 0 6px 0 14px;
 }
 
-.search-field:focus-within,
-.genre-filter:focus-within {
-  border-color: rgba(91, 151, 255, 0.75);
-  background: #17253a;
-  box-shadow: 0 0 0 3px rgba(45, 108, 223, 0.17), 0 5px 16px rgba(0, 0, 0, 0.18);
+/* foco: borde blanco brillante, como la selección del menú PS4 */
+.search-field:focus-within {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 0 0 4px rgba(61, 155, 255, 0.35), 0 0 18px rgba(61, 155, 255, 0.45);
 }
 
 .search-icon {
@@ -155,8 +205,8 @@ header {
   height: 18px;
   flex: 0 0 auto;
   fill: none;
-  stroke: #8fa7ca;
-  stroke-width: 1.8;
+  stroke: #C9D8F0;
+  stroke-width: 2;
   stroke-linecap: round;
 }
 
@@ -167,290 +217,661 @@ header {
   border: 0;
   outline: 0;
   background: transparent;
-  color: #f4f7fc;
+  color: var(--ps-text);
   font: inherit;
-  font-size: 13px;
+  font-size: 14px;
 }
 
-.search-field input::placeholder {
-  color: #8393ab;
+.search-field input::placeholder { color: #9FB2D1; }
+.search-field input::-webkit-search-cancel-button { display: none; }
+
+/* botón ✕ estilo botón "cruz" del control */
+.search-clear {
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--ps-cross);
+  background: transparent;
+  color: var(--ps-cross);
+  font: 700 13px Arial, sans-serif;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s, transform 0.12s;
 }
 
-.genre-filter {
+.search-clear.show { display: flex; }
+.search-clear:hover { background: var(--ps-cross); color: #0B1D40; }
+.search-clear:active { transform: scale(0.88); }
+
+
+
+/* =========================
+   GÉNEROS (pestañas deslizables, selección blanca del menú PS4)
+========================= */
+.chips {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  margin: 0 -18px -4px;
+  padding: 4px 18px 6px;
+  scrollbar-width: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 18px, #000 calc(100% - 28px), transparent);
+          mask-image: linear-gradient(90deg, transparent 0, #000 18px, #000 calc(100% - 28px), transparent);
+}
+
+.chips::-webkit-scrollbar { display: none; }
+
+
+/* contenedor de las pestañas: nunca más ancho que la pantalla */
+.chips-wrap {
+  flex: 0 0 100%;
   position: relative;
-  min-width: 190px;
-  max-width: 230px;
-  padding: 0 34px 0 12px;
+  min-width: 0;
+  max-width: 100%;
 }
 
-.genre-filter::after {
+/* flechas ‹ › para la PC: solo aparecen si hay géneros escondidos de ese lado */
+.chips-arrow {
   position: absolute;
   top: 50%;
-  right: 13px;
-  width: 8px;
-  height: 8px;
-  border-right: 1.5px solid #9eb1cf;
-  border-bottom: 1.5px solid #9eb1cf;
-  content: "";
-  pointer-events: none;
-  transform: translateY(-70%) rotate(45deg);
+  z-index: 2;
+  width: 34px;
+  height: 34px;
+  margin-top: -19px;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  color: #0B1D40;
+  font: 700 22px/1 Arial, sans-serif;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0 3px;
+  box-shadow: 0 0 0 3px rgba(61,155,255,0.35), 0 4px 14px rgba(0,0,0,0.45);
+  transition: transform 0.12s;
 }
 
-.genre-filter select {
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  border: 0;
-  outline: 0;
-  appearance: none;
-  background: transparent;
-  color: #dce7f8;
+.chips-arrow:hover { transform: scale(1.1); }
+.chips-arrow:active { transform: scale(0.92); }
+.chips-arrow.prev { left: 0; }
+.chips-arrow.next { right: 0; }
+.chips-wrap.can-prev .chips-arrow.prev,
+.chips-wrap.can-next .chips-arrow.next { display: flex; }
+
+/* en el celular se desliza con el dedo: sin flechas */
+@media (hover: none) {
+  .chips-arrow { display: none !important; }
+}
+
+.chip {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 32px;
+  padding: 0 14px 0 11px;
+  border: 1px solid rgba(201, 216, 240, 0.22);
+  border-radius: 9999px;
+  background: rgba(0, 0, 0, 0.22);
+  color: #CBD7EC;
   font: inherit;
   font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s, border-color 0.15s, box-shadow 0.2s, transform 0.12s;
 }
 
-.genre-filter select option {
-  background: #152238;
-  color: #f4f7fc;
+/* símbolo del control: △ ○ ✕ □ */
+.chip i {
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
 }
 
-.search-field:focus-within .search-icon {
-  stroke: #78aaff;
+.chip:nth-child(4n+1) i { color: var(--ps-triangle); }
+.chip:nth-child(4n+2) i { color: var(--ps-circle); }
+.chip:nth-child(4n+3) i { color: var(--ps-cross); }
+.chip:nth-child(4n+4) i { color: var(--ps-square); }
+
+.chip small { font-size: 11px; font-weight: 700; color: var(--ps-muted); }
+.chip:hover { color: #fff; border-color: rgba(255, 255, 255, 0.5); background: rgba(255, 255, 255, 0.08); }
+.chip:active { transform: scale(0.95); }
+.chip:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+.chip.active {
+  background: #fff;
+  border-color: #fff;
+  color: #0B1D40;
+  box-shadow: 0 0 0 3px rgba(61, 155, 255, 0.35), 0 0 16px rgba(61, 155, 255, 0.55);
 }
+
+.chip.active small { color: var(--ps-blue); }
+
+/* =========================
+   PORTADA DEL CATÁLOGO
+========================= */
+.hero {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 26px 22px 2px;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ps-blue-light);
+}
+
+/* △ ○ ✕ □ con sus colores del DualShock 4 */
+.shapes { display: inline-flex; gap: 5px; }
+.shapes svg {
+  width: 12px;
+  height: 12px;
+  fill: none;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.shapes svg:nth-child(1) { stroke: var(--ps-triangle); }
+.shapes svg:nth-child(2) { stroke: var(--ps-circle); }
+.shapes svg:nth-child(3) { stroke: var(--ps-cross); }
+.shapes svg:nth-child(4) { stroke: var(--ps-square); }
+
+.hero h1 {
+  margin: 6px 0 0;
+  font-size: 30px;
+  line-height: 1.1;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 18px rgba(61, 155, 255, 0.45);
+}
+
+.hero h1 b { font-weight: 800; }
+
+.result-count {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(201, 216, 240, 0.25);
+  padding: 7px 14px;
+  border-radius: 9999px;
+  white-space: nowrap;
+  backdrop-filter: blur(6px);
+}
+
+.result-count:empty { display: none; }
 
 /* =========================
    GRID
 ========================= */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 16px;
-  padding: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 18px;
+  padding: 22px;
 }
 
 .card {
-  background: #111826;
+  background: var(--ps-panel);
   border-radius: 12px;
   overflow: hidden;
   cursor: pointer;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+  outline: 3px solid transparent;
+  outline-offset: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, outline-color 0.2s ease;
+}
+
+/* selección estilo PS4: borde blanco + brillo azul */
+.card:hover {
+  transform: translateY(-6px) scale(1.02);
+  outline-color: #fff;
+  box-shadow: 0 0 0 6px rgba(61, 155, 255, 0.28), 0 16px 30px rgba(0, 0, 0, 0.55);
 }
 
 .img-box {
   width: 100%;
-  height: 320px;
+  aspect-ratio: 100 / 126;   /* misma forma que las portadas: no se recortan */
+  background: var(--ps-panel-2);
+  overflow: hidden;
 }
 
 .img-box img {
   width: 100%;
   height: 100%;
-  object-fit: fill;
+  object-fit: cover;
+  display: block;
 }
 
+.card { position: relative; }
+
+/* al seleccionar, un destello de luz cruza la tarjeta (como en el menú) */
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, 0.22) 50%, transparent 65%);
+  transform: translateX(-120%);
+  pointer-events: none;
+}
+
+.card:hover::after { transform: translateX(120%); transition: transform 0.7s ease; }
+
 .title {
-  padding: 8px 10px 0;
+  padding: 9px 10px 2px;
   font-size: 13px;
+  font-weight: 600;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .size {
-  padding: 0 10px 10px;
-  font-size: 12px;
-  color: #aaa;
+  display: inline-block;
+  margin: 2px 10px 10px;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  background: rgba(61, 155, 255, 0.12);
+  border: 1px solid rgba(61, 155, 255, 0.22);
+  font-size: 11px;
+  font-weight: 700;
+  color: #A9C6F2;
 }
 
+.empty {
+  display: none;
+  text-align: center;
+  color: var(--ps-muted);
+  padding: 60px 20px;
+  font-size: 15px;
+}
+
+.empty .shapes { display: flex; justify-content: center; gap: 12px; margin-bottom: 14px; }
+.empty .shapes svg { width: 28px; height: 28px; }
+
 /* =========================
-   MOBILE GRID + HEADER FIX
+   MÓVIL
 ========================= */
 @media (max-width: 768px) {
-
   header {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
     gap: 8px;
-    padding-bottom: 10px;
+    padding: 10px 10px 10px;
   }
 
+  .search-bar { flex-wrap: wrap; gap: 8px; width: 100%; }
+  .search-field { width: auto; max-width: none; flex: 1 1 0; }
+  .chips-wrap { flex: none; }
+  .chips { margin: 0 -10px -4px; padding: 2px 10px 4px; gap: 6px; }
+  .chip { height: 30px; padding: 0 12px 0 10px; font-size: 12px; }
+  .hero { padding: 16px 10px 0; }
+  .hero h1 { font-size: 21px; }
+  .result-count { font-size: 11px; padding: 5px 10px; }
+  body::before { height: 45vh; }
+
   .grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 5px;
     padding: 6px;
   }
 
-  .img-box { height: 110px; }
-
-  .title { font-size: 9px; }
-  .size { font-size: 8px; }
-
-  .search-bar {
-    flex-wrap: nowrap;
-    gap: 8px;
-    width: 100%;
-  }
-
-  .search-field {
-    min-width: 0;
-    max-width: none;
-  }
-
-  .genre-filter {
-    flex: 0 0 150px;
-    min-width: 0;
-    max-width: 150px;
-  }
+  .card { border-radius: 8px; }
+  .card:hover { transform: none; }
+  .title { font-size: 10px; padding: 5px 5px 1px; }
+  .size { font-size: 8.5px; margin: 1px 5px 5px; padding: 1px 5px; }
 }
 
 /* =========================
-   MODAL (PC)
+   MODAL (ficha)
 ========================= */
 #modal {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.92);
+  background: rgba(2, 6, 16, 0.82);
+  backdrop-filter: blur(4px);
   display: none;
   justify-content: center;
   align-items: center;
+  padding: 20px;
   z-index: 999;
 }
 
 #modal-content {
-  width: 92%;
-  max-width: 1000px;
+  width: 100%;
+  max-width: 780px;
   max-height: 92vh;
   overflow-y: auto;
-  background: #111826;
-  border-radius: 14px;
-  padding: 16px;
+  background: var(--ps-panel);
+  border: 1px solid var(--ps-line);
+  border-radius: 20px;
   position: relative;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+  animation: modalIn 0.22s ease-out;
 }
 
-#modal-body {
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(14px) scale(0.98); }
+  to   { opacity: 1; transform: none; }
+}
+
+#close-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 3;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font: 700 16px Arial, sans-serif;
+  cursor: pointer;
   display: flex;
-  gap: 16px;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, transform 0.12s;
 }
 
-#modal-img {
-  width: 240px;
-  object-fit: contain;
-  border-radius: 10px;
-  align-self: flex-start;
-  margin-top: 0;
-}
+#close-btn:hover { background: var(--ps-blue); }
+#close-btn:active { transform: scale(0.9); }
+#close-btn:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
 
-#modal-info {
-  flex: 1;
-}
-
-.meta {
-  margin: 6px 0;
-  font-size: 13px;
-  color: #ddd;
-}
-
-#modal-desc {
-  margin-top: 10px;
-  font-size: 13px;
-  color: #ccc;
-  line-height: 1.4;
+#modal-banner {
+  height: 260px;
+  background: linear-gradient(135deg, var(--ps-blue), var(--ps-blue-dark) 60%, #071633);
+  position: relative;
+  overflow: hidden;
 }
 
 #modal-banner img {
   width: 100%;
-  border-radius: 10px;
-  margin-top: 10px;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-/* BOTÓN CERRAR */
-#close-btn {
+#modal-banner img.loaded { opacity: 1; }
+
+#modal-banner::after {
+  content: "";
   position: absolute;
-  top: 10px;
-  right: 10px;
-  background: #ff3b3b;
-  border: none;
-  color: white;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
+  inset: auto 0 0 0;
+  height: 100px;
+  background: linear-gradient(180deg, rgba(15, 27, 48, 0), var(--ps-panel));
+}
+
+#modal-banner.no-img { height: 120px; }
+
+#modal-top {
+  display: flex;
+  gap: 20px;
+  align-items: flex-end;
+  padding: 0 26px;
+  margin-top: -90px;
+  position: relative;
+  z-index: 2;
+}
+
+#modal-img-wrap {
+  flex: 0 0 150px;
+  aspect-ratio: 100 / 126;   /* misma forma que las portadas: no se recortan */
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--ps-panel-2);
+  border: 3px solid #fff;
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.5);
+}
+
+#modal-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+#modal-head { min-width: 0; padding-bottom: 6px; }
+
+.platform-pill {
+  display: inline-flex;
+  align-items: center;
+  background: var(--ps-blue);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  letter-spacing: 0.02em;
+}
+
+#modal-title {
+  margin: 10px 0 0;
+  font-size: 26px;
+  line-height: 1.2;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+#modal-body { padding-bottom: 26px; }
+
+#modal-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  padding: 22px 26px 0;
+}
+
+.detail {
+  background: var(--ps-panel-2);
+  border: 1px solid var(--ps-line);
+  border-radius: 12px;
+  padding: 12px 14px;
+  min-width: 0;
+}
+
+.detail[hidden] { display: none; }
+
+.detail-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ps-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 4px;
+}
+
+.detail-value {
+  font-size: 15px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+#modal-desc-card { padding: 22px 26px 0; }
+#modal-desc-card[hidden] { display: none; }
+
+.modal-card-header {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ps-blue-light);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+}
+
+#modal-desc {
+  max-height: 150px;
+  overflow: hidden;
+  color: #C9D4E6;
+  font-size: 14.5px;
+  line-height: 1.7;
+  white-space: pre-line;
+  position: relative;
+}
+
+#modal-desc::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 56px;
+  background: linear-gradient(180deg, rgba(15, 27, 48, 0), var(--ps-panel));
+  pointer-events: none;
+}
+
+#modal-desc-card.expanded #modal-desc { max-height: none; }
+#modal-desc-card.expanded #modal-desc::after,
+#modal-desc-card.short #modal-desc::after { display: none; }
+
+.expand-btn {
+  margin-top: 10px;
+  background: none;
+  border: 2px solid var(--ps-line);
+  color: var(--ps-text);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 7px 16px;
+  border-radius: 9999px;
   cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
 }
 
-/* =========================
-   MOBILE MODAL
-========================= */
+.expand-btn:hover { border-color: #fff; }
+#modal-desc-card.short .expand-btn { display: none; }
+
 @media (max-width: 768px) {
-
-  #modal-body {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  #modal-img {
-    width: 70%;
-    display: block;
-    margin: 0 auto;
-  }
-
-  #modal-info {
-    text-align: center;
-  }
+  #modal { padding: 10px; }
+  #modal-content { max-height: 94vh; }
+  #modal-banner { height: 170px; }
+  #modal-banner.no-img { height: 90px; }
+  #modal-top { padding: 0 16px; margin-top: -60px; gap: 14px; }
+  #modal-img-wrap { flex-basis: 96px; border-radius: 9px; }
+  #modal-title { font-size: 19px; }
+  #modal-details { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 18px 16px 0; gap: 8px; }
+  #detail-genres { grid-column: 1 / -1; }
+  .detail-value { font-size: 14px; }
+  #modal-desc-card { padding: 18px 16px 0; }
+  #modal-body { padding-bottom: 20px; }
 }
 
 /* =========================
-   PDF BUTTON
+   BOTONES FLOTANTES (estilo DualShock 4)
+   △ = volver arriba · PDF con la barra de luz azul del control
 ========================= */
-#downloadPdfBtn {
+.float-btn {
   position: fixed;
-  bottom: 20px;
   right: 20px;
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  min-height: 54px;
-  padding: 0 17px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 18px;
-  background: linear-gradient(140deg, #347df0, #214fae);
+  border: 0;
   color: #fff;
   text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.25s ease, filter 0.18s ease;
+}
+
+.float-btn:hover { transform: translateY(-3px); filter: brightness(1.12); }
+.float-btn:active { transform: translateY(2px) scale(0.96); }
+.float-btn:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+
+/* PDF: negro brillante del control con la barra de luz arriba */
+#downloadPdfBtn {
+  bottom: 20px;
+  gap: 9px;
+  min-height: 52px;
+  padding: 0 20px 0 16px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #24272F, #0D0F14);
   font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  box-shadow: 0 8px 24px rgba(16, 63, 153, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  z-index: 1000;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-  backdrop-filter: blur(6px);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  box-shadow:
+    inset 0 3px 0 var(--ps-blue-light),
+    0 -2px 14px rgba(61, 155, 255, 0.55),
+    0 12px 26px rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+}
+
+#downloadPdfBtn::before {
+  content: "";
+  position: absolute;
+  inset: 3px 0 auto;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.10), transparent);
+  pointer-events: none;
 }
 
 #downloadPdfBtn svg {
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   fill: none;
-  stroke: currentColor;
-  stroke-width: 1.8;
+  stroke: #9FD0FF;
+  stroke-width: 2.2;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
-#downloadPdfBtn span {
-  padding: 4px 6px;
-  border-radius: 6px;
-  background: rgba(13, 31, 67, 0.3);
+/* △: botón del control, negro brillante con la figura verde */
+#backTopBtn {
+  bottom: 88px;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 28%, #3A3E48, #14161C 60%, #08090C);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    0 0 0 3px rgba(46, 207, 168, 0.25),
+    0 10px 24px rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(16px) scale(0.8);
 }
 
-#downloadPdfBtn:hover {
-  transform: translateY(-3px);
-  background: linear-gradient(140deg, #4b8cff, #2b61c8);
-  box-shadow: 0 12px 28px rgba(16, 63, 153, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.24);
+#backTopBtn svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: var(--ps-triangle);
+  stroke-width: 2.6;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 5px rgba(46, 207, 168, 0.8));
 }
 
-#downloadPdfBtn:focus-visible {
-  outline: 2px solid #fff;
-  outline-offset: 3px;
+#backTopBtn.show { opacity: 1; pointer-events: auto; transform: none; }
+#backTopBtn.show:hover { transform: translateY(-3px); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 0 0 4px rgba(46, 207, 168, 0.45), 0 0 22px rgba(46, 207, 168, 0.45), 0 10px 24px rgba(0, 0, 0, 0.55); }
+#backTopBtn.show:active { transform: translateY(2px) scale(0.95); }
+
+@media (max-width: 768px) {
+  .float-btn { right: 12px; }
+  #downloadPdfBtn { bottom: 12px; min-height: 46px; padding: 0 16px 0 13px; }
+  #backTopBtn { bottom: 70px; width: 46px; height: 46px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card, .float-btn, #backTopBtn, #modal-banner img, .chip { transition: none; }
+  body::before, body::after { animation: none; }
+  .card:hover::after { transition: none; }
+  #modal-content { animation: none; }
 }
 </style>
 </head>
@@ -488,49 +909,95 @@ header {
         <circle cx="10.8" cy="10.8" r="6.3" />
         <path d="m15.5 15.5 4.2 4.2" />
       </svg>
-      <input id="searchInput" type="text" placeholder="Buscar juego..." aria-label="Buscar juego">
+      <input id="searchInput" type="search" placeholder="Buscar juego..." autocomplete="off" aria-label="Buscar juego">
+      <button id="searchClear" class="search-clear" type="button" aria-label="Borrar búsqueda" title="Borrar">✕</button>
     </label>
+  </div>
 
-    <div class="genre-filter">
-      <select id="filterSelect" aria-label="Filtrar por género"></select>
-    </div>
+  <div class="chips-wrap" id="chipsWrap">
+    <button class="chips-arrow prev" type="button" aria-label="Ver géneros anteriores" tabindex="-1">‹</button>
+    <div id="genreChips" class="chips" role="toolbar" aria-label="Filtrar por género"></div>
+    <button class="chips-arrow next" type="button" aria-label="Ver más géneros" tabindex="-1">›</button>
   </div>
 </header>
 
+<section class="hero">
+  <div>
+    <div class="eyebrow">
+      <span class="shapes" aria-hidden="true">
+        <svg viewBox="0 0 12 12"><path d="M6 1.5 10.5 10h-9z" /></svg>
+        <svg viewBox="0 0 12 12"><circle cx="6" cy="6" r="4.4" /></svg>
+        <svg viewBox="0 0 12 12"><path d="m2 2 8 8m0-8-8 8" /></svg>
+        <svg viewBox="0 0 12 12"><rect x="1.8" y="1.8" width="8.4" height="8.4" /></svg>
+      </span>
+      Catálogo
+    </div>
+    <h1>Juegos de <b>PS4</b></h1>
+  </div>
+  <span id="resultCount" class="result-count"></span>
+</section>
+
 <div id="grid" class="grid"></div>
+<div id="empty" class="empty">
+  <span class="shapes" aria-hidden="true">
+        <svg viewBox="0 0 12 12"><path d="M6 1.5 10.5 10h-9z" /></svg>
+        <svg viewBox="0 0 12 12"><circle cx="6" cy="6" r="4.4" /></svg>
+        <svg viewBox="0 0 12 12"><path d="m2 2 8 8m0-8-8 8" /></svg>
+        <svg viewBox="0 0 12 12"><rect x="1.8" y="1.8" width="8.4" height="8.4" /></svg>
+      </span>
+  <span id="emptyText">No se encontraron juegos.<br>Prueba con otra palabra o género.</span>
+</div>
+<div id="sentinel"></div>
 
-<!-- MODAL RESTAURADO -->
-<div id="modal">
+<!-- MODAL -->
+<div id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
   <div id="modal-content">
-    <button id="close-btn">✕</button>
-
+    <button id="close-btn" type="button" aria-label="Cerrar" title="Cerrar (Esc)">✕</button>
     <div id="modal-body">
-      <img id="modal-img">
-
-      <div id="modal-info">
-        <h2 id="modal-title"></h2>
-
-        <div class="meta">🎮 Nombre: <span id="modal-name"></span></div>
-        <div class="meta">💾 Tamaño: <span id="modal-size"></span> GB</div>
-        <div class="meta">⭐ Rating: <span id="modal-rating"></span></div>
-        <div class="meta">📅 Fecha: <span id="modal-release"></span></div>
-        <div class="meta">🏷️ Géneros: <span id="modal-genres"></span></div>
-        <div class="meta">🎯 Plataformas: <span id="modal-platforms"></span></div>
-
-        <div class="meta">📊 Metacritic:
-          <a id="modal-metacritic-link" target="_blank"></a>
+      <div id="modal-banner">
+        <img id="modal-background" alt="">
+      </div>
+      <div id="modal-top">
+        <div id="modal-img-wrap">
+          <img id="modal-img" alt="">
         </div>
-
-        <div id="modal-desc"></div>
-
-        <div id="modal-banner">
-          <img id="modal-background">
+        <div id="modal-head">
+          <span class="platform-pill">PlayStation 4</span>
+          <h2 id="modal-title"></h2>
         </div>
       </div>
+      <div id="modal-details">
+        <div class="detail" id="detail-release">
+          <div class="detail-label">Lanzamiento</div>
+          <div class="detail-value" id="modal-release"></div>
+        </div>
+        <div class="detail" id="detail-size">
+          <div class="detail-label">Tamaño</div>
+          <div class="detail-value"><span id="modal-size"></span> GB</div>
+        </div>
+        <div class="detail" id="detail-publisher">
+          <div class="detail-label">Editorial</div>
+          <div class="detail-value" id="modal-publisher"></div>
+        </div>
+        <div class="detail" id="detail-genres">
+          <div class="detail-label">Género</div>
+          <div class="detail-value" id="modal-genres"></div>
+        </div>
+      </div>
+      <section id="modal-desc-card">
+        <div class="modal-card-header">Descripción</div>
+        <div id="modal-desc"></div>
+        <button id="expandDesc" class="expand-btn" type="button">Leer más</button>
+      </section>
     </div>
   </div>
 </div>
-<a href="catalogo_whatsapp_800-900.pdf" download id="downloadPdfBtn" aria-label="Descargar catálogo en PDF" title="Descargar catálogo en PDF">
+
+<button id="backTopBtn" class="float-btn" type="button" aria-label="Volver arriba" title="Volver arriba">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4.5 20.5 19h-17z" /></svg>
+</button>
+
+<a href="catalogo_whatsapp_800-900.pdf" download id="downloadPdfBtn" class="float-btn" aria-label="Descargar catálogo en PDF" title="Descargar catálogo en PDF">
   <svg viewBox="0 0 24 24" aria-hidden="true">
     <path d="M12 3v11m0 0 4-4m-4 4-4-4" />
     <path d="M5 16v4a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-4" />
@@ -542,4 +1009,3 @@ header {
 
 </body>
 </html>
-
