@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Catálogo NS CEMT</title>
+<meta name="theme-color" content="#E60012">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
@@ -13,16 +14,51 @@
         --nintendo-white: #FFFFFF;
         --nintendo-light: #FFF5F7;
         --nintendo-contrast: #111111;
+        --joycon-red: #FF4554;
+        --joycon-blue: #00C3E3;
+        --switch-select: #00E5FF;
     }
 
     body {
         margin: 0;
         font-family: 'Roboto', Arial, sans-serif;
-        background: radial-gradient(circle at top left, rgba(230, 0, 18, 0.18), transparent 28%),
-                    linear-gradient(135deg, #fff 0%, #f8f8f8 45%, #fde6e8 100%);
+        /* blanco del menú HOME + el logo de Switch repetido muy tenue */
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cg fill='none' stroke='%23E60012' stroke-opacity='.10' stroke-width='2.4'%3E%3Crect x='30' y='26' width='17' height='38' rx='8.5'/%3E%3Ccircle cx='38.5' cy='37' r='3.6'/%3E%3C/g%3E%3Cg fill='%23E60012' fill-opacity='.10'%3E%3Cpath d='M60 26h0a8.5 8.5 0 0 1 8.5 8.5v21a8.5 8.5 0 0 1-8.5 8.5h0a0 0 0 0 1 0 0V26z'/%3E%3Crect x='51' y='26' width='17' height='38' rx='8.5'/%3E%3C/g%3E%3Ccircle cx='59.5' cy='53' r='3.6' fill='%23fff' fill-opacity='.9'/%3E%3Ccircle cx='150' cy='60' r='5' fill='%2300C3E3' fill-opacity='.22'/%3E%3Ccircle cx='60' cy='150' r='4' fill='%23FF4554' fill-opacity='.22'/%3E%3Ccircle cx='160' cy='160' r='2.5' fill='%23E60012' fill-opacity='.18'/%3E%3C/svg%3E"),
+                    linear-gradient(180deg, #FFFFFF 0%, #F4F5F7 100%);
+        background-attachment: fixed;
         color: var(--nintendo-contrast);
         min-height: 100vh;
     }
+
+    /* los dos Joy-Con: luz azul a la izquierda y roja a la derecha, flotando lento */
+    body::before,
+    body::after {
+        content: "";
+        position: fixed;
+        z-index: -1;
+        width: 60vmax;
+        height: 60vmax;
+        border-radius: 50%;
+        pointer-events: none;
+        filter: blur(20px);
+    }
+
+    body::before {
+        left: -28vmax;
+        top: 18vh;
+        background: radial-gradient(circle, rgba(0,195,227,0.28), transparent 65%);
+        animation: flotaIzq 14s ease-in-out infinite;
+    }
+
+    body::after {
+        right: -28vmax;
+        top: 38vh;
+        background: radial-gradient(circle, rgba(255,69,84,0.24), transparent 65%);
+        animation: flotaDer 16s ease-in-out infinite;
+    }
+
+    @keyframes flotaIzq { 50% { transform: translate(6vmax, -8vh); } }
+    @keyframes flotaDer { 50% { transform: translate(-6vmax, 8vh); } }
 
     /* =========================
        HEADER
@@ -38,8 +74,20 @@
         align-items: center;
         flex-wrap: wrap;
         box-shadow: 0 10px 24px rgba(0,0,0,0.18);
-        border-bottom: 2px solid rgba(255,255,255,0.35);
         color: var(--nintendo-white);
+    }
+
+    /* franja inferior: Joy-Con azul | Joy-Con rojo, separados por blanco */
+    header::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -4px;
+        height: 4px;
+        background: linear-gradient(90deg, var(--joycon-blue) 0 49.6%, #fff 49.6% 50.4%, var(--joycon-red) 50.4% 100%);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        pointer-events: none;
     }
 
     .header-left {
@@ -63,14 +111,47 @@
         border: 1px solid rgba(255,255,255,0.28);
     }
 
+    .nav-controls { gap: 4px; padding: 4px; overflow: visible; }
+
     .nav-link {
         text-decoration: none;
         color: var(--nintendo-white);
-        padding: 8px 16px;
-        font-size: 14px;
-        font-weight: 500;
-        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        min-width: 38px;
+        height: 34px;
+        padding: 0 10px;
+        border-radius: 9999px;
+        font-size: 13.5px;
+        font-weight: 700;
+        transition: background 0.2s, color 0.2s, transform 0.15s;
     }
+
+    .nav-link:active { transform: scale(0.94); }
+    .nav-link:focus-visible { outline: 3px solid var(--switch-select); outline-offset: 2px; }
+
+    .nav-icon {
+        width: 18px;
+        height: 18px;
+        flex: 0 0 auto;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2.2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    /* Inicio: blanco como el botón HOME */
+    .nav-home {
+        min-width: 92px;
+        background: #fff;
+        color: var(--nintendo-red);
+        box-shadow: 0 3px 0 rgba(0,0,0,0.18);
+    }
+
+    .nav-home:hover { background: #fff !important; color: #b0000d !important; }
 
     .nav-link:hover {
         background: rgba(255,255,255,0.18);
@@ -87,32 +168,274 @@
         align-items: center;
     }
 
+    /* Caja de búsqueda estilo eShop: píldora blanca, lupa, botón (X) */
+    .search-box {
+        position: relative;
+        flex: 1;
+        max-width: 360px;
+        display: flex;
+        align-items: center;
+    }
+
+    .search-icon {
+        position: absolute;
+        left: 14px;
+        width: 18px;
+        height: 18px;
+        color: var(--nintendo-red);
+        pointer-events: none;
+    }
+
     .search-bar input {
         flex: 1;
-        max-width: 340px;
-        padding: 10px 16px;
+        width: 100%;
+        padding: 10px 44px 10px 42px;
         border-radius: 9999px;
-        border: 2px solid rgba(255,255,255,0.35);
+        border: 3px solid transparent;
         outline: none;
-        background: rgba(255,255,255,0.95);
+        background: #fff;
         color: var(--nintendo-contrast);
         font-size: 15px;
+        font-weight: 500;
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.12), 0 2px 0 rgba(0,0,0,0.12);
+        transition: border-color 0.15s, box-shadow 0.15s;
     }
 
+    .search-bar input::placeholder { color: #8a8a8a; font-weight: 400; }
+    .search-bar input::-webkit-search-cancel-button { display: none; }
+
+    /* Foco: contorno cian pulsante como la selección del menú HOME */
     .search-bar input:focus {
-        border-color: var(--nintendo-blue);
-        box-shadow: 0 0 0 4px rgba(0,162,237,0.12);
+        border-color: var(--switch-select);
+        animation: switchPulse 1.2s ease-in-out infinite;
     }
 
-    .search-bar select {
-        padding: 10px 14px;
-        border-radius: 9999px;
-        border: 2px solid rgba(255,255,255,0.35);
-        outline: none;
-        background: rgba(255,255,255,0.95);
-        color: var(--nintendo-contrast);
-        font-size: 14px;
+    .search-clear {
+        position: absolute;
+        right: 7px;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        border: none;
+        background: #3c3c3c;
+        color: #fff;
+        font: 700 13px 'Roboto', Arial, sans-serif;
         cursor: pointer;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.12s, background 0.15s;
+    }
+
+    .search-clear.show { display: flex; }
+    .search-clear:hover { background: var(--nintendo-red); }
+    .search-clear:active { transform: scale(0.88); }
+
+    /* =========================
+       GÉNEROS: pestañas tipo Joy-Con
+       (la elegida queda blanca con el contorno cian del menú HOME)
+    ========================= */
+    .chips {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        margin: 10px -18px -6px;
+        padding: 4px 18px 8px;
+        scrollbar-width: none;
+        -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 18px, #000 calc(100% - 28px), transparent);
+                mask-image: linear-gradient(90deg, transparent 0, #000 18px, #000 calc(100% - 28px), transparent);
+    }
+
+    .chips::-webkit-scrollbar { display: none; }
+
+
+    /* contenedor de las pestañas: nunca más ancho que la pantalla */
+    .chips-wrap {
+      flex: 0 0 100%;
+      position: relative;
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    /* flechas ‹ › para la PC: solo aparecen si hay géneros escondidos de ese lado */
+    .chips-arrow {
+      position: absolute;
+      top: 50%;
+      z-index: 2;
+      width: 34px;
+      height: 34px;
+      margin-top: -19px;
+      border: 0;
+      border-radius: 50%;
+      background: #fff;
+      color: #E60012;
+      font: 700 22px/1 Arial, sans-serif;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 0 0 3px;
+      box-shadow: 0 3px 0 rgba(0,0,0,0.18), 0 6px 14px rgba(0,0,0,0.2);
+      transition: transform 0.12s;
+    }
+
+    .chips-arrow:hover { transform: scale(1.1); }
+    .chips-arrow:active { transform: scale(0.92); }
+    .chips-arrow.prev { left: 0; }
+    .chips-arrow.next { right: 0; }
+    .chips-wrap.can-prev .chips-arrow.prev,
+    .chips-wrap.can-next .chips-arrow.next { display: flex; }
+
+    /* en el celular se desliza con el dedo: sin flechas */
+    @media (hover: none) {
+      .chips-arrow { display: none !important; }
+    }
+
+    .chip {
+        flex: 0 0 auto;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        height: 34px;
+        padding: 0 6px 0 12px;
+        border: 2px solid rgba(255,255,255,0.35);
+        border-radius: 9999px;
+        background: rgba(255,255,255,0.14);
+        color: #fff;
+        font: 500 14px 'Roboto', Arial, sans-serif;
+        cursor: pointer;
+        white-space: nowrap;
+        /* sombra sólida abajo = botón físico, como los flotantes */
+        box-shadow: 0 3px 0 rgba(0,0,0,0.18);
+        transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.12s, box-shadow 0.12s;
+    }
+
+    /* puntito de color: alterna los Joy-Con azul y amarillo neón */
+    .chip::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--joycon-blue);
+        box-shadow: 0 0 0 2px rgba(255,255,255,0.55);
+    }
+
+    .chip:nth-child(even)::before { background: #E6FF00; }
+
+    .chip small {
+        min-width: 22px;
+        padding: 2px 7px;
+        border-radius: 9999px;
+        background: rgba(0,0,0,0.22);
+        font-size: 11px;
+        font-weight: 700;
+        text-align: center;
+    }
+
+    .chip:hover { background: rgba(255,255,255,0.26); border-color: rgba(255,255,255,0.7); }
+    .chip:active { transform: translateY(3px); box-shadow: 0 0 0 rgba(0,0,0,0.18); }
+    .chip:focus-visible { outline: 3px solid var(--switch-select); outline-offset: 2px; }
+
+    .chip.active {
+        background: #fff;
+        border-color: var(--switch-select);
+        color: var(--nintendo-red);
+        font-weight: 700;
+        animation: chipPulse 1.2s ease-in-out infinite;
+    }
+
+    .chip.active small { background: var(--nintendo-red); color: #fff; }
+
+    @keyframes chipPulse {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(0,229,255,0.75), 0 3px 0 rgba(0,0,0,0.18); }
+        50%      { box-shadow: 0 0 0 4px rgba(0,229,255,0.2), 0 3px 0 rgba(0,0,0,0.18); }
+    }
+
+    /* =========================
+       PORTADA DEL CATÁLOGO
+    ========================= */
+    .hero {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 30px 24px 0;
+    }
+
+    .eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--nintendo-red);
+    }
+
+    /* los dos Joy-Con en miniatura */
+    .joycons { display: inline-flex; gap: 2px; }
+    .joycons i {
+        display: block;
+        width: 9px;
+        height: 18px;
+        border-radius: 5px 0 0 5px;
+        background: var(--joycon-blue);
+        position: relative;
+    }
+    .joycons i + i { border-radius: 0 5px 5px 0; background: var(--joycon-red); }
+    .joycons i::after {
+        content: "";
+        position: absolute;
+        left: 2.5px;
+        top: 3px;
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: rgba(0,0,0,0.45);
+    }
+    .joycons i + i::after { top: auto; bottom: 3px; }
+
+    .hero h1 {
+        margin: 6px 0 0;
+        font-size: 30px;
+        line-height: 1.1;
+        font-weight: 400;
+        color: #1C1C1C;
+    }
+
+    .hero h1 b { font-weight: 700; color: var(--nintendo-red); }
+
+    .result-count {
+        font-size: 13px;
+        font-weight: 700;
+        color: #fff;
+        background: var(--nintendo-red);
+        padding: 7px 14px;
+        border-radius: 9999px;
+        white-space: nowrap;
+        box-shadow: 0 3px 0 #a3000d;
+    }
+
+    .result-count:empty { display: none; }
+
+    .empty-state {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 60px 20px;
+        color: #555;
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .empty-state .joycons { display: flex; justify-content: center; margin-bottom: 14px; }
+    .empty-state .joycons i { width: 22px; height: 44px; }
+    .empty-state .joycons i::after { width: 9px; height: 9px; left: 6.5px; top: 8px; }
+    .empty-state .joycons i + i::after { top: auto; bottom: 8px; }
+
+    @keyframes switchPulse {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(0,229,255,0.55), inset 0 2px 4px rgba(0,0,0,0.12); }
+        50%      { box-shadow: 0 0 0 5px rgba(0,229,255,0.15), inset 0 2px 4px rgba(0,0,0,0.12); }
     }
 
     /* =========================
@@ -126,20 +449,33 @@
     }
 
 
+    /* Selección tipo menú HOME de Switch: contorno cian pulsante */
     .card:hover {
         transform: translateY(-8px);
         box-shadow: 0 18px 32px rgba(230,0,18,0.18);
-        border-color: var(--nintendo-red);
+        border-color: var(--switch-select);
+        animation: cardSelect 1.2s ease-in-out infinite;
+    }
+
+    @keyframes cardSelect {
+        0%, 100% { box-shadow: 0 0 0 2px rgba(0,229,255,0.9), 0 18px 32px rgba(0,0,0,0.18); }
+        50%      { box-shadow: 0 0 0 5px rgba(0,229,255,0.35), 0 18px 32px rgba(0,0,0,0.18); }
+    }
+
+    .img-box img { transition: transform 0.3s ease; }
+
+    @media (prefers-reduced-motion: reduce) {
+        .card:hover { animation: none; }
     }
 
 .card {
     border-radius: 16px;
     overflow: hidden;
-    background: linear-gradient(180deg, #ffffff 0%, #ffe8ea 100%);
-    box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+    background: #fff;
+    box-shadow: 0 2px 0 rgba(0,0,0,0.06), 0 10px 24px rgba(0,0,0,0.10);
     cursor: pointer;
     transition: all 0.25s ease;
-    border: 2px solid rgba(230,0,18,0.12);
+    border: 2px solid rgba(0,0,0,0.05);
     display: flex;
     flex-direction: column;
 }
@@ -147,7 +483,7 @@
 /* HACEMOS LA IMAGEN MÁS ALTA */
 .img-box {
     width: 100%;
-    height: 320px; /* 👈 antes 260px */
+    aspect-ratio: 100 / 162;   /* misma forma que las portadas: no se recortan */
     overflow: hidden;
     background: #F1F3F5;
 }
@@ -172,75 +508,118 @@
         text-overflow: ellipsis;
     }
 
+    /* tamaño en píldora roja suave */
     .size {
-        padding: 0 12px 12px;
-        font-size: 13px;
-        color: #666;
-        font-weight: 400;
+        align-self: flex-start;
+        margin: 2px 12px 12px;
+        padding: 2px 9px;
+        border-radius: 9999px;
+        background: #FFE9EB;
+        color: #C4000F;
+        font-size: 12px;
+        font-weight: 700;
     }
 
     /* =========================
-       MODAL
+       MODAL (ficha estilo eShop)
     ========================= */
     #modal {
         position: fixed;
         inset: 0;
-        background: rgba(0,0,0,0.85);
+        background: rgba(15, 15, 20, 0.78);
+        backdrop-filter: blur(4px);
         display: none;
         justify-content: center;
         align-items: center;
+        padding: 20px;
         z-index: 999;
     }
 
     #modal-content {
-        width: 92%;
-        max-width: 1000px;
+        width: 100%;
+        max-width: 780px;
         max-height: 92vh;
         overflow-y: auto;
-        background: linear-gradient(180deg, #ffffff 0%, #ffe7ea 65%, #fff1f4 100%);
+        background: #fff;
         border-radius: 22px;
-        padding: 24px;
         position: relative;
-        box-shadow: 0 24px 48px rgba(0,0,0,0.28);
-        border: 1px solid rgba(230,0,18,0.18);
+        box-shadow: 0 30px 60px rgba(0,0,0,0.35);
+        animation: modalIn 0.22s ease-out;
+    }
+
+    @keyframes modalIn {
+        from { opacity: 0; transform: translateY(14px) scale(0.98); }
+        to   { opacity: 1; transform: none; }
     }
 
     #close-btn {
         position: absolute;
-        top: 18px;
-        right: 18px;
-        background: var(--nintendo-red);
-        border: none;
-        color: white;
-        width: 44px;
-        height: 44px;
+        top: 14px;
+        right: 14px;
+        z-index: 3;
+        width: 40px;
+        height: 40px;
         border-radius: 50%;
+        border: 2px solid rgba(255,255,255,0.85);
+        background: rgba(0,0,0,0.55);
+        color: #fff;
+        font: 700 16px 'Roboto', Arial, sans-serif;
         cursor: pointer;
-        font-size: 18px;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.18);
-    }
-
-    #modal-body {
         display: flex;
-        flex-direction: column;
-        gap: 18px;
-        margin-top: 12px;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.15s, transform 0.12s;
     }
 
+    #close-btn:hover { background: var(--nintendo-red); }
+    #close-btn:active { transform: scale(0.9); }
+    #close-btn:focus-visible { outline: 3px solid var(--switch-select); outline-offset: 2px; }
+
+    /* Imagen grande arriba */
+    #modal-banner {
+        height: 260px;
+        background: linear-gradient(135deg, var(--nintendo-red), #8c000b);
+        position: relative;
+        overflow: hidden;
+    }
+
+    #modal-banner img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    #modal-banner::after {
+        content: "";
+        position: absolute;
+        inset: auto 0 0 0;
+        height: 90px;
+        background: linear-gradient(180deg, rgba(255,255,255,0), #fff);
+    }
+
+    #modal-banner.no-img { height: 120px; }
+    #modal-banner.no-img::after { display: none; }
+
+    /* Portada + título */
     #modal-top {
         display: flex;
-        gap: 18px;
-        align-items: flex-start;
-        justify-content: space-between;
+        gap: 20px;
+        align-items: flex-end;
+        padding: 0 26px;
+        margin-top: -90px;
+        position: relative;
+        z-index: 2;
     }
 
     #modal-img-wrap {
-        flex: 0 0 42%;
-        min-width: 240px;
-        border-radius: 20px;
+        flex: 0 0 150px;
+        aspect-ratio: 100 / 162;
+        border-radius: 14px;
         overflow: hidden;
-        background: white;
-        box-shadow: inset 0 0 0 1px rgba(230,0,18,0.12);
+        background: #eee;
+        border: 4px solid #fff;
+        box-shadow: 0 12px 26px rgba(0,0,0,0.28);
     }
 
     #modal-img {
@@ -250,158 +629,156 @@
         display: block;
     }
 
-    #modal-info {
-        flex: 1;
-        min-width: 0;
-        background: rgba(255,255,255,0.9);
-        border-radius: 20px;
-        padding: 20px;
-        box-shadow: 0 10px 24px rgba(230,0,18,0.12);
-        border: 1px solid rgba(230,0,18,0.14);
-    }
+    #modal-head { min-width: 0; padding-bottom: 6px; }
 
-    #modal-info h2 {
-        margin: 0 0 14px;
-        font-size: 28px;
-        color: var(--nintendo-contrast);
-    }
-
-    .meta-row {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px 18px;
-    }
-
-    .meta {
-        margin: 0;
-        font-size: 14px;
-        color: #2a2a2a;
-        line-height: 1.45;
-    }
-
-    .meta a {
-        color: var(--nintendo-red);
-        text-decoration: none;
-    }
-
-    .modal-card {
-        border-radius: 20px;
-        background: white;
-        padding: 18px;
-        box-shadow: 0 12px 26px rgba(0,0,0,0.08);
-        border: 1px solid rgba(230,0,18,0.12);
-    }
-
-    .ratings-panel {
-        padding: 12px;
-        background: rgba(255,255,255,0.96);
-        border-radius: 14px;
-        margin-bottom: 12px;
-        box-shadow: 0 8px 18px rgba(230,0,18,0.06);
-        border: 1px solid rgba(230,0,18,0.08);
-    }
-
-    .ratings-panel .modal-card-header {
-        font-size: 13px;
-        margin-bottom: 8px;
-    }
-
-    .ratings-row {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 8px 12px;
-    }
-
-    .modal-card-header {
-        font-size: 15px;
+    .platform-pill {
+        display: inline-flex;
+        align-items: center;
+        background: var(--nintendo-red);
+        color: #fff;
+        font-size: 12px;
         font-weight: 700;
-        margin-bottom: 12px;
-        color: #111;
+        padding: 4px 12px;
+        border-radius: 9999px;
+        letter-spacing: 0.02em;
+    }
+
+    #modal-title {
+        margin: 10px 0 0;
+        font-size: 26px;
+        line-height: 1.2;
+        font-weight: 700;
+        color: var(--nintendo-contrast);
+        overflow-wrap: anywhere;
+    }
+
+    /* Detalles: fichas como en la página de Nintendo */
+    #modal-details {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 10px;
+        padding: 22px 26px 0;
+    }
+
+    .detail {
+        background: #f4f4f6;
+        border-radius: 14px;
+        padding: 12px 14px;
+        min-width: 0;
+    }
+
+    .detail-label {
+        font-size: 11px;
+        font-weight: 700;
+        color: #777;
         text-transform: uppercase;
         letter-spacing: 0.06em;
+        margin-bottom: 4px;
+    }
+
+    .detail-value {
+        font-size: 15px;
+        font-weight: 700;
+        color: #1c1c1c;
+        overflow-wrap: anywhere;
+    }
+
+    .detail[hidden] { display: none; }
+
+    /* Descripción */
+    #modal-body { padding-bottom: 26px; }
+    #modal-desc-card { padding: 22px 26px 0; }
+    #modal-desc-card[hidden] { display: none; }
+
+    .modal-card-header {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--nintendo-red);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 10px;
     }
 
     #modal-desc {
-        max-height: 168px;
+        max-height: 150px;
         overflow: hidden;
         color: #3c3c3c;
-        font-size: 14px;
+        font-size: 14.5px;
         line-height: 1.7;
+        white-space: pre-line;
         position: relative;
     }
 
     #modal-desc::after {
         content: "";
-        display: block;
         position: absolute;
         left: 0;
         right: 0;
         bottom: 0;
-        height: 52px;
-        background: linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,0.98));
+        height: 56px;
+        background: linear-gradient(180deg, rgba(255,255,255,0), #fff);
         pointer-events: none;
-        transition: opacity 0.2s ease;
     }
 
-    #modal-desc-card.expanded #modal-desc {
-        max-height: none;
+    #modal-desc-card.expanded #modal-desc { max-height: none; }
+    #modal-desc-card.expanded #modal-desc::after,
+    #modal-desc-card.short #modal-desc::after { display: none; }
+
+    .expand-btn {
+        margin-top: 10px;
+        background: none;
+        border: 2px solid #ddd;
+        color: #1c1c1c;
+        font: 700 13px 'Roboto', Arial, sans-serif;
+        padding: 7px 16px;
+        border-radius: 9999px;
+        cursor: pointer;
+        transition: border-color 0.15s, color 0.15s;
     }
 
-    #modal-desc-card.expanded #modal-desc::after {
-        opacity: 0;
-    }
-
-    #modal-banner img {
-        width: 100%;
-        height: auto;
-        border-radius: 16px;
-        display: block;
-    }
-
-    #modal-banner {
-        padding-bottom: 12px;
-    }
+    .expand-btn:hover { border-color: var(--nintendo-red); color: var(--nintendo-red); }
+    #modal-desc-card.short .expand-btn { display: none; }
 
     /* =========================
        MODAL MÓVIL
     ========================= */
     @media (max-width: 768px) {
+        #modal { padding: 10px; }
+
         #modal-content {
-            padding: 16px;
-            width: 96%;
-            max-width: 680px;
+            max-height: 94vh;
+            border-radius: 20px;
         }
 
+        #modal-banner { height: 170px; }
+        #modal-banner.no-img { height: 90px; }
+
         #modal-top {
-            flex-direction: column;
+            padding: 0 16px;
+            margin-top: -60px;
             gap: 14px;
         }
 
-        #modal-img-wrap {
-            flex: 1 1 auto;
-            min-width: auto;
+        #modal-img-wrap { flex-basis: 96px; border-width: 3px; border-radius: 10px; }
+
+        #modal-title { font-size: 19px; }
+
+        #modal-details {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            padding: 18px 16px 0;
+            gap: 8px;
         }
 
-        #modal-info {
-            padding: 16px;
-        }
+        #detail-genres { grid-column: 1 / -1; }
 
-        .meta-row {
-            grid-template-columns: 1fr;
-            gap: 10px;
-        }
+        .detail-value { font-size: 14px; }
 
-        .modal-card {
-            padding: 16px;
-        }
+        #modal-body { padding-bottom: 20px; }
+        #modal-desc-card { padding: 18px 16px 0; }
+    }
 
-        .expand-btn {
-            width: 100%;
-            justify-content: center;
-        }
-
-        .modal-card-header {
-            font-size: 14px;
-        }
+    @media (prefers-reduced-motion: reduce) {
+        #modal-content { animation: none; }
     }
 
     /* =========================
@@ -413,17 +790,18 @@
             gap: 4px;
             padding: 6px;
         }
-        .img-box {
-            height: 150px;
-        }
         .title {
             font-size: 12px;
             padding: 6px 6px 2px;
         }
         .size {
-            font-size: 10.5px;
-            padding: 0 6px 6px;
+            font-size: 9px;
+            margin: 1px 6px 6px;
+            padding: 1px 6px;
         }
+        .hero { padding: 18px 10px 0; }
+        .hero h1 { font-size: 21px; }
+        .result-count { font-size: 11px; padding: 5px 10px; }
         
         .search-bar {
             width: 100%;
@@ -432,93 +810,209 @@
     }
 
     /* =========================
-       BOTÓN PDF FLOTANTE
+       BOTONES FLOTANTES (estilo Joy-Con)
+       Rojo = PDF · Azul = volver arriba
     ========================= */
-    #downloadPdfBtn {
+    .float-btn {
         position: fixed;
-        bottom: 20px;
         right: 20px;
-        width: 55px;
-        height: 55px;
+        width: 56px;
+        height: 56px;
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
         border-radius: 50%;
-        background: var(--nintendo-red);
+        border: 3px solid rgba(255,255,255,0.9);
         color: white;
         text-decoration: none;
-        font-size: 11px;
-        font-weight: bold;
-        box-shadow: 0 8px 20px rgba(230, 0, 18, 0.4);
+        font: 700 11px 'Roboto', Arial, sans-serif;
+        cursor: pointer;
         z-index: 1000;
-        transition: transform 0.2s ease, background 0.2s ease;
+        /* sombra "sólida" inferior = botón físico */
+        box-shadow: 0 4px 0 rgba(0,0,0,0.25), 0 10px 20px rgba(0,0,0,0.25);
+        transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.25s ease;
     }
 
-    #downloadPdfBtn:hover {
-        transform: scale(1.12);
-        background: #c2000f;
+    .float-btn:hover { transform: translateY(-2px) scale(1.06); }
+
+    .float-btn:active {
+        transform: translateY(3px);
+        box-shadow: 0 1px 0 rgba(0,0,0,0.25), 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .float-btn:focus-visible { outline: 3px solid var(--switch-select); outline-offset: 3px; }
+
+    /* la palanca del Joy-Con: círculo oscuro con el ícono */
+    .stick {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 40% 35%, #4a4a4a, #1d1d1d 70%);
+        box-shadow: inset 0 -2px 0 rgba(0,0,0,0.5), 0 2px 0 rgba(0,0,0,0.25);
+        transition: transform 0.15s ease;
+    }
+
+    .stick svg {
+        width: 18px;
+        height: 18px;
+        fill: none;
+        stroke: #fff;
+        stroke-width: 3;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    /* al pasar el mouse, la palanca se inclina como si la movieras */
+    #backTopBtn:hover .stick { transform: translateY(-3px); }
+    #downloadPdfBtn:hover .stick { transform: translateY(3px); }
+
+    /* PDF: Joy-Con rojo con su palanca */
+    #downloadPdfBtn {
+        bottom: 20px;
+        width: auto;
+        height: 56px;
+        flex-direction: row;
+        gap: 8px;
+        padding: 0 18px 0 8px;
+        border-radius: 9999px;
+        background: linear-gradient(180deg, #FF5D6A, var(--joycon-red) 60%, #E8323F);
+        font-size: 14px;
+        letter-spacing: 0.06em;
+    }
+
+    #backTopBtn {
+        bottom: 88px;
+        background: linear-gradient(180deg, #2FD6F0, var(--joycon-blue) 60%, #00A9C6);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(16px) scale(0.8);
+    }
+
+    #backTopBtn.show {
+        opacity: 1;
+        pointer-events: auto;
+        transform: none;
+    }
+
+    #backTopBtn.show:hover { transform: translateY(-2px) scale(1.06); }
+    #backTopBtn.show:active { transform: translateY(3px); }
+
+    @media (max-width: 768px) {
+        .float-btn { right: 14px; width: 50px; height: 50px; }
+        #downloadPdfBtn { width: auto; height: 50px; padding: 0 15px 0 7px; }
+        .stick { width: 30px; height: 30px; }
+        #downloadPdfBtn { bottom: 14px; }
+        #backTopBtn { bottom: 74px; }
+        .search-box { max-width: none; }
+        .chips { margin: 8px -18px -6px; gap: 6px; }
+        .chip { height: 31px; font-size: 13px; padding: 0 5px 0 10px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .search-bar input:focus, .chip.active { animation: none; }
+        .float-btn, #backTopBtn, .stick { transition: none; }
+        body::before, body::after { animation: none; }
     }
 </style>
 </head>
 <body>
 <header>
   <div class="header-left">
-    <a href="../../../index.html">
+    <a href="../../index.html">
       <img src="logo.png" class="logo" alt="Logo">
     </a>
     <div class="nav-controls">
-      <a href="index.html" class="nav-link">◀◀</a>
-      <a href="index.html" class="nav-link">INICIO</a>
-      <a href="index.html" class="nav-link">▶▶</a>
+      <a href="index.html" class="nav-link" title="Catálogo anterior" aria-label="Ir al catálogo anterior">
+        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m11 7-5 5 5 5M18 7l-5 5 5 5" /></svg>
+      </a>
+      <a href="../../index.html" class="nav-link nav-home" id="homeLink" title="Inicio de Nintendo Switch">
+        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m3.5 10 8.5-7 8.5 7" /><path d="M5.5 9v11h13V9M9.5 20v-6h5v6" /></svg>
+        <span>Inicio</span>
+      </a>
+      <a href="index.html" class="nav-link" title="Catálogo siguiente" aria-label="Ir al catálogo siguiente">
+        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m13 7 5 5-5 5M6 7l5 5-5 5" /></svg>
+      </a>
     </div>
   </div>
   <div class="search-bar">
-    <input id="searchInput" type="text" placeholder="Buscar juego...">
-    <select id="filterSelect"></select>
+    <div class="search-box">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>
+      <input id="searchInput" type="search" placeholder="Buscar juego..." autocomplete="off" aria-label="Buscar juego">
+      <button id="searchClear" class="search-clear" type="button" aria-label="Borrar búsqueda" title="Borrar">✕</button>
+    </div>
+  </div>
+  <div class="chips-wrap" id="chipsWrap">
+    <button class="chips-arrow prev" type="button" aria-label="Ver géneros anteriores" tabindex="-1">‹</button>
+    <div id="genreChips" class="chips" role="toolbar" aria-label="Filtrar por género"></div>
+    <button class="chips-arrow next" type="button" aria-label="Ver más géneros" tabindex="-1">›</button>
   </div>
 </header>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow"><span class="joycons" aria-hidden="true"><i></i><i></i></span>Catálogo</div>
+    <h1>Juegos de <b>Nintendo Switch</b></h1>
+  </div>
+  <span id="resultCount" class="result-count"></span>
+</section>
 
 <div id="grid" class="grid"></div>
 
 <!-- MODAL -->
-<div id="modal">
+<div id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
   <div id="modal-content">
-    <button id="close-btn">✕</button>
+    <button id="close-btn" type="button" aria-label="Cerrar" title="Cerrar (Esc)">✕</button>
     <div id="modal-body">
+      <div id="modal-banner">
+        <img id="modal-background" alt="">
+      </div>
       <div id="modal-top">
         <div id="modal-img-wrap">
-          <img id="modal-img">
+          <img id="modal-img" alt="">
         </div>
-        <div id="modal-info">
-                    <h2 id="modal-title"></h2>
-                    <div class="ratings-panel">
-                        <div class="modal-card-header">Valoraciones</div>
-                        <div class="meta-row ratings-row">
-                            <div class="meta">🎮 Nombre: <span id="modal-name"></span></div>
-                            <div class="meta">💾 Tamaño: <span id="modal-size"></span> GB</div>
-                            <div class="meta">⭐ Rating: <span id="modal-rating"></span></div>
-                            <div class="meta">📅 Fecha: <span id="modal-release"></span></div>
-                            <div class="meta">🏷️ Géneros: <span id="modal-genres"></span></div>
-                            <div class="meta">🎯 Plataformas: <span id="modal-platforms"></span></div>
-                            <div class="meta">📊 Metacritic: <a id="modal-metacritic-link" target="_blank"></a></div>
-                        </div>
-                    </div>
-                    <section id="modal-desc-card" class="modal-card modal-desc-panel">
-                        <div class="modal-card-header">Descripción</div>
-                        <div id="modal-desc" class="modal-desc"></div>
-                    </section>
-                </div>
-            </div>
-            <section id="modal-banner" class="modal-card">
-        <div class="modal-card-header">Vista del juego</div>
-        <img id="modal-background">
+        <div id="modal-head">
+          <span class="platform-pill">Nintendo Switch</span>
+          <h2 id="modal-title"></h2>
+        </div>
+      </div>
+      <div id="modal-details">
+        <div class="detail" id="detail-release">
+          <div class="detail-label">Lanzamiento</div>
+          <div class="detail-value" id="modal-release"></div>
+        </div>
+        <div class="detail" id="detail-size">
+          <div class="detail-label">Tamaño</div>
+          <div class="detail-value"><span id="modal-size"></span> GB</div>
+        </div>
+        <div class="detail" id="detail-genres">
+          <div class="detail-label">Género</div>
+          <div class="detail-value" id="modal-genres"></div>
+        </div>
+      </div>
+      <section id="modal-desc-card">
+        <div class="modal-card-header">Descripción</div>
+        <div id="modal-desc" class="modal-desc"></div>
+        <button id="expandDesc" class="expand-btn" type="button">Leer más</button>
       </section>
     </div>
   </div>
 </div>
 
-<a href="catalogo_whatsapp_NS(1).pdf" download id="downloadPdfBtn">
-  ⬇ PDF
+<button id="backTopBtn" class="float-btn" type="button" aria-label="Volver arriba" title="Volver arriba">
+  <span class="stick" aria-hidden="true">
+    <svg viewBox="0 0 24 24"><polyline points="6 14 12 8 18 14" /></svg>
+  </span>
+</button>
+
+<a href="catalogo_whatsapp_NS(1).pdf" download id="downloadPdfBtn" class="float-btn" aria-label="Descargar catálogo en PDF" title="Descargar catálogo en PDF">
+  <span class="stick" aria-hidden="true">
+    <svg viewBox="0 0 24 24"><path d="M12 4v11m0 0 4.5-4.5M12 15l-4.5-4.5" /><path d="M5 19h14" /></svg>
+  </span>
+  <span>PDF</span>
 </a>
 
 <script src="app.js"></script>
