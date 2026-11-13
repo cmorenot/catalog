@@ -2,346 +2,474 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>PS5 Catálogos Hub</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#000000">
+<title>Catálogos PS5 · CEMT</title>
 
 <style>
-
+/* Estética PS5: negro profundo, blanco puro, tipografía fina y acento azul */
 :root{
-    --blue:#2d7dff;
-    --blue-light:#7fb2ff;
+  --bg:#05060A;
+  --panel:#101219;
+  --panel-2:#171a24;
+  --line:rgba(255,255,255,.10);
+  --text:#FFFFFF;
+  --muted:#9AA1B2;
+  --blue:#2D7DFF;
+  --blue-soft:#7FB2FF;
+  --wrap:min(1200px, calc(100% - 32px));
 }
 
-/* BASE */
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
 body{
-    font-family:'Segoe UI', Arial, sans-serif;
-    min-height:100vh;
-    color:white;
-
-    background:
-    radial-gradient(circle at top,
-    rgba(255,255,255,.08),
-    transparent 45%),
-    linear-gradient(180deg,#0a0f1c,#0b1224);
+  font-family:-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
 }
+a{color:inherit}
+img{display:block;max-width:100%}
 
-/* LUZ PS5 */
-body::before{
-    content:"";
-    position:fixed;
-    inset:0;
-    background:
-    radial-gradient(circle at 50% 15%,
-    rgba(45,125,255,.18),
-    transparent 55%);
-    pointer-events:none;
+/* ========================= HEADER ========================= */
+header{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  transition:background .3s,border-color .3s,backdrop-filter .3s;
+  border-bottom:1px solid transparent;
 }
-
-/* ===================== */
-/* BANNER SUPERIOR       */
-/* ===================== */
-
-.top-banner{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:60px;
-
-    background:rgba(255,255,255,.06);
-    backdrop-filter:blur(14px);
-
-    border-bottom:1px solid rgba(255,255,255,.10);
-
-    z-index:999;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
+header.solid{background:rgba(5,6,10,.78);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-color:var(--line)}
+.bar{width:var(--wrap);margin:auto;height:64px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:14px;text-decoration:none}
+.brand img{height:32px}
+.crumb{font-size:13px;font-weight:300;letter-spacing:4px;text-transform:uppercase;color:#d7dbe6;padding-left:14px;border-left:1px solid rgba(255,255,255,.25)}
+.back{
+  display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 16px;border-radius:9999px;
+  text-decoration:none;font-size:13px;font-weight:600;color:#fff;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);
+  transition:background .2s,color .2s;
 }
+.back:hover{background:#fff;color:#000}
+.back svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
-.top-banner .inner{
-    width:min(1200px,92%);
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
+/* ========================= HERO ========================= */
+.hero{position:relative;min-height:min(86vh,760px);display:flex;align-items:flex-end;overflow:hidden;isolation:isolate}
+.slides{position:absolute;inset:0;z-index:-2}
+.slides img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transform:scale(1.06);transition:opacity 1.6s ease, transform 8s ease-out;
 }
-
-/* BOTÓN PLATAFORMAS */
-.top-banner a{
-    text-decoration:none;
-    color:#cfe2ff;
-    font-weight:600;
-    display:flex;
-    align-items:center;
-    gap:8px;
-    font-size:.9rem;
+.slides img.on{opacity:1;transform:scale(1)}
+.hero::before{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:
+    linear-gradient(90deg,rgba(5,6,10,.92) 0%,rgba(5,6,10,.55) 45%,rgba(5,6,10,.15) 100%),
+    linear-gradient(0deg,var(--bg) 0%,rgba(5,6,10,0) 45%),
+    linear-gradient(180deg,rgba(5,6,10,.7) 0%,rgba(5,6,10,0) 22%);
 }
-
-/* LOGO */
-.logo img{
-    height:38px;
+.hero-inner{width:var(--wrap);margin:auto;padding:120px 0 56px}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:12px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--blue-soft)}
+.eyebrow::before{content:"";width:28px;height:1px;background:currentColor}
+.hero h1{font-size:clamp(2.6rem,7.5vw,5.4rem);font-weight:200;line-height:1;letter-spacing:-1.5px;margin:16px 0 18px}
+.hero h1 b{font-weight:700}
+.lead{max-width:480px;color:#c9cfdc;font-size:1.05rem;line-height:1.6;font-weight:300}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.pill{
+  display:inline-flex;align-items:center;gap:10px;height:50px;padding:0 26px;border-radius:9999px;
+  text-decoration:none;font-weight:700;font-size:15px;transition:transform .15s,background .2s,color .2s,box-shadow .2s;
 }
+.pill:active{transform:scale(.97)}
+.pill-white{background:#fff;color:#000}
+.pill-white:hover{box-shadow:0 0 0 4px rgba(255,255,255,.25)}
+.pill-ghost{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(8px)}
+.pill-ghost:hover{background:rgba(255,255,255,.18)}
+.pill svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
-/* STATUS */
-.status{
-    font-size:.85rem;
-    color:#b8c0d6;
+.dots{display:flex;gap:8px;margin-top:38px}
+.dots button{width:26px;height:4px;border-radius:9999px;border:0;background:rgba(255,255,255,.28);cursor:pointer;padding:0;transition:background .3s,width .3s}
+.dots button.on{background:#fff;width:46px}
+
+/* ========================= STATS ========================= */
+.stats{width:var(--wrap);margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line);border-radius:22px;overflow:hidden;background:var(--panel)}
+.stat{padding:22px 24px;border-right:1px solid var(--line)}
+.stat:last-child{border-right:0}
+.stat strong{display:block;font-size:2rem;font-weight:200;letter-spacing:-.5px;font-variant-numeric:tabular-nums}
+.stat span{font-size:12px;color:var(--muted);letter-spacing:2px;text-transform:uppercase}
+
+/* ========================= SECCIONES ========================= */
+section.block{width:var(--wrap);margin:72px auto 0;scroll-margin-top:80px}
+.head{margin-bottom:24px}
+.head h2{font-size:clamp(1.6rem,3.5vw,2.2rem);font-weight:200;letter-spacing:-.5px}
+.head h2 b{font-weight:700}
+.head p{color:var(--muted);margin-top:6px;font-size:14px}
+
+/* Buscador */
+.finder-box{
+  display:flex;align-items:center;gap:12px;height:58px;padding:0 10px 0 22px;border-radius:9999px;
+  background:var(--panel);border:1px solid var(--line);transition:border-color .2s,box-shadow .2s;
 }
+.finder-box:focus-within{border-color:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.12)}
+.finder-box svg{width:20px;height:20px;flex:none;fill:none;stroke:#cfd5e2;stroke-width:2;stroke-linecap:round}
+.finder-box input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:#fff;font:inherit;font-size:16px;font-weight:300}
+.finder-box input::placeholder{color:#7d8496}
+.finder-box input::-webkit-search-cancel-button{display:none}
+.clear{flex:none;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.1);color:#fff;font:600 14px Arial,sans-serif;cursor:pointer;display:none;align-items:center;justify-content:center}
+.clear.show{display:flex}
+.clear:hover{background:#fff;color:#000}
+.hint{margin:10px 0 0 22px;font-size:13px;color:var(--muted)}
+.results{margin-top:14px;border-radius:20px;overflow:hidden;background:var(--panel);border:1px solid var(--line);display:none}
+.results.show{display:block}
+.res{display:flex;align-items:center;gap:14px;padding:10px 16px;border-bottom:1px solid var(--line)}
+.res:last-child{border-bottom:0}
+.res img{width:42px;height:56px;object-fit:cover;border-radius:8px;background:var(--panel-2);flex:none}
+.res-main{flex:1;min-width:0}
+.res-name{font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.res-meta{font-size:12px;color:var(--muted);margin-top:3px}
+.res-cats{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.chip{font-size:12px;font-weight:700;text-decoration:none;padding:6px 12px;border-radius:9999px;background:#fff;color:#000;white-space:nowrap;transition:background .2s}
+.chip:hover{background:var(--blue-soft)}
+.res-note{padding:14px 16px;font-size:13px;color:var(--muted);text-align:center}
 
-/* ESPACIO PARA NO TAPAR CONTENIDO */
-body{
-    padding-top:60px;
+/* Tarjetas de catálogo (estilo tile de la pantalla de inicio de PS5) */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.card{position:relative;display:block;text-decoration:none;border-radius:22px;outline:none}
+.tile{
+  position:relative;aspect-ratio:16/10;border-radius:22px;overflow:hidden;background:var(--panel-2);
+  box-shadow:0 0 0 1px var(--line);
+  transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s;
 }
-
-/* ===================== */
-/* GRID PS5              */
-/* ===================== */
-
-.catalogs{
-    width:min(1200px,92%);
-    margin:auto;
-    padding:50px 0;
-
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-    gap:25px;
+.tile img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.tile::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.75) 0%,rgba(0,0,0,0) 55%)}
+.card:hover .tile,.card:focus-visible .tile{
+  transform:scale(1.03);
+  box-shadow:0 0 0 3px #fff,0 0 0 7px rgba(255,255,255,.15),0 30px 60px rgba(0,0,0,.6);
 }
-
-/* CARD */
-.card{
-    background:rgba(255,255,255,.05);
-    border:1px solid rgba(255,255,255,.10);
-    border-radius:20px;
-    overflow:hidden;
-
-    backdrop-filter:blur(10px);
-
-    transition:.3s;
+.card:hover .tile img{transform:scale(1.05)}
+.num{position:absolute;left:18px;bottom:12px;z-index:1;font-size:3.4rem;font-weight:200;line-height:1;letter-spacing:-2px}
+.vol{position:absolute;left:20px;top:16px;z-index:1;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+  padding:6px 10px;border-radius:9999px;background:rgba(0,0,0,.45);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.18)}
+.play{
+  position:absolute;right:16px;bottom:16px;z-index:1;width:46px;height:46px;border-radius:50%;
+  display:grid;place-items:center;background:#fff;color:#000;
+  opacity:0;transform:translateY(8px);transition:opacity .25s,transform .25s;
 }
-
-.card:hover{
-    transform:translateY(-6px);
-    border-color:var(--blue);
-    box-shadow:0 20px 50px rgba(45,125,255,.25);
+.play svg{width:18px;height:18px;fill:currentColor;margin-left:2px}
+.card:hover .play,.card:focus-visible .play{opacity:1;transform:none}
+.info{padding:16px 6px 0}
+.info h3{font-size:1.1rem;font-weight:600}
+.meta{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:8px;font-size:13px;color:var(--muted)}
+.meta b{color:#fff;font-weight:600}
+.pdf{
+  display:inline-flex;align-items:center;gap:7px;margin:14px 6px 0;font-size:13px;font-weight:600;color:#cfd5e2;text-decoration:none;
+  padding:8px 14px;border-radius:9999px;border:1px solid var(--line);transition:background .2s,color .2s;
 }
+.pdf:hover{background:rgba(255,255,255,.1);color:#fff}
+.pdf svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
-/* IMAGEN */
-.card-image{
-    position:relative;
-    height:180px;
-    overflow:hidden;
+/* Precio */
+.price{
+  position:relative;overflow:hidden;border-radius:28px;padding:44px 40px;
+  background:
+    radial-gradient(circle at 85% 20%,rgba(45,125,255,.35),transparent 45%),
+    radial-gradient(circle at 10% 110%,rgba(127,178,255,.18),transparent 40%),
+    var(--panel);
+  border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap;
 }
+.price .label{font-size:12px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--blue-soft)}
+.price h2{font-size:clamp(1.6rem,3.5vw,2.3rem);font-weight:200;margin-top:10px;letter-spacing:-.5px}
+.price h2 b{font-weight:700}
+.price p{color:var(--muted);margin-top:8px;max-width:420px;line-height:1.55}
+.amount{text-align:right;line-height:1}
+.amount strong{font-size:clamp(3.6rem,10vw,6rem);font-weight:200;letter-spacing:-3px;font-variant-numeric:tabular-nums}
+.amount span{display:block;font-size:1rem;font-weight:700;letter-spacing:4px;color:var(--muted);margin-top:6px}
 
-.card-image img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    transition:.5s;
+/* Footer */
+footer{width:var(--wrap);margin:80px auto 0;padding:28px 0 44px;border-top:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:13px}
+footer img{height:26px;opacity:.8}
+footer a{color:#fff;text-decoration:none;font-weight:600}
+footer a:hover{text-decoration:underline}
+
+/* ========================= RESPONSIVE ========================= */
+@media (max-width:900px){
+  .grid{grid-template-columns:1fr 1fr}
 }
-
-.card:hover img{
-    transform:scale(1.07);
+@media (max-width:640px){
+  .bar{height:56px}
+  .brand img{height:26px}
+  .crumb{display:none}
+  .back span{display:none}
+  .back{padding:0 11px}
+  .hero{min-height:78vh}
+  .hero-inner{padding:100px 0 40px}
+  .hero::before{background:linear-gradient(0deg,var(--bg) 5%,rgba(5,6,10,.55) 60%,rgba(5,6,10,.7) 100%)}
+  .pill{height:46px;padding:0 20px;font-size:14px}
+  .stat{padding:16px 12px}
+  .stat strong{font-size:1.45rem}
+  .stat span{font-size:10px;letter-spacing:1px}
+  section.block{margin-top:52px}
+  .grid{grid-template-columns:1fr;gap:26px}
+  .play{opacity:1;transform:none}
+  .price{padding:30px 24px}
+  .amount{text-align:left}
 }
-
-.card-image::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:linear-gradient(to top,
-    rgba(10,15,28,.95),
-    rgba(10,15,28,.15));
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
 }
-
-/* BADGE */
-.badge{
-    position:absolute;
-    top:12px;
-    left:12px;
-    background:rgba(45,125,255,.25);
-    border:1px solid rgba(45,125,255,.5);
-    color:#cfe2ff;
-
-    padding:6px 12px;
-    border-radius:20px;
-    font-size:.75rem;
-    font-weight:700;
-    z-index:2;
-}
-
-/* CONTENT */
-.content{
-    padding:20px;
-}
-
-.content h2{
-    font-size:1.2rem;
-    margin-bottom:6px;
-}
-
-.firmware{
-    color:#7fb2ff;
-    font-weight:600;
-    margin-bottom:10px;
-    font-size:.9rem;
-}
-
-.games{
-    color:#b8c0d6;
-    margin-bottom:18px;
-    font-size:.9rem;
-}
-
-.price-info{
-    width:min(1200px,92%);
-    margin:35px auto 20px;
-    padding:18px 20px;
-    border-radius:18px;
-    background:rgba(45,125,255,.08);
-    border:1px solid rgba(127,178,255,.35);
-    color:#dfe9ff;
-}
-
-.price-info h3{
-    margin-bottom:10px;
-    color:#7fb2ff;
-    font-size:1.1rem;
-}
-
-.price-info ul{
-    list-style:none;
-    padding-left:0;
-}
-
-.price-info li{
-    margin-bottom:4px;
-    color:#dfe9ff;
-    font-weight:600;
-}
-
-/* BOTÓN */
-.btn{
-    display:block;
-    text-align:center;
-    text-decoration:none;
-
-    background:var(--blue);
-    color:white;
-
-    padding:13px;
-    border-radius:12px;
-
-    font-weight:600;
-
-    transition:.3s;
-}
-
-.btn:hover{
-    background:#4b93ff;
-}
-
-@media(max-width:600px){
-    .card-image{
-        height:160px;
-    }
-}
-
 </style>
 </head>
 
 <body>
 
-<!-- BANNER -->
-<div class="top-banner">
+<!-- ========================= HEADER ========================= -->
+<header id="top">
+  <div class="bar">
+    <a class="brand" href="../index.html" aria-label="Volver a plataformas">
+      <img src="images/logo.png" alt="CEMT">
+      <span class="crumb">PS5</span>
+    </a>
+    <a class="back" href="../index.html">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+      <span>Plataformas</span>
+    </a>
+  </div>
+</header>
 
-    <div class="inner">
+<!-- ========================= HERO ========================= -->
+<section class="hero">
+  <div class="slides" aria-hidden="true">
+    <img class="on" src="images/catalogo1.jpg" alt="">
+    <img src="images/catalogo2.jpg" alt="" loading="lazy">
+    <img src="images/catalogo3.jpg" alt="" loading="lazy">
+  </div>
 
-        <!-- VOLVER PLATAFORMAS -->
-        <a href="../index.html">
-            <div class="logo">
-              <img src="images/logo.png" alt="PS4 Logo" style="height:40px; vertical-align:middle;">
-            </div>
-
-        </a>
-
-        <!-- ESTADO -->
-        <div class="status">
-            Catálogos PS5 activos
-        </div>
-
+  <div class="hero-inner">
+    <span class="eyebrow">CEMT · Nueva generación</span>
+    <h1>Biblioteca<br><b>PlayStation 5</b></h1>
+    <p class="lead">Tres volúmenes con los juegos de nueva generación. Un solo precio, sin importar el tamaño.</p>
+    <div class="cta">
+      <a class="pill pill-white" href="#catalogos">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+        Ver catálogos
+      </a>
+      <a class="pill pill-ghost" href="#buscar">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
+        Buscar un juego
+      </a>
     </div>
+    <div class="dots" role="tablist" aria-label="Portadas">
+      <button class="on" type="button" aria-label="Portada 1"></button>
+      <button type="button" aria-label="Portada 2"></button>
+      <button type="button" aria-label="Portada 3"></button>
+    </div>
+  </div>
+</section>
 
+<!-- ========================= STATS ========================= -->
+<div class="stats">
+  <div class="stat"><strong>3</strong><span>Volúmenes</span></div>
+  <div class="stat"><strong>674</strong><span>Juegos</span></div>
+  <div class="stat"><strong>2000</strong><span>CUP / juego</span></div>
 </div>
 
-<div class="price-info">
-    <h3>💰 Sistema de precios PS5</h3>
-    <ul>
-        <li>📦 Juegos de PS5 → <b>2000 CUP</b></li>
-    </ul>
-</div>
+<!-- ========================= BUSCADOR ========================= -->
+<section class="block" id="buscar">
+  <div class="head">
+    <h2>¿Buscas un <b>juego</b>?</h2>
+    <p>Busca en los 3 volúmenes a la vez y te decimos dónde está.</p>
+  </div>
+  <label class="finder-box">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
+    <input id="q" type="search" placeholder="Ej: Spider-Man, FC, Gran Turismo…" autocomplete="off" aria-label="Buscar juego en todos los catálogos PS5">
+    <button class="clear" id="clear" type="button" aria-label="Borrar búsqueda">✕</button>
+  </label>
+  <p class="hint" id="hint">Escribe al menos 2 letras.</p>
+  <div class="results" id="results"></div>
+</section>
 
-<!-- GRID -->
-<div class="catalogs">
+<!-- ========================= CATÁLOGOS ========================= -->
+<section class="block" id="catalogos">
+  <div class="head">
+    <h2>Elige un <b>volumen</b></h2>
+    <p>Cada volumen tiene su propio catálogo con buscador, géneros y fichas de cada juego.</p>
+  </div>
 
-    <!-- CAT 1 -->
-    <div class="card">
-
-        <div class="card-image">
-            <div class="badge">CAT 1</div>
-            <img src="images/catalogo1.jpg">
+  <div class="grid">
+    <div>
+      <a class="card" href="catalog1/catalogo_web/index.html">
+        <div class="tile">
+          <img src="images/catalogo1.jpg" alt="" loading="lazy">
+          <span class="vol">Volumen</span>
+          <span class="num">01</span>
+          <span class="play"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></span>
         </div>
-
-        <div class="content">
-            <h2>Catálogo PS5 1</h2>
-            <div class="firmware">Biblioteca PS5</div>
-            <div class="games">Colección completa de juegos</div>
-            <a class="btn" href="catalog1/catalogo_web/index.html">Abrir catálogo</a>
+        <div class="info">
+          <h3>Catálogo PS5 · 1</h3>
+          <div class="meta"><span><b>299</b> juegos</span><span><b>5.5 TB</b> en total</span></div>
         </div>
-
+      </a>
+      <a class="pdf" href="catalog1/catalogo_web/catalogo_whatsapp_PS5(1).pdf">
+        <svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>PDF · 9 MB</a>
     </div>
 
-    <!-- CAT 2 -->
-    <div class="card">
-
-        <div class="card-image">
-            <div class="badge">CAT 2</div>
-            <img src="images/catalogo2.jpg">
+    <div>
+      <a class="card" href="catalog2/catalogo_web/index.html">
+        <div class="tile">
+          <img src="images/catalogo2.jpg" alt="" loading="lazy">
+          <span class="vol">Volumen</span>
+          <span class="num">02</span>
+          <span class="play"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></span>
         </div>
-
-        <div class="content">
-            <h2>Catálogo PS5 2</h2>
-            <div class="firmware">Biblioteca PS5</div>
-            <div class="games">Selección ampliada de juegos</div>
-            <a class="btn" href="catalog2/catalogo_web/index.html">Abrir catálogo</a>
+        <div class="info">
+          <h3>Catálogo PS5 · 2</h3>
+          <div class="meta"><span><b>274</b> juegos</span><span><b>8.6 TB</b> en total</span></div>
         </div>
-
+      </a>
+      <a class="pdf" href="catalog2/catalogo_web/catalogo_whatsapp_PS5(2).pdf">
+        <svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>PDF · 8 MB</a>
     </div>
 
-        <!-- CAT 3 -->
-    <div class="card">
-
-        <div class="card-image">
-            <div class="badge">CAT 3</div>
-            <img src="images/catalogo3.jpg">
+    <div>
+      <a class="card" href="catalog3/catalogo_web/index.html">
+        <div class="tile">
+          <img src="images/catalogo3.jpg" alt="" loading="lazy">
+          <span class="vol">Volumen</span>
+          <span class="num">03</span>
+          <span class="play"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></span>
         </div>
-
-        <div class="content">
-            <h2>Catálogo PS5 3</h2>
-            <div class="firmware">Biblioteca PS5</div>
-            <div class="games">Selección ampliada de juegos</div>
-            <a class="btn" href="catalog3/catalogo_web/index.html">Abrir catálogo</a>
+        <div class="info">
+          <h3>Catálogo PS5 · 3</h3>
+          <div class="meta"><span><b>101</b> juegos</span><span><b>2.1 TB</b> en total</span></div>
         </div>
-
+      </a>
+      <a class="pdf" href="catalog3/catalogo_web/catalogo_whatsapp_PS5(2).pdf">
+        <svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>PDF · 5 MB</a>
     </div>
+  </div>
+</section>
 
-</div>
+<!-- ========================= PRECIO ========================= -->
+<section class="block" id="precio">
+  <div class="price">
+    <div>
+      <div class="label">Precio único</div>
+      <h2>Todos los juegos, <b>un solo precio</b></h2>
+      <p>No importa si pesa 5 GB o 150 GB: cada juego de PS5 cuesta lo mismo.</p>
+    </div>
+    <div class="amount"><strong>2000</strong><span>CUP</span></div>
+  </div>
+</section>
+
+<footer>
+  <img src="images/logo.png" alt="CEMT">
+  <span>Catálogos PS5 · 674 juegos en 3 volúmenes</span>
+  <a href="../index.html">← Ver otras plataformas</a>
+</footer>
+
+<script>
+/* ===== Header transparente → sólido al hacer scroll ===== */
+const header = document.getElementById("top");
+const onScroll = () => header.classList.toggle("solid", scrollY > 30);
+addEventListener("scroll", onScroll, { passive: true }); onScroll();
+
+/* ===== Portadas del hero que rotan (como la pantalla de inicio de PS5) ===== */
+const slides = [...document.querySelectorAll(".slides img")];
+const dots = [...document.querySelectorAll(".dots button")];
+let cur = 0, timer;
+function show(i) {
+  slides[cur].classList.remove("on"); dots[cur].classList.remove("on");
+  cur = (i + slides.length) % slides.length;
+  slides[cur].classList.add("on"); dots[cur].classList.add("on");
+}
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+function auto() { clearInterval(timer); if (!reduce) timer = setInterval(() => show(cur + 1), 6000); }
+dots.forEach((d, i) => d.addEventListener("click", () => { show(i); auto(); }));
+auto();
+
+/* ===== Buscador en los 3 volúmenes (carga los índices solo al usarlo) ===== */
+const CATS = [
+  { label: "Vol. 1", path: "catalog1/catalogo_web/" },
+  { label: "Vol. 2", path: "catalog2/catalogo_web/" },
+  { label: "Vol. 3", path: "catalog3/catalogo_web/" },
+];
+const q = document.getElementById("q");
+const clearBtn = document.getElementById("clear");
+const results = document.getElementById("results");
+const hint = document.getElementById("hint");
+
+const norm = s => (s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, " ").trim();
+const enc = p => p.split("/").map(encodeURIComponent).join("/");
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+function imgOf(cat, g) {
+  if (g.img_low) return cat.path + enc(g.img_low);
+  if (g.img) return cat.path + "assets/images/" + encodeURIComponent(g.img);
+  return "";
+}
+
+let loading = null, DB = [], failed = false;
+function load() {
+  if (loading) return loading;
+  hint.textContent = "Cargando catálogos…";
+  loading = Promise.all(CATS.map(c =>
+    fetch(c.path + "data/index.json")
+      .then(r => { if (!r.ok) throw new Error(); return r.json(); })
+      .then(d => ({ c, games: Array.isArray(d) ? d : (d.games || []) }))
+      .catch(() => ({ c, games: null }))
+  )).then(list => {
+    const map = new Map();
+    list.forEach(({ c, games }) => (games || []).forEach(g => {
+      const key = norm(g.name);
+      if (!key) return;
+      let e = map.get(key);
+      if (!e) { e = { name: g.name, key, size: g.size, img: imgOf(c, g), cats: [] }; map.set(key, e); }
+      if (!e.cats.includes(c)) e.cats.push(c);
+    }));
+    DB = [...map.values()];
+    failed = list.every(x => x.games === null);
+    hint.textContent = failed
+      ? "La búsqueda funciona cuando la página se abre desde el servidor o la web."
+      : `${DB.length} juegos listos para buscar.`;
+  });
+  return loading;
+}
+
+function render() {
+  const raw = q.value.trim();
+  clearBtn.classList.toggle("show", !!raw);
+  const query = norm(raw);
+  if (query.length < 2) { results.classList.remove("show"); results.innerHTML = ""; return; }
+  if (failed) { results.innerHTML = `<div class="res-note">No se pudieron cargar los catálogos aquí. Ábrelos desde las tarjetas de abajo.</div>`; results.classList.add("show"); return; }
+
+  const words = query.split(" ");
+  const hits = DB.filter(e => words.every(w => e.key.includes(w)))
+    .sort((a, b) => (b.key.startsWith(query) - a.key.startsWith(query)) || a.name.localeCompare(b.name));
+
+  if (!hits.length) {
+    results.innerHTML = `<div class="res-note">No encontramos “${esc(raw)}”. Prueba con otra palabra.</div>`;
+  } else {
+    const top = hits.slice(0, 20);
+    results.innerHTML = top.map(e => `
+      <div class="res">
+        <img src="${esc(e.img)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
+        <div class="res-main">
+          <div class="res-name">${esc(e.name)}</div>
+          <div class="res-meta">${e.size ? esc(e.size) + " GB · " : ""}2000 CUP</div>
+        </div>
+        <div class="res-cats">${e.cats.map(c => `<a class="chip" href="${c.path}index.html">${c.label}</a>`).join("")}</div>
+      </div>`).join("") +
+      (hits.length > top.length ? `<div class="res-note">y ${hits.length - top.length} más… escribe algo más específico.</div>` : "");
+  }
+  results.classList.add("show");
+}
+
+let t;
+q.addEventListener("focus", load, { once: true });
+q.addEventListener("input", () => { clearTimeout(t); t = setTimeout(() => load().then(render), 150); });
+clearBtn.addEventListener("click", e => { e.preventDefault(); q.value = ""; render(); q.focus(); });
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && document.activeElement === q) { q.value = ""; render(); }
+});
+</script>
 
 </body>
 </html>

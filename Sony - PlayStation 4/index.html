@@ -2,416 +2,605 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>PS4 Catálogos Hub</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#00439C">
+<title>Catálogos PS4 · CEMT</title>
 
 <style>
-
+/* Paleta PlayStation 4 (igual que los catálogos) — sin fuentes externas: carga rápido */
 :root{
-    --blue:#0070d1;
-    --blue-light:#00a8ff;
-    --bg:#050b14;
+  --ps-blue:#0070D1;
+  --ps-blue-light:#3D9BFF;
+  --ps-blue-dark:#00439C;
+  --ps-bg:#050B18;
+  --ps-panel:#0F1B30;
+  --ps-panel-2:#16263F;
+  --ps-line:rgba(148,179,225,.18);
+  --ps-text:#F4F7FC;
+  --ps-muted:#8FA3C2;
+  --tri:#2ECFA8;
+  --cir:#FF5A5F;
+  --crs:#7FA8FF;
+  --sqr:#F28FC4;
+  --wrap:min(1200px, calc(100% - 32px));
 }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
 
 body{
-    font-family:'Segoe UI', Arial, sans-serif;
-    min-height:100vh;
-    color:white;
-
-    background:
-    radial-gradient(circle at top,
-    rgba(0,112,209,.25),
-    transparent 40%),
-    linear-gradient(180deg,#07111f,#050b14);
+  font-family:-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  color:var(--ps-text);
+  background:
+    radial-gradient(ellipse at 50% -10%, rgba(0,112,209,.45), transparent 55%),
+    linear-gradient(180deg,#071633 0%, var(--ps-bg) 45%);
+  background-color:var(--ps-bg);
+  background-attachment:fixed;
+  min-height:100vh;
+  overflow-x:hidden;
 }
 
-/* Fondo decorativo */
-body::before{
-    content:"";
-    position:fixed;
-    inset:0;
+a{color:inherit}
+img{display:block;max-width:100%}
 
-    background:
-    radial-gradient(circle at 20% 20%, rgba(0,168,255,.08), transparent 30%),
-    radial-gradient(circle at 80% 80%, rgba(0,112,209,.10), transparent 30%);
-
-    pointer-events:none;
+/* ========================= HEADER ========================= */
+header{
+  position:sticky;top:0;z-index:50;
+  background:linear-gradient(90deg,var(--ps-blue-dark),#0A2A66 60%,#0B1D40);
+  border-bottom:1px solid rgba(61,155,255,.35);
+  box-shadow:0 8px 24px rgba(0,0,0,.45);
 }
-
-
-/* GRID */
-.catalogs{
-    margin-top:25px;
-    width:min(1200px,92%);
-    margin:auto;
-
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-    gap:25px;
-
-    padding-bottom:60px;
+.bar{
+  width:var(--wrap);margin:auto;height:62px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
 }
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand img{height:34px;width:auto}
+.crumb{
+  font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  color:#CBD7EC;padding-left:12px;border-left:1px solid var(--ps-line);
+}
+.back{
+  display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 14px;
+  border-radius:11px;text-decoration:none;font-size:13px;font-weight:700;
+  color:#CBD7EC;background:rgba(0,0,0,.25);border:1px solid var(--ps-line);
+  transition:color .2s,background .2s,transform .2s;
+}
+.back:hover{color:#fff;background:rgba(255,255,255,.1);transform:translateY(-1px)}
+.back svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
-/* CARD */
+/* ========================= HERO ========================= */
+.hero{position:relative;padding:64px 0 40px;overflow:hidden}
+.waves{
+  position:absolute;left:0;right:0;bottom:-10px;height:260px;
+  pointer-events:none;opacity:.9;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 15%,#000 85%,transparent);
+          mask-image:linear-gradient(90deg,transparent,#000 15%,#000 85%,transparent);
+}
+.waves svg{position:absolute;bottom:0;left:0;width:200%;height:100%;animation:drift 38s linear infinite}
+.waves svg:nth-child(2){animation-duration:55s;animation-direction:reverse;opacity:.6}
+@keyframes drift{to{transform:translateX(-50%)}}
+
+.hero-inner{position:relative;width:var(--wrap);margin:auto;text-align:center}
+.symbols{display:flex;justify-content:center;gap:14px;margin-bottom:18px}
+.symbols svg{width:22px;height:22px;fill:none;stroke-width:2.4;opacity:.95}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--ps-blue-light)}
+.hero h1{
+  margin:10px 0 14px;font-size:clamp(2.2rem,6vw,3.8rem);line-height:1.05;font-weight:300;letter-spacing:-.5px;
+}
+.hero h1 b{font-weight:800;background:linear-gradient(90deg,#fff,#9cc8ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{max-width:620px;margin:auto;color:var(--ps-muted);font-size:1.02rem;line-height:1.6}
+
+.stats{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-top:26px}
+.stat{
+  min-width:130px;padding:12px 18px;border-radius:16px;
+  background:rgba(15,27,48,.7);border:1px solid var(--ps-line);backdrop-filter:blur(8px);
+}
+.stat strong{display:block;font-size:1.5rem;font-weight:800;font-variant-numeric:tabular-nums}
+.stat span{font-size:12px;color:var(--ps-muted);text-transform:uppercase;letter-spacing:1px}
+
+/* ========================= BUSCADOR GLOBAL ========================= */
+.finder{width:var(--wrap);margin:6px auto 0;position:relative;z-index:5}
+.finder-box{
+  max-width:640px;margin:auto;display:flex;align-items:center;gap:10px;height:54px;padding:0 8px 0 18px;
+  border-radius:9999px;border:2px solid transparent;
+  background:rgba(255,255,255,.1);backdrop-filter:blur(10px);
+  transition:border-color .15s,background .15s,box-shadow .15s;
+}
+.finder-box:focus-within{
+  border-color:#fff;background:rgba(255,255,255,.16);
+  box-shadow:0 0 0 4px rgba(61,155,255,.35),0 0 24px rgba(61,155,255,.45);
+}
+.finder-box svg{width:20px;height:20px;flex:none;fill:none;stroke:#C9D8F0;stroke-width:2;stroke-linecap:round}
+.finder-box input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:var(--ps-text);font:inherit;font-size:16px}
+.finder-box input::placeholder{color:#9FB2D1}
+.finder-box input::-webkit-search-cancel-button{display:none}
+.clear{
+  flex:none;width:32px;height:32px;border-radius:50%;border:2px solid var(--crs);background:transparent;
+  color:var(--crs);font:700 14px Arial,sans-serif;cursor:pointer;display:none;align-items:center;justify-content:center;
+}
+.clear.show{display:flex}
+.clear:hover{background:var(--crs);color:#0B1D40}
+.finder-hint{text-align:center;margin-top:10px;font-size:13px;color:var(--ps-muted)}
+
+.results{
+  max-width:640px;margin:12px auto 0;border-radius:18px;overflow:hidden;
+  background:rgba(12,22,40,.96);border:1px solid var(--ps-line);
+  box-shadow:0 24px 60px rgba(0,0,0,.55);display:none;
+}
+.results.show{display:block}
+.res{display:flex;align-items:center;gap:14px;padding:10px 14px;border-bottom:1px solid var(--ps-line)}
+.res:last-child{border-bottom:0}
+.res img{width:44px;height:56px;object-fit:cover;border-radius:7px;background:var(--ps-panel-2);flex:none}
+.res-main{flex:1;min-width:0}
+.res-name{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.res-meta{font-size:12px;color:var(--ps-muted);margin-top:3px}
+.res-meta b{color:#fff}
+.res-cats{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end;max-width:45%}
+.chip{
+  font-size:11px;font-weight:800;text-decoration:none;padding:5px 9px;border-radius:9999px;white-space:nowrap;
+  background:rgba(0,112,209,.22);border:1px solid rgba(61,155,255,.5);color:#d8e8ff;transition:background .15s;
+}
+.chip:hover{background:var(--ps-blue)}
+.res-note{padding:14px 16px;font-size:13px;color:var(--ps-muted);text-align:center}
+
+/* ========================= SECCIONES ========================= */
+section.block{width:var(--wrap);margin:56px auto 0;scroll-margin-top:80px}
+.head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.head h2{font-size:1.6rem;font-weight:300}
+.head h2 b{font-weight:800}
+.head p{color:var(--ps-muted);font-size:14px;margin-top:4px}
+
+/* Selector de firmware */
+.fw-picker{display:flex;align-items:center;gap:5px;padding:5px;border-radius:16px;background:rgba(0,0,0,.25);border:1px solid var(--ps-line)}
+.fw-picker span{font-size:12px;font-weight:700;color:var(--ps-muted);padding:0 8px}
+.fw-picker button{
+  height:36px;padding:0 12px;border-radius:11px;border:0;cursor:pointer;
+  background:transparent;color:#CBD7EC;font:700 13px inherit;font-family:inherit;
+  transition:background .2s,color .2s;
+}
+.fw-picker button:hover{background:rgba(255,255,255,.1);color:#fff}
+.fw-picker button[aria-pressed="true"]{background:var(--ps-blue);color:#fff;box-shadow:0 4px 12px rgba(0,112,209,.4)}
+
+/* Tarjetas de catálogo */
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
 .card{
-    background:rgba(13,21,37,.85);
-    border:1px solid rgba(255,255,255,.08);
-    border-radius:22px;
-    overflow:hidden;
-    backdrop-filter:blur(10px);
-    transition:.3s;
+  --accent:var(--crs);
+  position:relative;display:flex;flex-direction:column;border-radius:20px;overflow:hidden;
+  background:linear-gradient(180deg,var(--ps-panel-2),var(--ps-panel));
+  border:2px solid var(--ps-line);
+  transition:transform .25s,border-color .25s,box-shadow .25s;
 }
-
-.card:hover{
-    transform:translateY(-8px);
-    border-color:var(--blue-light);
-    box-shadow:0 20px 50px rgba(0,168,255,.25);
+.card:hover,.card.picked{
+  transform:translateY(-6px);border-color:#fff;
+  box-shadow:0 0 0 4px rgba(61,155,255,.35),0 22px 50px rgba(0,112,209,.35);
 }
+.card.picked{animation:pick 1.4s ease-in-out 2}
+@keyframes pick{50%{box-shadow:0 0 0 8px rgba(61,155,255,.15),0 22px 50px rgba(0,112,209,.5)}}
 
-/* IMAGEN */
-.card-image{
-    position:relative;
-    height:180px;
-    overflow:hidden;
+.cover{position:relative;aspect-ratio:4/5;overflow:hidden;background:#0a1426}
+.cover img{width:100%;height:100%;object-fit:cover;object-position:center 20%;transition:transform .6s}
+.card:hover .cover img{transform:scale(1.06)}
+.cover::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,var(--ps-panel) 2%,rgba(15,27,48,.15) 55%,transparent)}
+.sym{
+  position:absolute;top:12px;right:12px;z-index:2;width:34px;height:34px;border-radius:50%;
+  display:grid;place-items:center;background:rgba(5,11,24,.6);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.15);
 }
-
-.card-image img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    transition:.5s;
+.sym svg{width:16px;height:16px;fill:none;stroke:var(--accent);stroke-width:2.6}
+.fw{
+  position:absolute;left:16px;bottom:12px;z-index:2;line-height:1;
 }
+.fw small{display:block;font-size:11px;font-weight:800;letter-spacing:2px;color:var(--accent);margin-bottom:4px}
+.fw strong{font-size:2.4rem;font-weight:800;letter-spacing:-1px;text-shadow:0 4px 18px rgba(0,0,0,.6)}
 
-.card:hover img{
-    transform:scale(1.08);
-}
-
-/* OVERLAY */
-.card-image::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:linear-gradient(
-        to top,
-        rgba(13,21,37,.95),
-        rgba(13,21,37,.10)
-    );
-}
-
-/* BADGE */
-.badge{
-    position:absolute;
-    top:12px;
-    left:12px;
-    background:var(--blue);
-    padding:6px 12px;
-    border-radius:20px;
-    font-size:.75rem;
-    font-weight:bold;
-    z-index:2;
-}
-
-/* CONTENT */
-.content{
-    padding:20px;
-}
-
-.content h2{
-    font-size:1.3rem;
-    margin-bottom:6px;
-}
-
-.firmware{
-    color:var(--blue-light);
-    font-weight:600;
-    margin-bottom:10px;
-    font-size:.9rem;
-}
-
-.games{
-    color:#aebed6;
-    margin-bottom:18px;
-    font-size:.9rem;
-}
-
-/* BUTTON */
+.body{padding:6px 16px 16px;display:flex;flex-direction:column;flex:1}
+.body h3{font-size:1.05rem;font-weight:700}
+.body p{font-size:13px;color:var(--ps-muted);margin:6px 0 14px;line-height:1.45;flex:1}
+.count{display:flex;gap:14px;font-size:12px;color:var(--ps-muted);margin-bottom:14px}
+.count b{display:block;font-size:1.15rem;color:#fff;font-variant-numeric:tabular-nums}
+.actions{display:flex;gap:8px}
 .btn{
-    display:block;
-    text-align:center;
-    text-decoration:none;
-
-    background:var(--blue);
-    color:white;
-
-    padding:13px;
-    border-radius:12px;
-
-    font-weight:600;
-
-    transition:.3s;
+  flex:1;display:flex;align-items:center;justify-content:center;gap:8px;height:44px;border-radius:12px;
+  text-decoration:none;font-weight:700;font-size:14px;color:#fff;background:var(--ps-blue);
+  box-shadow:0 4px 14px rgba(0,112,209,.35);transition:background .2s,transform .15s;
 }
-
-.btn:hover{
-    background:var(--blue-light);
+.btn:hover{background:var(--ps-blue-light)}
+.btn:active{transform:scale(.97)}
+.btn-pdf{
+  flex:none;width:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;height:44px;border-radius:12px;
+  text-decoration:none;font-size:10px;font-weight:800;color:#CBD7EC;background:rgba(0,0,0,.25);border:1px solid var(--ps-line);
+  transition:color .2s,background .2s;
 }
+.btn-pdf svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.btn-pdf:hover{color:#fff;background:rgba(255,255,255,.1)}
 
-/* RESPONSIVE */
-@media(max-width:600px){
-
-    .header h1{
-        font-size:2.2rem;
-    }
-
-    .card-image{
-        height:160px;
-    }
+/* Próximamente */
+.soon{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}
+.soon-card{
+  position:relative;display:flex;align-items:flex-end;min-height:170px;border-radius:20px;overflow:hidden;
+  border:1px solid var(--ps-line);background:#0a1426;
 }
-
-/* BANNER FIJO SUPERIOR */
-.top-banner{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:60px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    background:rgba(5,11,20,.85);
-    backdrop-filter:blur(12px);
-
-    border-bottom:1px solid rgba(0,168,255,.25);
-
-    z-index:999;
+.soon-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.55) brightness(.6)}
+.soon-card::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,11,24,.92) 10%,rgba(5,11,24,.2))}
+.soon-body{position:relative;z-index:1;padding:18px 20px}
+.tag{
+  display:inline-block;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;
+  padding:5px 10px;border-radius:9999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);margin-bottom:10px;
 }
+.soon-body h3{font-size:1.25rem}
+.soon-body p{font-size:13px;color:#b9c8df;margin-top:4px}
 
-/* contenido del banner */
-.top-banner .inner{
-    width:min(1200px,92%);
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
+/* Precios */
+.prices{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.tier{
+  position:relative;padding:18px 16px 16px;border-radius:18px;overflow:hidden;
+  background:rgba(15,27,48,.75);border:1px solid var(--ps-line);
 }
+.tier .range{font-size:12px;font-weight:700;color:var(--ps-muted);text-transform:uppercase;letter-spacing:1px}
+.tier .gb{font-size:1.05rem;font-weight:700;margin:4px 0 14px}
+.tier .cup{font-size:1.9rem;font-weight:800;font-variant-numeric:tabular-nums}
+.tier .cup small{font-size:.8rem;font-weight:700;color:var(--ps-muted);margin-left:4px}
+.meter{height:5px;border-radius:9999px;background:rgba(255,255,255,.08);margin-top:12px;overflow:hidden}
+.meter i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--ps-blue),var(--ps-blue-light))}
+.tier.star{border-color:rgba(242,143,196,.55);background:linear-gradient(160deg,rgba(242,143,196,.18),rgba(15,27,48,.85) 60%)}
+.tier.star .meter i{background:linear-gradient(90deg,var(--sqr),#ffd1ea)}
+.tier.star .range{color:var(--sqr)}
 
-/* logo */
-.top-banner .logo{
-    font-weight:700;
-    color:white;
-    letter-spacing:1px;
+/* Footer */
+footer{width:var(--wrap);margin:70px auto 0;padding:26px 0 40px;border-top:1px solid var(--ps-line);
+  display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;color:var(--ps-muted);font-size:13px}
+footer img{height:28px;opacity:.85}
+footer a{color:#CBD7EC;text-decoration:none;font-weight:700}
+footer a:hover{color:#fff}
+
+/* ========================= RESPONSIVE ========================= */
+@media (max-width:1020px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .prices{grid-template-columns:repeat(3,1fr)}
 }
-
-.top-banner .logo span{
-    color:#00a8ff;
+@media (max-width:640px){
+  .bar{height:56px}
+  .brand img{height:28px}
+  .crumb{display:none}
+  .back span{display:none}
+  .hero{padding:44px 0 28px}
+  .stat{min-width:0;flex:1;padding:10px 8px}
+  .stat strong{font-size:1.2rem}
+  .stat span{font-size:10px}
+  section.block{margin-top:44px}
+  .fw-picker{width:100%;justify-content:space-between}
+  .fw-picker span{display:none}
+  .fw-picker button{flex:1;padding:0 4px}
+  .grid{gap:12px}
+  .fw strong{font-size:1.8rem}
+  .body{padding:4px 12px 12px}
+  .body p{display:none}
+  .count{gap:10px;margin:8px 0 12px}
+  .actions{flex-direction:column}
+  .btn{flex:none;font-size:13px;height:42px;white-space:nowrap}
+  .btn-pdf{width:auto;height:34px;flex-direction:row;gap:6px;font-size:11px}
+  .btn-pdf svg{width:14px;height:14px}
+  .soon{grid-template-columns:1fr}
+  .prices{grid-template-columns:1fr 1fr}
+  .res-cats{max-width:40%}
 }
-
-/* texto derecho */
-.top-banner .status{
-    font-size:1rem;
-    font-weight:600;
-    letter-spacing:1px;
-    color:#cfe2ff;
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
 }
-
-/* evita que el contenido quede debajo del banner */
-body{
-    padding-top:60px;
-}
-
-.top-banner .logo img{
-    height:42px;
-    filter:drop-shadow(0 0 10px rgba(0,168,255,.35));
-}
-
-.price-info{
-
-    width:min(1200px,92%);
-    margin:35px auto 25px;
-
-    padding:18px 20px;
-
-    border-radius:16px;
-
-    background:rgba(20,25,45,.75);
-
-    border:1px solid rgba(0,168,255,.25);
-
-    backdrop-filter:blur(10px);
-
-    color:white;
-}
-
-.price-info h3{
-    margin-bottom:10px;
-    color:#4cc9ff;
-    font-size:1.1rem;
-}
-
-.price-info ul{
-    list-style:none;
-}
-
-.price-info li{
-    padding:4px 0;
-    color:#cfe2ff;
-}
-
 </style>
 </head>
 
 <body>
 
-<div class="top-banner">
+<!-- ========================= HEADER ========================= -->
+<header>
+  <div class="bar">
+    <a class="brand" href="../index.html" aria-label="Volver a plataformas">
+      <img src="images/logo.png" alt="CEMT">
+      <span class="crumb">PlayStation 4</span>
+    </a>
+    <a class="back" href="../index.html">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+      <span>Plataformas</span>
+    </a>
+  </div>
+</header>
 
-    <div class="inner">
-        <a href="../index.html">
-            <div class="logo">
-              <img src="images/logo.png" alt="PS4 Logo" style="height:40px; vertical-align:middle;">
-            </div>
+<!-- ========================= HERO ========================= -->
+<section class="hero">
+  <div class="waves" aria-hidden="true">
+    <svg viewBox="0 0 2400 260" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="w1" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#3D9BFF" stop-opacity=".35"/><stop offset="1" stop-color="#0070D1" stop-opacity="0"/></linearGradient>
+      </defs>
+      <path fill="url(#w1)" d="M0 150 C200 90 400 210 600 150 S1000 90 1200 150 S1600 210 1800 150 S2200 90 2400 150 V260 H0Z"/>
+      <path fill="none" stroke="#7fc0ff" stroke-opacity=".45" stroke-width="1.5" d="M0 150 C200 90 400 210 600 150 S1000 90 1200 150 S1600 210 1800 150 S2200 90 2400 150"/>
+    </svg>
+    <svg viewBox="0 0 2400 260" preserveAspectRatio="none">
+      <path fill="none" stroke="#ffffff" stroke-opacity=".25" stroke-width="1" d="M0 175 C300 120 500 230 800 175 S1300 120 1600 175 S2100 230 2400 175"/>
+      <path fill="none" stroke="#3D9BFF" stroke-opacity=".35" stroke-width="1" d="M0 195 C250 150 550 240 800 195 S1350 150 1600 195 S2150 240 2400 195"/>
+    </svg>
+  </div>
 
-        </a>
-
-        <div class="status">
-            PS4 <span style="color:#00a8ff;font-weight:700;">CATÁLOGOS</span>
-        </div>
-
+  <div class="hero-inner">
+    <div class="symbols" aria-hidden="true">
+      <svg viewBox="0 0 24 24" stroke="#2ECFA8"><path d="M12 4 21 19H3Z" stroke-linejoin="round"/></svg>
+      <svg viewBox="0 0 24 24" stroke="#FF5A5F"><circle cx="12" cy="12" r="8"/></svg>
+      <svg viewBox="0 0 24 24" stroke="#7FA8FF"><path d="M5 5 19 19M19 5 5 19" stroke-linecap="round"/></svg>
+      <svg viewBox="0 0 24 24" stroke="#F28FC4"><rect x="5" y="5" width="14" height="14" rx="1"/></svg>
     </div>
+    <p class="eyebrow">CEMT · Videojuegos y consolas</p>
+    <h1>Biblioteca <b>PlayStation 4</b></h1>
+    <p class="lead">Cuatro catálogos organizados por firmware. Elige el de tu consola, busca tu juego y pide por tamaño.</p>
 
+    <div class="stats">
+      <div class="stat"><strong>4</strong><span>Catálogos</span></div>
+      <div class="stat"><strong>2 642</strong><span>Juegos</span></div>
+      <div class="stat"><strong>150</strong><span>CUP desde</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= BUSCADOR GLOBAL ========================= -->
+<div class="finder">
+  <label class="finder-box">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
+    <input id="q" type="search" placeholder="Busca un juego en los 4 catálogos…" autocomplete="off" aria-label="Buscar juego en todos los catálogos PS4">
+    <button class="clear" id="clear" type="button" aria-label="Borrar búsqueda">✕</button>
+  </label>
+  <p class="finder-hint" id="hint">Te decimos en qué catálogo está y cuánto cuesta.</p>
+  <div class="results" id="results" role="listbox"></div>
 </div>
 
-
-<div class="price-info">
-
-    <h3>💰 Sistema de precios PS4</h3>
-
-    <ul>
-        <li>📦 Menores de 10GB → <b>150 CUP</b></li>
-        <li>📦 Mayores de 10GB → <b>200 CUP</b></li>
-        <li>📦 Mayores de 50GB → <b>250 CUP</b></li>
-        <li>📦 Mayores de 80GB → <b>300 CUP</b></li>
-        <li>⭐ FC 27 → <b>400 CUP</b></li>
-    </ul>
-
-</div>
-
-
-<div class="catalogs">
-
-      <!-- CAT 1 -->
-    <div class="card">
-
-        <div class="card-image">
-            <div class="badge">CATÁLOGO 1</div>
-            <img src="images/catalogo1.jpg" alt="Catalogo 1">
-        </div>
-
-        <div class="content">
-            <h2>Catálogo PS4 505</h2>
-            <div class="firmware">Biblioteca PS4 • Firmware 5.05</div>
-            <div class="games">Colección de juegos organizados por compatibilidad</div>
-            <a class="btn" href="catalog1/catalogo_web/index.html">Abrir catálogo</a>
-        </div>
-
+<!-- ========================= CATÁLOGOS ========================= -->
+<section class="block" id="catalogos">
+  <div class="head">
+    <div>
+      <h2>Elige tu <b>catálogo</b></h2>
+      <p>¿No sabes cuál? Marca el firmware de tu PS4.</p>
     </div>
-
-    <!-- CAT 2 -->
-    <div class="card">
-
-        <div class="card-image">
-            <div class="badge">CATÁLOGO 2</div>
-            <img src="images/catalogo2.jpg" alt="Catalogo 2">
-        </div>
-
-        <div class="content">
-            <h2>Catálogo PS4 6.72</h2>
-            <div class="firmware">Biblioteca PS4 • Firmware 6.xx</div>
-            <div class="games">Colección ampliada de juegos PS4, más de 3000 títulos</div>
-            <a class="btn" href="catalog2/catalogo_web/index.html">Abrir catálogo</a>
-        </div>
-
+    <div class="fw-picker" role="group" aria-label="Firmware de tu consola">
+      <span>Mi firmware</span>
+      <button type="button" data-card="cat1" aria-pressed="false">5.05</button>
+      <button type="button" data-card="cat2" aria-pressed="false">6.72</button>
+      <button type="button" data-card="cat3" aria-pressed="false">9.00</button>
+      <button type="button" data-card="cat4" aria-pressed="false">11.00</button>
     </div>
+  </div>
 
-    <!-- CAT 3 -->
-    <div class="card">
+  <div class="grid">
 
-        <div class="card-image">
-            <div class="badge">CATÁLOGO 3</div>
-            <img src="images/catalogo3.jpg" alt="Catalogo 3">
+    <article class="card" id="cat1" style="--accent:var(--tri)">
+      <div class="cover">
+        <img src="images/catalogo1.jpg" alt="" loading="lazy">
+        <div class="sym"><svg viewBox="0 0 24 24"><path d="M12 4 21 19H3Z" stroke-linejoin="round"/></svg></div>
+        <div class="fw"><small>FIRMWARE</small><strong>5.05</strong></div>
+      </div>
+      <div class="body">
+        <h3>Catálogo 1</h3>
+        <p>Clásicos y joyas de la primera etapa de PS4.</p>
+        <div class="count"><div><b>684</b>juegos</div><div><b>8.2 TB</b>en total</div></div>
+        <div class="actions">
+          <a class="btn" href="catalog1/catalogo_web/index.html">Abrir catálogo</a>
+          <a class="btn-pdf" href="catalog1/catalogo_web/catalogo_whatsapp_0505.pdf" title="Descargar PDF (15 MB)">
+            <svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>PDF</a>
         </div>
+      </div>
+    </article>
 
-        <div class="content">
-            <h2>Catálogo PS4 9.00</h2>
-            <div class="firmware">Biblioteca PS4 • Firmware 9.xx</div>
-            <div class="games">Gran colección de títulos de todas las categorías</div>
-            <a class="btn" href="catalog3/catalogo_web/index.html">Abrir catálogo</a>
+    <article class="card" id="cat2" style="--accent:var(--cir)">
+      <div class="cover">
+        <img src="images/catalogo2.jpg" alt="" loading="lazy">
+        <div class="sym"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5"/></svg></div>
+        <div class="fw"><small>FIRMWARE</small><strong>6.72</strong></div>
+      </div>
+      <div class="body">
+        <h3>Catálogo 2</h3>
+        <p>Colección ampliada para consolas en 6.xx – 7.xx.</p>
+        <div class="count"><div><b>651</b>juegos</div><div><b>7.3 TB</b>en total</div></div>
+        <div class="actions">
+          <a class="btn" href="catalog2/catalogo_web/index.html">Abrir catálogo</a>
+          <a class="btn-pdf" href="catalog2/catalogo_web/catalogo_whatsapp_600-700.pdf" title="Descargar PDF (14 MB)">
+            <svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>PDF</a>
         </div>
+      </div>
+    </article>
 
+    <article class="card" id="cat3" style="--accent:var(--crs)">
+      <div class="cover">
+        <img src="images/catalogo3.jpg" alt="" loading="lazy">
+        <div class="sym"><svg viewBox="0 0 24 24"><path d="M6 6 18 18M18 6 6 18" stroke-linecap="round"/></svg></div>
+        <div class="fw"><small>FIRMWARE</small><strong>9.00</strong></div>
+      </div>
+      <div class="body">
+        <h3>Catálogo 3</h3>
+        <p>La colección más grande: títulos de todas las categorías.</p>
+        <div class="count"><div><b>758</b>juegos</div><div><b>9.2 TB</b>en total</div></div>
+        <div class="actions">
+          <a class="btn" href="catalog3/catalogo_web/index.html">Abrir catálogo</a>
+          <a class="btn-pdf" href="catalog3/catalogo_web/catalogo_whatsapp_800-900.pdf" title="Descargar PDF (16 MB)">
+            <svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>PDF</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="card" id="cat4" style="--accent:var(--sqr)">
+      <div class="cover">
+        <img src="images/catalogo4.jpg" alt="" loading="lazy">
+        <div class="sym"><svg viewBox="0 0 24 24"><rect x="5.5" y="5.5" width="13" height="13" rx="1"/></svg></div>
+        <div class="fw"><small>FIRMWARE</small><strong>11.00</strong></div>
+      </div>
+      <div class="body">
+        <h3>Catálogo 4</h3>
+        <p>La última compilación, con los lanzamientos más recientes.</p>
+        <div class="count"><div><b>549</b>juegos</div><div><b>4.4 TB</b>en total</div></div>
+        <div class="actions">
+          <a class="btn" href="catalog4/catalogo_web/index.html">Abrir catálogo</a>
+          <a class="btn-pdf" href="catalog4/catalogo_web/catalogo_whatsapp_1100.pdf" title="Descargar PDF (13 MB)">
+            <svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>PDF</a>
+        </div>
+      </div>
+    </article>
+
+  </div>
+
+  <div class="soon">
+    <div class="soon-card">
+      <img src="images/vr.jpg" alt="" loading="lazy">
+      <div class="soon-body">
+        <span class="tag">Próximamente</span>
+        <h3>PlayStation VR</h3>
+        <p>Experiencias inmersivas para tu casco VR.</p>
+      </div>
     </div>
-
-    <!-- CAT 4 -->
-    <div class="card">
-
-        <div class="card-image">
-            <div class="badge">CATÁLOGO 4</div>
-            <img src="images/catalogo4.jpg" alt="Catalogo 4">
-        </div>
-
-        <div class="content">
-            <h2>Catálogo PS4 11.00</h2>
-            <div class="firmware">Biblioteca PS4 • Última compilación</div>
-            <div class="games">Selección completa de juegos de la plataforma</div>
-            <a class="btn" href="catalog4/catalogo_web/index.html">Abrir catálogo</a>
-        </div>
-
+    <div class="soon-card">
+      <img src="images/retro.jpg" alt="" loading="lazy">
+      <div class="soon-body">
+        <span class="tag">Próximamente</span>
+        <h3>Catálogo Retro</h3>
+        <p>PS1, PS2 y clásicos · más de 1200 juegos.</p>
+      </div>
     </div>
+  </div>
+</section>
 
-    <!-- CAT 5 -->
-    <div class="card">
-
-        <div class="card-image">
-            <div class="badge">VR</div>
-            <img src="images/vr.jpg" alt="VR">
-        </div>
-
-        <div class="content">
-            <h2>Catálogo VR</h2>
-            <div class="firmware">PlayStation VR</div>
-            <div class="games">Experiencias inmersivas</div>
-            <a class="btn" href="#">Abrir catálogo</a>
-        </div>
-
+<!-- ========================= PRECIOS ========================= -->
+<section class="block" id="precios">
+  <div class="head">
+    <div>
+      <h2>Precios por <b>tamaño</b></h2>
+      <p>El precio de cada juego depende de lo que pesa.</p>
     </div>
+  </div>
 
-    <!-- CAT 6 -->
-    <div class="card">
+  <div class="prices">
+    <div class="tier"><div class="range">Hasta</div><div class="gb">10 GB</div><div class="cup">150<small>CUP</small></div><div class="meter"><i style="width:25%"></i></div></div>
+    <div class="tier"><div class="range">Más de</div><div class="gb">10 GB</div><div class="cup">200<small>CUP</small></div><div class="meter"><i style="width:45%"></i></div></div>
+    <div class="tier"><div class="range">Más de</div><div class="gb">50 GB</div><div class="cup">250<small>CUP</small></div><div class="meter"><i style="width:68%"></i></div></div>
+    <div class="tier"><div class="range">Más de</div><div class="gb">80 GB</div><div class="cup">300<small>CUP</small></div><div class="meter"><i style="width:85%"></i></div></div>
+    <div class="tier star"><div class="range">★ Especial</div><div class="gb">FC 27</div><div class="cup">400<small>CUP</small></div><div class="meter"><i style="width:100%"></i></div></div>
+  </div>
+</section>
 
-        <div class="card-image">
-            <div class="badge">RETRO</div>
-            <img src="images/retro.jpg" alt="Retro">
+<footer>
+  <img src="images/logo.png" alt="CEMT">
+  <span>Catálogos PS4 · 2 642 juegos en 4 catálogos</span>
+  <a href="../index.html">← Ver otras plataformas</a>
+</footer>
+
+<script>
+/* ===== Selector de firmware: resalta el catálogo y lo lleva a la vista ===== */
+document.querySelectorAll(".fw-picker button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const on = btn.getAttribute("aria-pressed") !== "true";
+    document.querySelectorAll(".fw-picker button").forEach(b => b.setAttribute("aria-pressed", "false"));
+    document.querySelectorAll(".card").forEach(c => c.classList.remove("picked"));
+    if (!on) return;
+    btn.setAttribute("aria-pressed", "true");
+    const card = document.getElementById(btn.dataset.card);
+    void card.offsetWidth;
+    card.classList.add("picked");
+    card.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
+});
+
+/* ===== Buscador en los 4 catálogos (carga los índices solo al usarlo) ===== */
+const CATS = [
+  { label: "FW 5.05",  path: "catalog1/catalogo_web/" },
+  { label: "FW 6.72",  path: "catalog2/catalogo_web/" },
+  { label: "FW 9.00",  path: "catalog3/catalogo_web/" },
+  { label: "FW 11.00", path: "catalog4/catalogo_web/" },
+];
+
+function price(g) {
+  if (/\bfc\s*27\b/i.test(g.name)) return 400;
+  const s = Number(g.size) || 0;
+  if (s > 80) return 300;
+  if (s > 50) return 250;
+  if (s > 10) return 200;
+  return 150;
+}
+
+const q = document.getElementById("q");
+const clearBtn = document.getElementById("clear");
+const results = document.getElementById("results");
+const hint = document.getElementById("hint");
+
+const norm = s => (s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, " ").trim();
+const enc = p => p.split("/").map(encodeURIComponent).join("/");
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+function imgOf(cat, g) {
+  if (g.img_low) return cat.path + enc(g.img_low);
+  if (g.img) return cat.path + "assets/images/" + encodeURIComponent(g.img);
+  return "";
+}
+
+let loading = null, DB = [], failed = false;
+function load() {
+  if (loading) return loading;
+  hint.textContent = "Cargando catálogos…";
+  loading = Promise.all(CATS.map(c =>
+    fetch(c.path + "data/index.json")
+      .then(r => { if (!r.ok) throw new Error(); return r.json(); })
+      .then(d => ({ c, games: Array.isArray(d) ? d : (d.games || []) }))
+      .catch(() => ({ c, games: null }))
+  )).then(list => {
+    const map = new Map();
+    list.forEach(({ c, games }) => (games || []).forEach(g => {
+      const key = norm(g.name);
+      if (!key) return;
+      let e = map.get(key);
+      if (!e) { e = { name: g.name, key, size: g.size, img: imgOf(c, g), cats: [] }; map.set(key, e); }
+      if (!e.cats.includes(c)) e.cats.push(c);
+    }));
+    DB = [...map.values()];
+    failed = list.every(x => x.games === null);
+    hint.textContent = failed
+      ? "La búsqueda funciona cuando la página se abre desde el servidor o la web."
+      : `${DB.length.toLocaleString("es")} juegos listos para buscar.`;
+  });
+  return loading;
+}
+
+function render() {
+  const raw = q.value.trim();
+  clearBtn.classList.toggle("show", !!raw);
+  const query = norm(raw);
+  if (query.length < 2) { results.classList.remove("show"); results.innerHTML = ""; return; }
+  if (failed) { results.innerHTML = `<div class="res-note">No se pudieron cargar los catálogos aquí. Ábrelos con el botón “Abrir catálogo”.</div>`; results.classList.add("show"); return; }
+
+  const words = query.split(" ");
+  const hits = DB.filter(e => words.every(w => e.key.includes(w)))
+    .sort((a, b) => (b.key.startsWith(query) - a.key.startsWith(query)) || a.name.localeCompare(b.name));
+
+  if (!hits.length) {
+    results.innerHTML = `<div class="res-note">No encontramos “${esc(raw)}”. Prueba con otra palabra.</div>`;
+  } else {
+    const top = hits.slice(0, 20);
+    results.innerHTML = top.map(e => `
+      <div class="res" role="option">
+        <img src="${esc(e.img)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
+        <div class="res-main">
+          <div class="res-name">${esc(e.name)}</div>
+          <div class="res-meta">${e.size ? esc(e.size) + " GB · " : ""}<b>${price(e)} CUP</b></div>
         </div>
+        <div class="res-cats">${e.cats.map(c => `<a class="chip" href="${c.path}index.html">${c.label}</a>`).join("")}</div>
+      </div>`).join("") +
+      (hits.length > top.length ? `<div class="res-note">y ${hits.length - top.length} más… escribe algo más específico.</div>` : "");
+  }
+  results.classList.add("show");
+}
 
-        <div class="content">
-            <h2>Catálogo Retro</h2>
-            <div class="firmware">PS1 / PS2 / Clásicos</div>
-            <div class="games">Más de 1200 juegos clásicos</div>
-            <a class="btn" href="#">Abrir catálogo</a>
-        </div>
-
-    </div>
-
-
-
-
-
-</div>
+let t;
+q.addEventListener("focus", load, { once: true });
+q.addEventListener("input", () => { clearTimeout(t); t = setTimeout(() => load().then(render), 150); });
+clearBtn.addEventListener("click", e => { e.preventDefault(); q.value = ""; render(); q.focus(); });
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && document.activeElement === q) { q.value = ""; render(); }
+});
+</script>
 
 </body>
 </html>
