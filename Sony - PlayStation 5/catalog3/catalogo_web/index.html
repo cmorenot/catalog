@@ -89,32 +89,32 @@ header::after {
 .nav-controls {
   display: flex;
   align-items: center;
-  gap: 4px;
-  padding: 4px;
-  background: var(--surface-2);
-  border: 1px solid var(--line);
-  border-radius: 9999px;
+  gap: 6px;
 }
 
+/* mismos botones que la portada de PS5: cápsulas limpias */
 .nav-link {
   text-decoration: none;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 7px;
   min-width: 38px;
-  height: 36px;
+  height: 38px;
   padding: 0 10px;
   border-radius: 9999px;
-  color: var(--text-2);
-  font-size: 12.5px;
-  font-weight: 700;
-  transition: color 0.2s, background 0.2s, transform 0.2s var(--ease);
+  color: var(--text);
+  background: #fff;
+  border: 1px solid var(--line);
+  font-size: 13px;
+  font-weight: 600;
+  transition: color 0.2s, background 0.2s, border-color 0.2s, transform 0.2s var(--ease);
 }
 
-.nav-link:hover { color: var(--text); background: #fff; box-shadow: var(--shadow); }
+.nav-link:hover { color: #fff; background: var(--core); border-color: var(--core); }
 .nav-link:active { transform: scale(0.94); }
 .nav-link:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.nav-home { padding: 0 16px; }
 
 .nav-icon {
   width: 18px;
@@ -122,19 +122,10 @@ header::after {
   flex: 0 0 auto;
   fill: none;
   stroke: currentColor;
-  stroke-width: 1.9;
+  stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-
-/* Inicio: negro como el núcleo de la consola */
-.nav-home {
-  min-width: 92px;
-  color: #fff;
-  background: var(--core);
-}
-
-.nav-home:hover { color: #fff; background: var(--blue); box-shadow: 0 6px 16px var(--glow); }
 
 /* =========================
    BUSCADOR
@@ -849,22 +840,6 @@ body.modal-open .float-btn { opacity: 0 !important; pointer-events: none !import
     <button class="chips-arrow next" type="button" aria-label="Ver más géneros" tabindex="-1">›</button>
   </div>
 </header>
-
-<section class="hero">
-  <div>
-    <div class="eyebrow">
-      <span class="shapes" aria-hidden="true">
-        <svg viewBox="0 0 12 12"><path d="M6 1.5 10.5 10h-9z" /></svg>
-        <svg viewBox="0 0 12 12"><circle cx="6" cy="6" r="4.4" /></svg>
-        <svg viewBox="0 0 12 12"><path d="m2 2 8 8m0-8-8 8" /></svg>
-        <svg viewBox="0 0 12 12"><rect x="1.8" y="1.8" width="8.4" height="8.4" /></svg>
-      </span>
-      Catálogo
-    </div>
-    <h1>Juegos de <b>PS5</b></h1>
-  </div>
-  <span id="resultCount" class="result-count"></span>
-</section>
 
 <div id="grid" class="grid"></div>
 <div id="empty" class="empty">

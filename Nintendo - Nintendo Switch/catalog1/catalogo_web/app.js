@@ -26,6 +26,7 @@ fetch("data/index.json")
   .then(res => res.json())
   .then(data => {
     allGames = data;
+    searchInput.placeholder = `Buscar entre ${allGames.length} juegos...`;
     totalChunks = Math.ceil(allGames.length / CHUNK_SIZE);
     updateCount(allGames.length);
     buildGenres();
@@ -52,6 +53,7 @@ function createCard(g) {
 }
 
 function updateCount(n) {
+  if (!resultCount) return;
   resultCount.textContent = n + (n === 1 ? " juego" : " juegos");
 }
 

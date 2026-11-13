@@ -119,51 +119,46 @@ header::after {
 .nav-controls {
   display: flex;
   align-items: center;
-  gap: 5px;
-  padding: 5px;
-  background: rgba(0, 0, 0, 0.25);
-  border: 1px solid var(--ps-line);
-  border-radius: 16px;
+  gap: 6px;
 }
 
+/* mismos botones que la portada de PS4 */
 .nav-link {
   text-decoration: none;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 7px;
-  min-width: 40px;
+  min-width: 38px;
   height: 38px;
   padding: 0 10px;
   border-radius: 11px;
   color: #CBD7EC;
-  font-size: 12px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--ps-line);
+  font-size: 13px;
   font-weight: 700;
   transition: color 0.2s, background 0.2s, transform 0.2s;
 }
 
 .nav-link:hover { color: #fff; background: rgba(255, 255, 255, 0.1); transform: translateY(-1px); }
 .nav-link:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.nav-home { padding: 0 14px; color: #fff; }
 
 .nav-icon {
-  width: 19px;
-  height: 19px;
+  width: 18px;
+  height: 18px;
   flex: 0 0 auto;
   fill: none;
   stroke: currentColor;
-  stroke-width: 1.8;
+  stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
-.nav-home {
-  min-width: 92px;
-  color: #fff;
-  background: linear-gradient(180deg, var(--ps-blue-light), var(--ps-blue));
-  box-shadow: 0 4px 14px rgba(0, 112, 209, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+@media (max-width: 768px) {
+  .header-left { justify-content: space-between; }
 }
-
-.nav-home:hover { background: var(--ps-blue-light); }
 
 /* =========================
    BUSCADOR
@@ -885,7 +880,7 @@ header::after {
     <div class="nav-controls">
       <a href="../../catalog3/catalogo_web/index.html" class="nav-link" title="Catálogo anterior" aria-label="Ir al catálogo anterior">
         <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="m11 7-5 5 5 5M18 7l-5 5 5 5" />
+          <path d="m14.5 6-6 6 6 6" />
         </svg>
       </a>
       <a href="../../index.html" class="nav-link nav-home" title="Inicio de PlayStation 4">
@@ -897,7 +892,7 @@ header::after {
       </a>
       <a href="../../catalog1/catalogo_web/index.html" class="nav-link" title="Catálogo siguiente" aria-label="Ir al catálogo siguiente">
         <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="m13 7 5 5-5 5M6 7l5 5-5 5" />
+          <path d="m9.5 6 6 6-6 6" />
         </svg>
       </a>
     </div>
@@ -920,22 +915,6 @@ header::after {
     <button class="chips-arrow next" type="button" aria-label="Ver más géneros" tabindex="-1">›</button>
   </div>
 </header>
-
-<section class="hero">
-  <div>
-    <div class="eyebrow">
-      <span class="shapes" aria-hidden="true">
-        <svg viewBox="0 0 12 12"><path d="M6 1.5 10.5 10h-9z" /></svg>
-        <svg viewBox="0 0 12 12"><circle cx="6" cy="6" r="4.4" /></svg>
-        <svg viewBox="0 0 12 12"><path d="m2 2 8 8m0-8-8 8" /></svg>
-        <svg viewBox="0 0 12 12"><rect x="1.8" y="1.8" width="8.4" height="8.4" /></svg>
-      </span>
-      Catálogo
-    </div>
-    <h1>Juegos de <b>PS4</b></h1>
-  </div>
-  <span id="resultCount" class="result-count"></span>
-</section>
 
 <div id="grid" class="grid"></div>
 <div id="empty" class="empty">

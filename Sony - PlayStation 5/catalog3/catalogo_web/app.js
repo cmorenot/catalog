@@ -49,6 +49,7 @@ function imgUrl(g) {
 }
 
 function updateCount(n) {
+  if (!resultCount) return;
   resultCount.textContent = n + (n === 1 ? " juego" : " juegos");
 }
 
