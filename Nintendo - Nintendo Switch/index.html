@@ -120,6 +120,14 @@ section.block{width:var(--wrap);margin:44px auto 0;scroll-margin-top:84px}
 .num:nth-child(2) b{color:#0089a8}
 .feature-actions{display:flex;gap:10px;margin-top:auto;flex-wrap:wrap}
 .feature-actions .btn{flex:1;min-width:150px}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;height:52px;padding:0 22px;border-radius:9999px;
+  font-size:16px;font-weight:800;color:#fff;background:var(--red);
+  box-shadow:0 4px 0 var(--red-dark),0 10px 22px rgba(230,0,18,.28);transition:transform .15s,box-shadow .15s;
+}
+.btn svg{width:18px;height:18px;flex:none}
+.feature:hover .btn{transform:translateY(-1px)}
+.feature:active .btn{transform:translateY(3px);box-shadow:0 1px 0 var(--red-dark),0 4px 10px rgba(230,0,18,.25)}
 
 /* Próximamente */
 .soon{

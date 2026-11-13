@@ -94,41 +94,29 @@ section.block{width:var(--wrap);margin:44px auto 0;scroll-margin-top:80px}
 .chip:hover{background:var(--blue-soft)}
 .res-note{padding:14px 16px;font-size:13px;color:var(--muted);text-align:center}
 
-/* Tarjetas de catálogo (estilo tile de la pantalla de inicio de PS5) */
+/* Tarjetas de catálogo: simples y con botones grandes */
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-.card{position:relative;display:block;text-decoration:none;border-radius:22px;outline:none}
-.tile{
-  position:relative;aspect-ratio:16/10;border-radius:22px;overflow:hidden;background:var(--panel-2);
-  box-shadow:0 0 0 1px var(--line);
-  transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s;
-}
-.tile img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
-.tile::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.75) 0%,rgba(0,0,0,0) 55%)}
-.card:hover .tile,.card:focus-visible .tile{
-  transform:scale(1.03);
-  box-shadow:0 0 0 3px #fff,0 0 0 7px rgba(255,255,255,.15),0 30px 60px rgba(0,0,0,.6);
-}
-.card:hover .tile img{transform:scale(1.05)}
-.num{position:absolute;left:18px;bottom:12px;z-index:1;font-size:3.4rem;font-weight:200;line-height:1;letter-spacing:-2px}
-.vol{position:absolute;left:20px;top:16px;z-index:1;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;
-  padding:6px 10px;border-radius:9999px;background:rgba(0,0,0,.45);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.18)}
-.play{
-  position:absolute;right:16px;bottom:16px;z-index:1;width:46px;height:46px;border-radius:50%;
-  display:grid;place-items:center;background:#fff;color:#000;
-  opacity:0;transform:translateY(8px);transition:opacity .25s,transform .25s;
-}
-.play svg{width:18px;height:18px;fill:currentColor;margin-left:2px}
-.card:hover .play,.card:focus-visible .play{opacity:1;transform:none}
-.info{padding:16px 6px 0}
-.info h3{font-size:1.1rem;font-weight:600}
-.meta{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:8px;font-size:13px;color:var(--muted)}
-.meta b{color:#fff;font-weight:600}
-.pdf{
-  display:inline-flex;align-items:center;gap:7px;margin:14px 6px 0;font-size:13px;font-weight:600;color:#cfd5e2;text-decoration:none;
-  padding:8px 14px;border-radius:9999px;border:1px solid var(--line);transition:background .2s,color .2s;
-}
-.pdf:hover{background:rgba(255,255,255,.1);color:#fff}
-.pdf svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.cat{display:flex;flex-direction:column;border-radius:24px;overflow:hidden;background:var(--panel);border:1px solid var(--line);
+  transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s}
+.cat:hover{transform:translateY(-3px);box-shadow:0 0 0 2px #fff,0 24px 50px rgba(0,0,0,.55)}
+.cat-img{position:relative;display:block;aspect-ratio:16/9;background:var(--panel-2);overflow:hidden}
+.cat-img img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.cat:hover .cat-img img{transform:scale(1.05)}
+.cat-n{position:absolute;left:14px;top:14px;min-width:44px;height:44px;padding:0 10px;border-radius:9999px;
+  display:grid;place-items:center;background:#fff;color:#000;font-size:1.35rem;font-weight:800;box-shadow:0 6px 16px rgba(0,0,0,.4)}
+.cat-body{padding:18px 18px 20px;display:flex;flex-direction:column;gap:14px;flex:1}
+.cat-body h3{font-size:1.45rem;font-weight:700;letter-spacing:-.3px}
+.cat-body h3 small{display:block;margin-top:4px;font-size:15px;font-weight:400;color:var(--muted);letter-spacing:0}
+.cat-body h3 small b{color:#fff;font-weight:700}
+.acts{display:grid;gap:10px;margin-top:auto}
+.go,.pdf{display:flex;align-items:center;justify-content:center;gap:10px;height:54px;border-radius:9999px;text-decoration:none;font-size:16px;font-weight:700;transition:background .2s,color .2s,transform .15s}
+.go{background:#fff;color:#000}
+.go:hover{background:var(--blue-soft)}
+.pdf{color:#fff;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.04)}
+.pdf:hover{background:rgba(255,255,255,.12)}
+.go:active,.pdf:active{transform:scale(.98)}
+.go svg,.pdf svg{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.pdf small{font-size:13px;font-weight:500;color:var(--muted)}
 
 /* Footer */
 footer{width:var(--wrap);margin:80px auto 0;padding:28px 0 44px;border-top:1px solid var(--line);
@@ -150,8 +138,7 @@ footer a:hover{text-decoration:underline}
   .stat strong{font-size:1.45rem}
   .stat span{font-size:10px;letter-spacing:1px}
   section.block{margin-top:52px}
-  .grid{grid-template-columns:1fr;gap:26px}
-  .play{opacity:1;transform:none}
+  .grid{grid-template-columns:1fr;gap:22px}
 }
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
@@ -181,7 +168,7 @@ footer a:hover{text-decoration:underline}
 <div class="summary">
   <div class="stats">
     <div class="stat"><strong data-n="PS5">833</strong><span>Juegos</span></div>
-    <div class="stat"><strong data-cats="PS5">3</strong><span>Volúmenes</span></div>
+    <div class="stat"><strong data-cats="PS5">3</strong><span>Catálogos</span></div>
   </div>
   <div class="ptitle">Precio por juego</div>
   <div class="price"><span>Todos los juegos</span><b>≈ 2000<small>CUP</small></b></div>
@@ -192,7 +179,7 @@ footer a:hover{text-decoration:underline}
 <section class="block" id="buscar">
   <div class="head">
     <h2>¿Buscas un <b>juego</b>?</h2>
-    <p>Busca en los 3 volúmenes a la vez y te decimos dónde está.</p>
+    <p>Escribe el nombre y te decimos en qué catálogo está.</p>
   </div>
   <label class="finder-box">
     <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
@@ -206,76 +193,73 @@ footer a:hover{text-decoration:underline}
 <!-- ========================= CATÁLOGOS ========================= -->
 <section class="block" id="catalogos">
   <div class="head">
-    <h2>Elige un <b>volumen</b></h2>
-    <p>Cada volumen tiene su propio catálogo con buscador, géneros y fichas de cada juego.</p>
+    <h2>Elige un <b>catálogo</b></h2>
+    <p>Toca <b>Ver los juegos</b> para entrar, o descarga el PDF para verlo sin internet.</p>
   </div>
 
   <div class="grid">
-    <div>
-      <a class="card" href="catalog1/catalogo_web/index.html">
-        <div class="tile">
-          <img src="images/catalogo1.jpg" alt="" loading="lazy">
-          <span class="vol">Volumen</span>
-          <span class="num">01</span>
-          <span class="play"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></span>
-        </div>
-        <div class="info">
-          <h3>Catálogo PS5 · 1</h3>
-          <div class="meta"><span><b data-n="PS5/1">298</b> juegos</span><span><b data-tb="PS5/1">6.2 TB</b> en total</span></div>
-        </div>
+    <article class="cat">
+      <a class="cat-img" href="catalog1/catalogo_web/index.html" aria-label="Ver los juegos del catálogo 1">
+        <img src="images/catalogo1.jpg" alt="" loading="lazy">
+        <span class="cat-n">1</span>
       </a>
-      <a class="pdf" data-pdf="PS5/1" download href="catalog1/catalogo_web/catalogo_whatsapp_PS5(1).pdf">
-        <svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>PDF · <span data-mb="PS5/1">9</span> MB</a>
-    </div>
+      <div class="cat-body">
+        <h3>Catálogo 1<small><b data-n="PS5/1">298</b> juegos · <span data-tb="PS5/1">6.2 TB</span></small></h3>
+        <div class="acts">
+          <a class="go" href="catalog1/catalogo_web/index.html">Ver los juegos
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a class="pdf" data-pdf="PS5/1" download href="catalog1/catalogo_web/catalogo_whatsapp_PS5(1).pdf">
+            <svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Descargar PDF <small>(<span data-mb="PS5/1">9</span> MB)</small></a>
+        </div>
+      </div>
+    </article>
 
-    <div>
-      <a class="card" href="catalog2/catalogo_web/index.html">
-        <div class="tile">
-          <img src="images/catalogo2.jpg" alt="" loading="lazy">
-          <span class="vol">Volumen</span>
-          <span class="num">02</span>
-          <span class="play"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></span>
-        </div>
-        <div class="info">
-          <h3>Catálogo PS5 · 2</h3>
-          <div class="meta"><span><b data-n="PS5/2">274</b> juegos</span><span><b data-tb="PS5/2">9.6 TB</b> en total</span></div>
-        </div>
+    <article class="cat">
+      <a class="cat-img" href="catalog2/catalogo_web/index.html" aria-label="Ver los juegos del catálogo 2">
+        <img src="images/catalogo2.jpg" alt="" loading="lazy">
+        <span class="cat-n">2</span>
       </a>
-      <a class="pdf" data-pdf="PS5/2" download href="catalog2/catalogo_web/catalogo_whatsapp_PS5(2).pdf">
-        <svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>PDF · <span data-mb="PS5/2">8</span> MB</a>
-    </div>
+      <div class="cat-body">
+        <h3>Catálogo 2<small><b data-n="PS5/2">274</b> juegos · <span data-tb="PS5/2">9.6 TB</span></small></h3>
+        <div class="acts">
+          <a class="go" href="catalog2/catalogo_web/index.html">Ver los juegos
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a class="pdf" data-pdf="PS5/2" download href="catalog2/catalogo_web/catalogo_whatsapp_PS5(2).pdf">
+            <svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Descargar PDF <small>(<span data-mb="PS5/2">8</span> MB)</small></a>
+        </div>
+      </div>
+    </article>
 
-    <div>
-      <a class="card" href="catalog3/catalogo_web/index.html">
-        <div class="tile">
-          <img src="images/catalogo3.jpg" alt="" loading="lazy">
-          <span class="vol">Volumen</span>
-          <span class="num">03</span>
-          <span class="play"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></span>
-        </div>
-        <div class="info">
-          <h3>Catálogo PS5 · 3</h3>
-          <div class="meta"><span><b data-n="PS5/3">261</b> juegos</span><span><b data-tb="PS5/3">4.3 TB</b> en total</span></div>
-        </div>
+    <article class="cat">
+      <a class="cat-img" href="catalog3/catalogo_web/index.html" aria-label="Ver los juegos del catálogo 3">
+        <img src="images/catalogo3.jpg" alt="" loading="lazy">
+        <span class="cat-n">3</span>
       </a>
-      <a class="pdf" data-pdf="PS5/3" download href="catalog3/catalogo_web/catalogo_whatsapp_PS5(3).pdf">
-        <svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>PDF · <span data-mb="PS5/3">8</span> MB</a>
-    </div>
+      <div class="cat-body">
+        <h3>Catálogo 3<small><b data-n="PS5/3">261</b> juegos · <span data-tb="PS5/3">4.3 TB</span></small></h3>
+        <div class="acts">
+          <a class="go" href="catalog3/catalogo_web/index.html">Ver los juegos
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a class="pdf" data-pdf="PS5/3" download href="catalog3/catalogo_web/catalogo_whatsapp_PS5(3).pdf">
+            <svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Descargar PDF <small>(<span data-mb="PS5/3">8</span> MB)</small></a>
+        </div>
+      </div>
+    </article>
   </div>
 </section>
 
 <footer>
   <img src="images/logo.png" alt="CEMT">
-  <span>Catálogos PS5 · <span data-n="PS5">833</span> juegos en <span data-cats="PS5">3</span> volúmenes</span>
+  <span>Catálogos PS5 · <span data-n="PS5">833</span> juegos en <span data-cats="PS5">3</span> catálogos</span>
   <a href="../index.html">← Ver otras plataformas</a>
 </footer>
 
 <script>
 /* ===== Buscador en los 3 volúmenes (carga los índices solo al usarlo) ===== */
 const CATS = [
-  { label: "Vol. 1", path: "catalog1/catalogo_web/" },
-  { label: "Vol. 2", path: "catalog2/catalogo_web/" },
-  { label: "Vol. 3", path: "catalog3/catalogo_web/" },
+  { label: "Catálogo 1", path: "catalog1/catalogo_web/" },
+  { label: "Catálogo 2", path: "catalog2/catalogo_web/" },
+  { label: "Catálogo 3", path: "catalog3/catalogo_web/" },
 ];
 const q = document.getElementById("q");
 const clearBtn = document.getElementById("clear");
