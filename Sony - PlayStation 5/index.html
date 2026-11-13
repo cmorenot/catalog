@@ -246,7 +246,7 @@ footer a:hover{text-decoration:underline}
   <div class="hero-inner">
     <span class="eyebrow">CEMT · Nueva generación</span>
     <h1>Biblioteca<br><b>PlayStation 5</b></h1>
-    <p class="lead">Tres volúmenes con los juegos de nueva generación. Un solo precio, sin importar el tamaño.</p>
+    <p class="lead">Tres volúmenes con los juegos de nueva generación, listos para tu consola.</p>
     <div class="cta">
       <a class="pill pill-white" href="#catalogos">
         <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
@@ -269,7 +269,7 @@ footer a:hover{text-decoration:underline}
 <div class="stats">
   <div class="stat"><strong>3</strong><span>Volúmenes</span></div>
   <div class="stat"><strong>674</strong><span>Juegos</span></div>
-  <div class="stat"><strong>2000</strong><span>CUP / juego</span></div>
+  <div class="stat"><strong>2000</strong><span>CUP aprox.</span></div>
 </div>
 
 <!-- ========================= BUSCADOR ========================= -->
@@ -352,9 +352,9 @@ footer a:hover{text-decoration:underline}
 <section class="block" id="precio">
   <div class="price">
     <div>
-      <div class="label">Precio único</div>
-      <h2>Todos los juegos, <b>un solo precio</b></h2>
-      <p>No importa si pesa 5 GB o 150 GB: cada juego de PS5 cuesta lo mismo.</p>
+      <div class="label">Precio de referencia</div>
+      <h2>Juegos de <b>PS5</b></h2>
+      <p>Precio base por juego. Algunos títulos pueden tener un ajuste: consulta antes de hacer tu pedido.</p>
     </div>
     <div class="amount"><strong>2000</strong><span>CUP</span></div>
   </div>
@@ -453,7 +453,7 @@ function render() {
         <img src="${esc(e.img)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
         <div class="res-main">
           <div class="res-name">${esc(e.name)}</div>
-          <div class="res-meta">${e.size ? esc(e.size) + " GB · " : ""}2000 CUP</div>
+          <div class="res-meta">${e.size ? esc(e.size) + " GB · " : ""}≈ 2000 CUP</div>
         </div>
         <div class="res-cats">${e.cats.map(c => `<a class="chip" href="${c.path}index.html">${c.label}</a>`).join("")}</div>
       </div>`).join("") +
