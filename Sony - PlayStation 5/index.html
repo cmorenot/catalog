@@ -31,12 +31,7 @@ a{color:inherit}
 img{display:block;max-width:100%}
 
 /* ========================= HEADER ========================= */
-header{
-  position:fixed;top:0;left:0;right:0;z-index:50;
-  transition:background .3s,border-color .3s,backdrop-filter .3s;
-  border-bottom:1px solid transparent;
-}
-header.solid{background:rgba(5,6,10,.78);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-color:var(--line)}
+header{position:sticky;top:0;z-index:50;background:rgba(5,6,10,.78);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-color:var(--line)}
 .bar{width:var(--wrap);margin:auto;height:64px;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .brand{display:flex;align-items:center;gap:14px;text-decoration:none}
 .brand img{height:32px}
@@ -50,52 +45,23 @@ header.solid{background:rgba(5,6,10,.78);backdrop-filter:blur(16px);-webkit-back
 .back:hover{background:#fff;color:#000}
 .back svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
-/* ========================= HERO ========================= */
-.hero{position:relative;min-height:min(86vh,760px);display:flex;align-items:flex-end;overflow:hidden;isolation:isolate}
-.slides{position:absolute;inset:0;z-index:-2}
-.slides img{
-  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-  opacity:0;transform:scale(1.06);transition:opacity 1.6s ease, transform 8s ease-out;
-}
-.slides img.on{opacity:1;transform:scale(1)}
-.hero::before{
-  content:"";position:absolute;inset:0;z-index:-1;
-  background:
-    linear-gradient(90deg,rgba(5,6,10,.92) 0%,rgba(5,6,10,.55) 45%,rgba(5,6,10,.15) 100%),
-    linear-gradient(0deg,var(--bg) 0%,rgba(5,6,10,0) 45%),
-    linear-gradient(180deg,rgba(5,6,10,.7) 0%,rgba(5,6,10,0) 22%);
-}
-.hero-inner{width:var(--wrap);margin:auto;padding:120px 0 56px}
-.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:12px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--blue-soft)}
-.eyebrow::before{content:"";width:28px;height:1px;background:currentColor}
-.hero h1{font-size:clamp(2.6rem,7.5vw,5.4rem);font-weight:200;line-height:1;letter-spacing:-1.5px;margin:16px 0 18px}
-.hero h1 b{font-weight:700}
-.lead{max-width:480px;color:#c9cfdc;font-size:1.05rem;line-height:1.6;font-weight:300}
-.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
-.pill{
-  display:inline-flex;align-items:center;gap:10px;height:50px;padding:0 26px;border-radius:9999px;
-  text-decoration:none;font-weight:700;font-size:15px;transition:transform .15s,background .2s,color .2s,box-shadow .2s;
-}
-.pill:active{transform:scale(.97)}
-.pill-white{background:#fff;color:#000}
-.pill-white:hover{box-shadow:0 0 0 4px rgba(255,255,255,.25)}
-.pill-ghost{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(8px)}
-.pill-ghost:hover{background:rgba(255,255,255,.18)}
-.pill svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-
-.dots{display:flex;gap:8px;margin-top:38px}
-.dots button{width:26px;height:4px;border-radius:9999px;border:0;background:rgba(255,255,255,.28);cursor:pointer;padding:0;transition:background .3s,width .3s}
-.dots button.on{background:#fff;width:46px}
-
-/* ========================= STATS ========================= */
-.stats{width:var(--wrap);margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line);border-radius:22px;overflow:hidden;background:var(--panel)}
-.stat{padding:22px 24px;border-right:1px solid var(--line)}
-.stat:last-child{border-right:0}
-.stat strong{display:block;font-size:2rem;font-weight:200;letter-spacing:-.5px;font-variant-numeric:tabular-nums}
-.stat span{font-size:12px;color:var(--muted);letter-spacing:2px;text-transform:uppercase}
+/* ========================= RESUMEN ========================= */
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.summary{width:var(--wrap);max-width:640px;margin:24px auto 0;padding:14px;border-radius:22px;
+  background:radial-gradient(circle at 90% 0%,rgba(45,125,255,.28),transparent 50%),var(--panel);border:1px solid var(--line)}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{padding:12px 14px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
+.stat strong{display:block;font-size:1.7rem;font-weight:200;letter-spacing:-.5px;font-variant-numeric:tabular-nums}
+.stat span{font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase}
+.ptitle{margin:14px 0 8px;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--blue-soft)}
+.price{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;border-radius:16px;background:#fff;color:#000}
+.price span{font-size:13px;font-weight:600;color:#444}
+.price b{font-size:1.9rem;font-weight:300;letter-spacing:-1px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.price b small{font-size:.8rem;font-weight:700;letter-spacing:1px;margin-left:5px;color:#555}
+.pnote{margin-top:8px;font-size:12px;color:var(--muted)}
 
 /* ========================= SECCIONES ========================= */
-section.block{width:var(--wrap);margin:72px auto 0;scroll-margin-top:80px}
+section.block{width:var(--wrap);margin:44px auto 0;scroll-margin-top:80px}
 .head{margin-bottom:24px}
 .head h2{font-size:clamp(1.6rem,3.5vw,2.2rem);font-weight:200;letter-spacing:-.5px}
 .head h2 b{font-weight:700}
@@ -164,24 +130,6 @@ section.block{width:var(--wrap);margin:72px auto 0;scroll-margin-top:80px}
 .pdf:hover{background:rgba(255,255,255,.1);color:#fff}
 .pdf svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
-/* Precio */
-.price{
-  position:relative;overflow:hidden;border-radius:28px;padding:44px 40px;
-  background:
-    radial-gradient(circle at 85% 20%,rgba(45,125,255,.35),transparent 45%),
-    radial-gradient(circle at 10% 110%,rgba(127,178,255,.18),transparent 40%),
-    var(--panel);
-  border:1px solid var(--line);
-  display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap;
-}
-.price .label{font-size:12px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--blue-soft)}
-.price h2{font-size:clamp(1.6rem,3.5vw,2.3rem);font-weight:200;margin-top:10px;letter-spacing:-.5px}
-.price h2 b{font-weight:700}
-.price p{color:var(--muted);margin-top:8px;max-width:420px;line-height:1.55}
-.amount{text-align:right;line-height:1}
-.amount strong{font-size:clamp(3.6rem,10vw,6rem);font-weight:200;letter-spacing:-3px;font-variant-numeric:tabular-nums}
-.amount span{display:block;font-size:1rem;font-weight:700;letter-spacing:4px;color:var(--muted);margin-top:6px}
-
 /* Footer */
 footer{width:var(--wrap);margin:80px auto 0;padding:28px 0 44px;border-top:1px solid var(--line);
   display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:13px}
@@ -196,21 +144,14 @@ footer a:hover{text-decoration:underline}
 @media (max-width:640px){
   .bar{height:56px}
   .brand img{height:26px}
-  .crumb{display:none}
   .back span{display:none}
   .back{padding:0 11px}
-  .hero{min-height:78vh}
-  .hero-inner{padding:100px 0 40px}
-  .hero::before{background:linear-gradient(0deg,var(--bg) 5%,rgba(5,6,10,.55) 60%,rgba(5,6,10,.7) 100%)}
-  .pill{height:46px;padding:0 20px;font-size:14px}
-  .stat{padding:16px 12px}
+  .summary{margin-top:18px;padding:12px}
   .stat strong{font-size:1.45rem}
   .stat span{font-size:10px;letter-spacing:1px}
   section.block{margin-top:52px}
   .grid{grid-template-columns:1fr;gap:26px}
   .play{opacity:1;transform:none}
-  .price{padding:30px 24px}
-  .amount{text-align:left}
 }
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
@@ -222,7 +163,7 @@ footer a:hover{text-decoration:underline}
 <body>
 
 <!-- ========================= HEADER ========================= -->
-<header id="top">
+<header>
   <div class="bar">
     <a class="brand" href="../index.html" aria-label="Volver a plataformas">
       <img src="images/logo.png" alt="CEMT">
@@ -235,41 +176,16 @@ footer a:hover{text-decoration:underline}
   </div>
 </header>
 
-<!-- ========================= HERO ========================= -->
-<section class="hero">
-  <div class="slides" aria-hidden="true">
-    <img class="on" src="images/catalogo1.jpg" alt="">
-    <img src="images/catalogo2.jpg" alt="" loading="lazy">
-    <img src="images/catalogo3.jpg" alt="" loading="lazy">
+<!-- ========================= RESUMEN ========================= -->
+<h1 class="sr-only">Catálogos PlayStation 5</h1>
+<div class="summary">
+  <div class="stats">
+    <div class="stat"><strong data-n="PS5">833</strong><span>Juegos</span></div>
+    <div class="stat"><strong data-cats="PS5">3</strong><span>Volúmenes</span></div>
   </div>
-
-  <div class="hero-inner">
-    <span class="eyebrow">CEMT · Nueva generación</span>
-    <h1>Biblioteca<br><b>PlayStation 5</b></h1>
-    <p class="lead">Tres volúmenes con los juegos de nueva generación, listos para tu consola.</p>
-    <div class="cta">
-      <a class="pill pill-white" href="#catalogos">
-        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
-        Ver catálogos
-      </a>
-      <a class="pill pill-ghost" href="#buscar">
-        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
-        Buscar un juego
-      </a>
-    </div>
-    <div class="dots" role="tablist" aria-label="Portadas">
-      <button class="on" type="button" aria-label="Portada 1"></button>
-      <button type="button" aria-label="Portada 2"></button>
-      <button type="button" aria-label="Portada 3"></button>
-    </div>
-  </div>
-</section>
-
-<!-- ========================= STATS ========================= -->
-<div class="stats">
-  <div class="stat"><strong data-cats="PS5">3</strong><span>Volúmenes</span></div>
-  <div class="stat"><strong data-n="PS5">833</strong><span>Juegos</span></div>
-  <div class="stat"><strong>2000</strong><span>CUP aprox.</span></div>
+  <div class="ptitle">Precio por juego</div>
+  <div class="price"><span>Todos los juegos</span><b>≈ 2000<small>CUP</small></b></div>
+  <div class="pnote">Algunos títulos pueden variar: consulta antes de pedir.</div>
 </div>
 
 <!-- ========================= BUSCADOR ========================= -->
@@ -348,18 +264,6 @@ footer a:hover{text-decoration:underline}
   </div>
 </section>
 
-<!-- ========================= PRECIO ========================= -->
-<section class="block" id="precio">
-  <div class="price">
-    <div>
-      <div class="label">Precio de referencia</div>
-      <h2>Juegos de <b>PS5</b></h2>
-      <p>Precio base por juego. Algunos títulos pueden tener un ajuste: consulta antes de hacer tu pedido.</p>
-    </div>
-    <div class="amount"><strong>2000</strong><span>CUP</span></div>
-  </div>
-</section>
-
 <footer>
   <img src="images/logo.png" alt="CEMT">
   <span>Catálogos PS5 · <span data-n="PS5">833</span> juegos en <span data-cats="PS5">3</span> volúmenes</span>
@@ -367,25 +271,6 @@ footer a:hover{text-decoration:underline}
 </footer>
 
 <script>
-/* ===== Header transparente → sólido al hacer scroll ===== */
-const header = document.getElementById("top");
-const onScroll = () => header.classList.toggle("solid", scrollY > 30);
-addEventListener("scroll", onScroll, { passive: true }); onScroll();
-
-/* ===== Portadas del hero que rotan (como la pantalla de inicio de PS5) ===== */
-const slides = [...document.querySelectorAll(".slides img")];
-const dots = [...document.querySelectorAll(".dots button")];
-let cur = 0, timer;
-function show(i) {
-  slides[cur].classList.remove("on"); dots[cur].classList.remove("on");
-  cur = (i + slides.length) % slides.length;
-  slides[cur].classList.add("on"); dots[cur].classList.add("on");
-}
-const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-function auto() { clearInterval(timer); if (!reduce) timer = setInterval(() => show(cur + 1), 6000); }
-dots.forEach((d, i) => d.addEventListener("click", () => { show(i); auto(); }));
-auto();
-
 /* ===== Buscador en los 3 volúmenes (carga los índices solo al usarlo) ===== */
 const CATS = [
   { label: "Vol. 1", path: "catalog1/catalogo_web/" },

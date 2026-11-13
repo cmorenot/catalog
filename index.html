@@ -203,31 +203,15 @@ section.block{width:var(--wrap);margin:96px auto 0;scroll-margin-top:84px}
 .logos{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
 .logos span{font-size:12px;font-weight:700;padding:6px 12px;border-radius:9999px;background:rgba(255,255,255,.06);border:1px solid var(--line);color:#c9cfdb}
 
-/* --- Servicios --- */
-.services{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.svc{
-  position:relative;border-radius:24px;padding:24px 22px;background:var(--panel);border:1px solid var(--line);
-  transition:transform .25s,border-color .25s,background .25s;
-}
-.svc:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.22);background:#141722}
-.svc .ico{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;margin-bottom:18px;background:var(--c-bg);color:var(--c)}
-.svc .ico svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
-.svc h3{font-size:1.08rem;font-weight:700}
-.svc p{color:var(--muted);font-size:14px;line-height:1.55;margin:8px 0 16px}
-
-/* --- Accesorios --- */
-.acc{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
-.item{
-  position:relative;aspect-ratio:1;border-radius:24px;padding:18px;display:flex;flex-direction:column;justify-content:space-between;
-  background:linear-gradient(160deg,#151823,#0d0f15);border:1px solid var(--line);overflow:hidden;
-  transition:transform .25s,border-color .25s;
-}
-.item::after{content:"";position:absolute;width:120px;height:120px;right:-40px;bottom:-40px;border-radius:50%;background:var(--c);filter:blur(40px);opacity:.25;transition:opacity .3s}
-.item:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.2)}
-.item:hover::after{opacity:.5}
-.item svg{width:38px;height:38px;fill:none;stroke:var(--c);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-.item h3{font-size:.98rem;font-weight:700}
-.item small{display:block;color:var(--muted);font-size:12px;margin-top:3px}
+/* --- Servicios y tienda (resumen compacto) --- */
+.extras{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.ex{display:flex;min-width:0;align-items:center;gap:14px;padding:16px 18px;border-radius:20px;background:var(--panel);border:1px solid var(--line)}
+.ex .ico{flex:none;width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:var(--c-bg);color:var(--c)}
+.ex .ico svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.ex .txt{flex:1;min-width:0}
+.ex h3{font-size:1rem;font-weight:700}
+.ex small{display:block;color:var(--muted);font-size:13px;margin-top:2px;line-height:1.35}
+.ex .pill{flex:none;padding:5px 9px;font-size:10px}
 
 /* Footer */
 footer{width:var(--wrap);margin:100px auto 0;padding:30px 0 46px;border-top:1px solid var(--line);
@@ -242,10 +226,6 @@ footer nav a.f-ns:hover{border-color:var(--ns)}
 footer p{width:100%;color:#5d6475;font-size:12px}
 
 /* ========================= RESPONSIVE ========================= */
-@media (max-width:1080px){
-  .services{grid-template-columns:repeat(2,1fr)}
-  .acc{grid-template-columns:repeat(3,1fr)}
-}
 @media (max-width:900px){
   nav.top{display:none}
   .consoles{flex-direction:column;height:auto}
@@ -271,9 +251,8 @@ footer p{width:100%;color:#5d6475;font-size:12px}
   .p-ps5::before{background:linear-gradient(0deg,#05060A 40%,rgba(5,6,10,.35) 70%,rgba(5,6,10,0) 100%)}
   section.block{margin-top:72px}
   .s2{padding:24px}
-  .services{grid-template-columns:1fr}
-  .acc{grid-template-columns:repeat(2,1fr);gap:12px}
-  .item{border-radius:20px;padding:16px}
+  .extras{grid-template-columns:minmax(0,1fr);gap:10px}
+  .ex{padding:14px;gap:12px}
 }
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
@@ -292,8 +271,7 @@ footer p{width:100%;color:#5d6475;font-size:12px}
     <nav class="top" aria-label="Secciones">
       <a href="#consolas">Consolas</a>
       <a href="#proximamente">Próximamente</a>
-      <a href="#servicios">Servicios</a>
-      <a href="#accesorios">Accesorios</a>
+      <a href="#extras">Servicios y tienda</a>
     </nav>
   </div>
 </header>
@@ -329,9 +307,9 @@ footer p{width:100%;color:#5d6475;font-size:12px}
       <svg viewBox="0 0 24 24" stroke="#F28FC4"><rect x="5" y="5" width="14" height="14" rx="1"/></svg>
     </div>
     <div class="inner">
-      <div class="kicker">Por firmware</div>
+      <div class="kicker">La más jugada</div>
       <h2>PlayStation <b>4</b></h2>
-      <p class="desc">Cuatro catálogos para 5.05, 6.72, 9.00 y 11.00, con buscador en todos a la vez.</p>
+      <p class="desc">Cuatro catálogos con buscador en todos a la vez. Funcionan en cualquier PS4.</p>
       <div class="nums">
         <div><b data-n="PS4">2 634</b>juegos</div>
         <div><b data-cats="PS4">4</b>catálogos</div>
@@ -415,79 +393,26 @@ footer p{width:100%;color:#5d6475;font-size:12px}
   </div>
 </section>
 
-<!-- ========================= SERVICIOS ========================= -->
-<section class="block" id="servicios">
+<!-- ========================= SERVICIOS Y TIENDA (resumen) ========================= -->
+<section class="block" id="extras">
   <div class="head">
     <div>
-      <span class="label">Servicios</span>
-      <h2>Más que <b>juegos</b></h2>
+      <span class="label">Además</span>
+      <h2>Servicios y <b>tienda</b></h2>
     </div>
-    <p>Te ayudamos a sacarle el máximo a tu consola.</p>
   </div>
 
-  <div class="services">
-    <article class="svc" style="--c:#3D9BFF;--c-bg:rgba(61,155,255,.12)">
-      <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5"/><rect x="3" y="17" width="18" height="4" rx="1.5"/></svg></div>
-      <h3>Instalación de juegos</h3>
-      <p>Elige del catálogo y te los instalamos listos para jugar.</p>
-      <span class="pill ok"><i></i>Disponible</span>
-    </article>
-    <article class="svc" style="--c:#2ECFA8;--c-bg:rgba(46,207,168,.12)">
+  <div class="extras">
+    <div class="ex" style="--c:#3D9BFF;--c-bg:rgba(61,155,255,.12)">
       <div class="ico"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4Z"/></svg></div>
-      <h3>Mantenimiento</h3>
-      <p>Limpieza interna, cambio de pasta térmica y revisión general.</p>
-      <span class="pill soon"><i></i>Pronto</span>
-    </article>
-    <article class="svc" style="--c:#F28FC4;--c-bg:rgba(242,143,196,.12)">
-      <div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg></div>
-      <h3>Configuración</h3>
-      <p>Puesta a punto, cuentas, respaldo de partidas y ajustes.</p>
-      <span class="pill soon"><i></i>Pronto</span>
-    </article>
-    <article class="svc" style="--c:#FF5A5F;--c-bg:rgba(255,90,95,.12)">
-      <div class="ico"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.6 8.6 0 0 1-3.9-.9L3 20.5l1.5-4.6a8.4 8.4 0 0 1-.9-3.9 8.5 8.5 0 0 1 8.4-8.5 8.4 8.4 0 0 1 9 8Z"/><path d="M8.5 11h.01M12 11h.01M15.5 11h.01"/></svg></div>
-      <h3>Asesoría</h3>
-      <p>¿Vas a comprar consola o accesorios? Te orientamos sin compromiso.</p>
-      <span class="pill soon"><i></i>Pronto</span>
-    </article>
-  </div>
-</section>
-
-<!-- ========================= ACCESORIOS ========================= -->
-<section class="block" id="accesorios">
-  <div class="head">
-    <div>
-      <span class="label">Tienda</span>
-      <h2><b>Accesorios</b> para tu consola</h2>
+      <div class="txt"><h3>Servicios</h3><small>Instalación y más</small></div>
+      <span class="pill ok"><i></i>Disponible</span>
     </div>
-    <p>Muy pronto podrás conseguir aquí todo lo que tu consola necesita.</p>
-  </div>
-
-  <div class="acc">
-    <article class="item" style="--c:#3D9BFF">
-      <svg viewBox="0 0 24 24"><path d="M6 9h12a4 4 0 0 1 4 4.5l-.5 3a2.5 2.5 0 0 1-4.3 1.2L15 15H9l-2.2 2.7a2.5 2.5 0 0 1-4.3-1.2l-.5-3A4 4 0 0 1 6 9Z"/><path d="M7 12v2M6 13h2M16 12.5h.01M18 13.5h.01"/></svg>
-      <div><h3>Mandos</h3><small>PS4 · PS5 · Switch</small></div>
-    </article>
-    <article class="item" style="--c:#7FB2FF">
-      <svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 14h.01M10 14h.01M15 10h3"/></svg>
-      <div><h3>Almacenamiento</h3><small>Discos y microSD</small></div>
-    </article>
-    <article class="item" style="--c:#2ECFA8">
-      <svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7Z"/></svg>
-      <div><h3>Cargadores</h3><small>Bases y cables</small></div>
-    </article>
-    <article class="item" style="--c:#F28FC4">
-      <svg viewBox="0 0 24 24"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/></svg>
-      <div><h3>Audífonos</h3><small>Para jugar en línea</small></div>
-    </article>
-    <article class="item" style="--c:#FF4554">
-      <svg viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 4.5 3.4 8.3 8 9 4.6-.7 8-4.5 8-9V6Z"/></svg>
-      <div><h3>Protección</h3><small>Fundas y micas</small></div>
-    </article>
-    <article class="item" style="--c:#FFD166">
-      <svg viewBox="0 0 24 24"><path d="M8 3v4M16 3v4"/><rect x="6" y="7" width="12" height="6" rx="1.5"/><path d="M12 13v4a3 3 0 0 1-3 3H7"/></svg>
-      <div><h3>Cables</h3><small>HDMI y adaptadores</small></div>
-    </article>
+    <div class="ex" style="--c:#F28FC4;--c-bg:rgba(242,143,196,.12)">
+      <div class="ico"><svg viewBox="0 0 24 24"><path d="M6 9h12a4 4 0 0 1 4 4.5l-.5 3a2.5 2.5 0 0 1-4.3 1.2L15 15H9l-2.2 2.7a2.5 2.5 0 0 1-4.3-1.2l-.5-3A4 4 0 0 1 6 9Z"/><path d="M7 12v2M6 13h2M16 12.5h.01M18 13.5h.01"/></svg></div>
+      <div class="txt"><h3>Accesorios</h3><small>Mandos, discos y más</small></div>
+      <span class="pill soon"><i></i>Pronto</span>
+    </div>
   </div>
 </section>
 
