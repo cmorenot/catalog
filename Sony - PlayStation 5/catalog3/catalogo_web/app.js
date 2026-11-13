@@ -1,208 +1,383 @@
 
-let chunk = 0;
-let loading = false;
-let allGames = [];
-let filterActive = false;
+const IMG_DIR = "assets/images/";
+const PAGE = 60;
 
 const grid = document.getElementById("grid");
+const sentinel = document.getElementById("sentinel");
+const emptyMsg = document.getElementById("empty");
+const emptyText = document.getElementById("emptyText");
 const modal = document.getElementById("modal");
 const searchInput = document.getElementById("searchInput");
-const filterSelect = document.getElementById("filterSelect");
-const genresList = [
-  "Action",
-  "Shooter",
-  "Arcade",
-  "Indie",
-  "Simulation",
-  "Sports",
-  "Racing",
-  "Adventure",
-  "RPG",
-  "Strategy",
-  "Platformer",
-  "Massively Multiplayer",
-  "Casual",
-  "Puzzle",
-  "Fighting"
-];
+const searchClear = document.getElementById("searchClear");
+const chipsBox = document.getElementById("genreChips");
+const resultCount = document.getElementById("resultCount");
+const backTopBtn = document.getElementById("backTopBtn");
 
-const allOption = document.createElement("option");
-allOption.value = "";
-allOption.textContent = "🎮 Todos los géneros";
-filterSelect.appendChild(allOption);
+let allGames = [];
+let list = [];
+let shown = 0;
+let detailSize = 50;
+let currentId = null;
+let currentGenre = "";
+const detailCache = {};
 
+const genreES = {
+  "action": "Acción", "adventure": "Aventura", "indie": "Indie", "rpg": "RPG",
+  "strategy": "Estrategia", "casual": "Casual", "simulation": "Simulación",
+  "platformer": "Plataformas", "puzzle": "Rompecabezas", "sports": "Deportes",
+  "shooter": "Disparos", "arcade": "Arcade", "racing": "Carreras",
+  "fighting": "Lucha", "family": "Familiar", "card": "Cartas",
+  "board games": "Juegos de mesa", "massively multiplayer": "Multijugador masivo",
+  "educational": "Educativo"
+};
 
-genresList.forEach(g => {
-  const option = document.createElement("option");
-  option.value = g.toLowerCase();
-  option.textContent = g;
-  filterSelect.appendChild(option);
-});
+function genreName(x) {
+  return genreES[(x || "").toLowerCase()] || x;
+}
 
-genresList.forEach(g => {
-  const option = document.createElement("option");
-  option.value = g.toLowerCase();
-  option.textContent = g;
-  filterSelect.appendChild(option);
-});
+/* busca sin importar mayúsculas, acentos ni signos: "pokemon" encuentra "Pokémon" */
+function norm(s) {
+  return (s || "").toLowerCase().normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9 ]/g, " ")
+    .replace(/ +/g, " ")
+    .trim();
+}
 
+function imgUrl(g) {
+  return IMG_DIR + encodeURIComponent(g.img);
+}
 
-/* =========================
-   CARGA INDEX (TODOS LOS JUEGOS)
-========================= */
-fetch("data/index.json")
-  .then(res => res.json())
-  .then(data => {
-    allGames = data;
-    loadChunk(0);
-  });
-
-/* =========================
-   CARGA CHUNKS (SCROLL)
-========================= */
-function loadChunk(i) {
-  if (loading) return;
-  loading = true;
-
-  fetch(`data/chunks/page_${i}.json`)
-    .then(res => res.json())
-    .then(data => {
-      const frag = document.createDocumentFragment();
-
-      data.forEach(g => {
-        const card = document.createElement("div");
-        card.className = "card";
-
-        card.innerHTML = `
-          <div class="img-box">
-            <img src="${g.img_low}">
-          </div>
-          <div class="title">${g.name}</div>
-          <div class="size">${g.size} GB</div>
-        `;
-
-        card.onclick = () => openModal(g);
-        frag.appendChild(card);
-      });
-
-      grid.appendChild(frag);
-    })
-    .finally(() => loading = false);
+function updateCount(n) {
+  resultCount.textContent = n + (n === 1 ? " juego" : " juegos");
 }
 
 /* =========================
-   MODAL
+   TARJETAS
 ========================= */
-function openModal(g) {
-  document.getElementById("modal-img").src = g.img_low;
-  document.getElementById("modal-title").innerText = g.name;
+function makeCard(g) {
+  const card = document.createElement("div");
+  card.className = "card";
+  card.tabIndex = 0;
+  card.setAttribute("role", "button");
+  card.setAttribute("aria-label", g.name);
 
-  document.getElementById("modal-name").innerText = g.name;
-  document.getElementById("modal-size").innerText = g.size || "";
-  document.getElementById("modal-rating").innerText = g.rating || "";
-  document.getElementById("modal-release").innerText = g.release_date || "";
-  document.getElementById("modal-genres").innerText = (g.genres || []).join(", ");
-  document.getElementById("modal-platforms").innerText = (g.platforms || []).join(", ");
+  const box = document.createElement("div");
+  box.className = "img-box";
+  const img = document.createElement("img");
+  img.loading = "lazy";      // solo descarga las portadas que se ven
+  img.decoding = "async";
+  img.alt = "";
+  img.src = imgUrl(g);
+  box.appendChild(img);
 
-  const mc = document.getElementById("modal-metacritic-link");
-  mc.innerText = g.metacritic || "";
-  mc.href = g.metacritic_url || "#";
+  const body = document.createElement("div");
+  body.className = "card-body";
 
-  document.getElementById("modal-desc").innerText = g.description || "";
-  document.getElementById("modal-background").src = g.background_image || "";
+  const title = document.createElement("div");
+  title.className = "title";
+  title.textContent = g.name;
+  title.title = g.name;
 
-  modal.style.display = "flex";
+  const size = document.createElement("span");
+  size.className = "size";
+  size.textContent = g.size + " GB";
+
+  body.append(title, size);
+  card.append(box, body);
+  card.onclick = () => openModal(g);
+  card.onkeydown = (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openModal(g); } };
+  return card;
 }
 
-/* =========================
-   CLOSE MODAL
-========================= */
-document.getElementById("close-btn").onclick = () => {
-  modal.style.display = "none";
-};
+function renderMore() {
+  const frag = document.createDocumentFragment();
+  list.slice(shown, shown + PAGE).forEach(g => frag.appendChild(makeCard(g)));
+  shown += PAGE;
+  grid.appendChild(frag);
+}
 
-modal.onclick = (e) => {
-  if (e.target === modal) modal.style.display = "none";
-};
-
-/* =========================
-   SCROLL INFINITO
-========================= */
-window.addEventListener("scroll", () => {
-  if (filterActive) return; // 🚫 NO cargar más si estás filtrando
-
-  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 300) {
-    chunk++;
-    loadChunk(chunk);
+/* agrega tarjetas mientras el final de la lista esté cerca de la pantalla */
+function fill() {
+  ticking = false;
+  backTopBtn.classList.toggle("show", window.scrollY > 600);
+  while (shown < list.length && sentinel.getBoundingClientRect().top < window.innerHeight + 800) {
+    renderMore();
   }
-});
+}
+
+let ticking = false;
+function requestFill() {
+  if (!ticking) {
+    ticking = true;
+    requestAnimationFrame(fill);
+  }
+}
+window.addEventListener("scroll", requestFill, { passive: true });
+window.addEventListener("resize", requestFill);
+
+function scrollToTop() {
+  const smooth = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  window.scrollTo({ top: 0, behavior: smooth ? "smooth" : "auto" });
+}
+
+backTopBtn.addEventListener("click", scrollToTop);
 
 /* =========================
-   BUSCADOR GLOBAL (INDEX.JSON)
+   BUSCADOR + GÉNEROS
 ========================= */
-function filterGames(query = "", filter = "") {
-  query = query.toLowerCase().trim();
-  filter = filter.toLowerCase().trim();
+function applyFilter() {
+  const q = norm(searchInput.value);
+  const words = q ? q.split(" ") : [];
+
+  // todas las palabras deben aparecer, en cualquier orden
+  list = allGames.filter(g =>
+    words.every(w => g.key.includes(w)) &&
+    (!currentGenre || (g.genres || []).includes(currentGenre))
+  );
+
+  searchClear.classList.toggle("show", !!searchInput.value);
+  updateCount(list.length);
 
   grid.innerHTML = "";
+  shown = 0;
+  emptyMsg.style.display = list.length ? "none" : "block";
+  window.scrollTo(0, 0);
+  fill();
+}
 
-  // 👉 detectar si hay filtro activo
-  filterActive = !!query || !!filter;
+let searchTimer;
+searchInput.addEventListener("input", () => {
+  searchClear.classList.toggle("show", !!searchInput.value);
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(applyFilter, 200);  // espera a que termines de escribir
+});
 
-  let results = allGames;
+searchClear.addEventListener("click", (e) => {
+  e.preventDefault();
+  searchInput.value = "";
+  applyFilter();
+  searchInput.focus();
+});
 
-  if (query) {
-    results = results.filter(g =>
-      g.name.toLowerCase().includes(query)
-    );
+function makeChip(value, label, n) {
+  const b = document.createElement("button");
+  b.type = "button";
+  b.className = "chip" + (value === currentGenre ? " active" : "");
+  b.dataset.genre = value;
+  b.setAttribute("aria-pressed", value === currentGenre);
+  b.append(label);
+  if (n != null) {
+    const s = document.createElement("small");
+    s.textContent = n;
+    b.append(s);
   }
+  b.onclick = () => {
+    currentGenre = value;
+    chipsBox.querySelectorAll(".chip").forEach(c => {
+      const on = c.dataset.genre === value;
+      c.classList.toggle("active", on);
+      c.setAttribute("aria-pressed", on);
+    });
+    // deja la pestaña elegida a la vista (en el celular se desliza sola)
+    chipsBox.scrollTo({ left: b.offsetLeft - chipsBox.clientWidth / 2 + b.offsetWidth / 2, behavior: "smooth" });
+    applyFilter();
+  };
+  return b;
+}
 
-  if (filter) {
-    results = results.filter(g =>
-      (g.genres || []).some(gen =>
-        gen.toLowerCase().includes(filter)
-      )
-    );
+/* flechas y rueda del mouse para las pestañas de género (PC) */
+const chipsWrap = document.getElementById("chipsWrap");
+function updateArrows() {
+  chipsWrap.classList.toggle("can-prev", chipsBox.scrollLeft > 4);
+  chipsWrap.classList.toggle("can-next", chipsBox.scrollLeft + chipsBox.clientWidth < chipsBox.scrollWidth - 4);
+}
+chipsWrap.querySelector(".prev").onclick = () => chipsBox.scrollBy({ left: -chipsBox.clientWidth * 0.7, behavior: "smooth" });
+chipsWrap.querySelector(".next").onclick = () => chipsBox.scrollBy({ left: chipsBox.clientWidth * 0.7, behavior: "smooth" });
+chipsBox.addEventListener("scroll", updateArrows, { passive: true });
+window.addEventListener("resize", updateArrows);
+// la rueda del mouse (arriba/abajo) desliza las pestañas de lado
+chipsBox.addEventListener("wheel", (e) => {
+  if (Math.abs(e.deltaY) > Math.abs(e.deltaX) && chipsBox.scrollWidth > chipsBox.clientWidth) {
+    e.preventDefault();
+    chipsBox.scrollLeft += e.deltaY;
   }
+}, { passive: false });
 
-  const frag = document.createDocumentFragment();
+function buildGenres() {
+  const count = {};
+  allGames.forEach(g => (g.genres || []).forEach(x => count[x] = (count[x] || 0) + 1));
 
-  results.forEach(g => {
-    const card = document.createElement("div");
-    card.className = "card";
-
-    card.innerHTML = `
-      <div class="img-box">
-        <img src="${g.img_low}">
-      </div>
-      <div class="title">${g.name}</div>
-      <div class="size">${g.size} GB</div>
-    `;
-
-    card.onclick = () => openModal(g);
-    frag.appendChild(card);
-  });
-
-  grid.appendChild(frag);
-
-  // 👇 AQUÍ VA (al final de todo)
-  if (!filterActive) {
-    chunk = 0;
-    grid.innerHTML = "";
-    loadChunk(0);
-  }
+  chipsBox.appendChild(makeChip("", "Todos", allGames.length));
+  // los géneros con más juegos primero
+  Object.keys(count)
+    .sort((a, b) => count[b] - count[a] || genreName(a).localeCompare(genreName(b), "es"))
+    .forEach(x => chipsBox.appendChild(makeChip(x, genreName(x), count[x])));
+  updateArrows();
 }
 
 /* =========================
-   EVENTOS BUSCADOR
+   MODAL (los detalles se bajan solo al abrir el juego)
 ========================= */
+function formatDate(d) {
+  if (!d) return "";
+  const dt = new Date(d + "T00:00:00Z");
+  if (isNaN(dt)) return d;
+  return dt.toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+}
 
-searchInput.addEventListener("input", () => {
-  filterGames(searchInput.value, filterSelect.value);
+function loadDetails(id) {
+  const n = Math.floor(id / detailSize);
+  if (!detailCache[n]) {
+    detailCache[n] = fetch(`data/details/page_${n}.json`)
+      .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .catch(() => { delete detailCache[n]; return null; });
+  }
+  return detailCache[n];
+}
+
+const banner = document.getElementById("modal-banner");
+const bg = document.getElementById("modal-background");
+const descCard = document.getElementById("modal-desc-card");
+const descEl = document.getElementById("modal-desc");
+const expandBtn = document.getElementById("expandDesc");
+
+bg.onload = () => bg.classList.add("loaded");
+bg.onerror = () => { bg.removeAttribute("src"); banner.classList.add("no-img"); };
+
+function show(id, on) {
+  document.getElementById(id).hidden = !on;
+}
+
+let modalInHistory = false;
+let lastFocus = null;
+// si se recargó con la ficha abierta, limpiar ese paso del historial
+if (history.state && history.state.modal) history.replaceState(null, "");
+
+function openModal(g) {
+  currentId = g.id;
+  lastFocus = document.activeElement;
+
+  // lo que ya tenemos: se ve al instante
+  document.getElementById("modal-img").src = imgUrl(g);
+  document.getElementById("modal-title").textContent = g.name;
+
+  document.getElementById("modal-size").textContent = g.size || "";
+  show("detail-size", !!g.size);
+
+  const genres = (g.genres || []).map(genreName).join(", ");
+  document.getElementById("modal-genres").textContent = genres;
+  show("detail-genres", !!genres);
+
+  show("detail-release", false);
+  show("detail-publisher", false);
+  bg.classList.remove("loaded");
+  bg.removeAttribute("src");
+  banner.classList.remove("no-img");
+
+  descCard.hidden = false;
+  descCard.classList.remove("expanded");
+  descCard.classList.add("short");
+  descEl.textContent = "Cargando…";
+  expandBtn.textContent = "Leer más";
+
+  modal.style.display = "flex";
+  document.body.style.overflow = "hidden";   // no mover el fondo
+  document.body.classList.add("modal-open");
+  document.getElementById("modal-content").scrollTop = 0;
+  document.getElementById("close-btn").focus({ preventScroll: true });
+
+  // botón "atrás" del navegador/celular cierra la ficha (solo memoria, sin recargar)
+  if (!modalInHistory) {
+    history.pushState({ modal: true }, "");
+    modalInHistory = true;
+  }
+
+  // lo pesado (descripción, fecha, imagen): solo ahora se descarga
+  loadDetails(g.id).then(all => {
+    if (currentId !== g.id) return;   // ya abrió otro juego
+    if (!all) {
+      descEl.textContent = "No se pudo cargar la información. Revisa tu conexión.";
+      banner.classList.add("no-img");
+      return;
+    }
+    const d = all[g.id] || {};
+
+    const release = formatDate(d.release_date);
+    document.getElementById("modal-release").textContent = release;
+    show("detail-release", !!release);
+
+    document.getElementById("modal-publisher").textContent = d.publisher || "";
+    show("detail-publisher", !!d.publisher);
+
+    if (d.background_image) bg.src = d.background_image;
+    else banner.classList.add("no-img");
+
+    descEl.textContent = (d.description || "").trim();
+    descCard.hidden = !d.description;
+    descCard.classList.remove("short");
+    descCard.classList.toggle("short", descEl.scrollHeight <= descEl.clientHeight + 4);
+  });
+}
+
+expandBtn.addEventListener("click", () => {
+  const open = descCard.classList.toggle("expanded");
+  expandBtn.textContent = open ? "Leer menos" : "Leer más";
 });
 
-filterSelect.addEventListener("change", () => {
-  filterGames(searchInput.value, filterSelect.value);
+function closeModal() {
+  modal.style.display = "none";
+  document.body.style.overflow = "";
+  document.body.classList.remove("modal-open");
+  currentId = null;
+  if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+  // cerrado con ✕ / clic fuera / Esc: quitar el paso que agregamos
+  if (modalInHistory) {
+    modalInHistory = false;
+    history.back();
+  }
+}
+
+// botón atrás: cerrar la ficha y quedarse en el catálogo
+window.addEventListener("popstate", () => {
+  if (modalInHistory) {
+    modalInHistory = false;
+    closeModal();
+  }
 });
 
-loadChunk(0);
+document.getElementById("close-btn").onclick = closeModal;
+modal.onclick = (e) => { if (e.target === modal) closeModal(); };
+
+/* Teclado: "/" para buscar · Esc cierra la ficha o borra la búsqueda */
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    if (modal.style.display === "flex") { closeModal(); return; }
+    if (document.activeElement === searchInput && searchInput.value) {
+      searchInput.value = "";
+      applyFilter();
+    }
+  } else if (e.key === "/" && document.activeElement !== searchInput) {
+    e.preventDefault();
+    scrollToTop();
+    searchInput.focus();
+  }
+});
+
+/* =========================
+   INICIO
+========================= */
+fetch("data/index.json")
+  .then(r => r.json())
+  .then(data => {
+    detailSize = data.detail_size;
+    allGames = data.games;
+    allGames.forEach(g => g.key = norm(g.name));
+    searchInput.placeholder = `Buscar entre ${allGames.length} juegos...`;
+    buildGenres();
+    applyFilter();
+  })
+  .catch(() => {
+    emptyText.textContent = "No se pudo cargar el catálogo. Revisa tu conexión y recarga la página.";
+    emptyMsg.style.display = "block";
+  });
