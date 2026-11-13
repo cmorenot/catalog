@@ -68,6 +68,7 @@ section.block{width:var(--wrap);margin:44px auto 0;scroll-margin-top:80px}
 .head p{color:var(--muted);margin-top:6px;font-size:14px}
 
 /* Buscador */
+.finder{width:var(--wrap);max-width:640px;margin:16px auto 0}
 .finder-box{
   display:flex;align-items:center;gap:12px;height:58px;padding:0 10px 0 22px;border-radius:9999px;
   background:var(--panel);border:1px solid var(--line);transition:border-color .2s,box-shadow .2s;
@@ -80,7 +81,7 @@ section.block{width:var(--wrap);margin:44px auto 0;scroll-margin-top:80px}
 .clear{flex:none;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.1);color:#fff;font:600 14px Arial,sans-serif;cursor:pointer;display:none;align-items:center;justify-content:center}
 .clear.show{display:flex}
 .clear:hover{background:#fff;color:#000}
-.hint{margin:10px 0 0 22px;font-size:13px;color:var(--muted)}
+.hint{margin-top:10px;font-size:13px;color:var(--muted);text-align:center}
 .results{margin-top:14px;border-radius:20px;overflow:hidden;background:var(--panel);border:1px solid var(--line);display:none}
 .results.show{display:block}
 .res{display:flex;align-items:center;gap:14px;padding:10px 16px;border-bottom:1px solid var(--line)}
@@ -176,19 +177,15 @@ footer a:hover{text-decoration:underline}
 </div>
 
 <!-- ========================= BUSCADOR ========================= -->
-<section class="block" id="buscar">
-  <div class="head">
-    <h2>¿Buscas un <b>juego</b>?</h2>
-    <p>Escribe el nombre y te decimos en qué catálogo está.</p>
-  </div>
+<div class="finder" id="buscar">
   <label class="finder-box">
     <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
-    <input id="q" type="search" placeholder="Ej: Spider-Man, FC, Gran Turismo…" autocomplete="off" aria-label="Buscar juego en todos los catálogos PS5">
+    <input id="q" type="search" placeholder="Busca un juego en los 3 catálogos…" autocomplete="off" aria-label="Buscar juego en todos los catálogos PS5">
     <button class="clear" id="clear" type="button" aria-label="Borrar búsqueda">✕</button>
   </label>
-  <p class="hint" id="hint">Escribe al menos 2 letras.</p>
+  <p class="hint" id="hint">Te decimos en qué catálogo está.</p>
   <div class="results" id="results"></div>
-</section>
+</div>
 
 <!-- ========================= CATÁLOGOS ========================= -->
 <section class="block" id="catalogos">
