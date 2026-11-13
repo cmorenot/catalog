@@ -335,8 +335,8 @@ footer a:hover{color:#fff}
     <p class="lead">Cuatro catálogos organizados por firmware. Elige el de tu consola, busca tu juego y pide por tamaño.</p>
 
     <div class="stats">
-      <div class="stat"><strong>4</strong><span>Catálogos</span></div>
-      <div class="stat"><strong>2 642</strong><span>Juegos</span></div>
+      <div class="stat"><strong data-cats="PS4">4</strong><span>Catálogos</span></div>
+      <div class="stat"><strong data-n="PS4">2 634</strong><span>Juegos</span></div>
       <div class="stat"><strong>150</strong><span>CUP desde</span></div>
     </div>
   </div>
@@ -380,10 +380,10 @@ footer a:hover{color:#fff}
       <div class="body">
         <h3>Catálogo 1</h3>
         <p>Clásicos y joyas de la primera etapa de PS4.</p>
-        <div class="count"><div><b>684</b>juegos</div><div><b>8.2 TB</b>en total</div></div>
+        <div class="count"><div><b data-n="PS4/1">684</b>juegos</div><div><b data-tb="PS4/1">8.1 TB</b>en total</div></div>
         <div class="actions">
           <a class="btn" href="catalog1/catalogo_web/index.html">Abrir catálogo</a>
-          <a class="btn-pdf" href="catalog1/catalogo_web/catalogo_whatsapp_0505.pdf" title="Descargar PDF (15 MB)">
+          <a class="btn-pdf" data-pdf="PS4/1" download href="catalog1/catalogo_web/catalogo_whatsapp_0505.pdf" title="Descargar PDF (15 MB)">
             <svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>PDF</a>
         </div>
       </div>
@@ -398,10 +398,10 @@ footer a:hover{color:#fff}
       <div class="body">
         <h3>Catálogo 2</h3>
         <p>Colección ampliada para consolas en 6.xx – 7.xx.</p>
-        <div class="count"><div><b>651</b>juegos</div><div><b>7.3 TB</b>en total</div></div>
+        <div class="count"><div><b data-n="PS4/2">648</b>juegos</div><div><b data-tb="PS4/2">7.3 TB</b>en total</div></div>
         <div class="actions">
           <a class="btn" href="catalog2/catalogo_web/index.html">Abrir catálogo</a>
-          <a class="btn-pdf" href="catalog2/catalogo_web/catalogo_whatsapp_600-700.pdf" title="Descargar PDF (14 MB)">
+          <a class="btn-pdf" data-pdf="PS4/2" download href="catalog2/catalogo_web/catalogo_whatsapp_600-700.pdf" title="Descargar PDF (14 MB)">
             <svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>PDF</a>
         </div>
       </div>
@@ -416,10 +416,10 @@ footer a:hover{color:#fff}
       <div class="body">
         <h3>Catálogo 3</h3>
         <p>La colección más grande: títulos de todas las categorías.</p>
-        <div class="count"><div><b>758</b>juegos</div><div><b>9.2 TB</b>en total</div></div>
+        <div class="count"><div><b data-n="PS4/3">757</b>juegos</div><div><b data-tb="PS4/3">9.1 TB</b>en total</div></div>
         <div class="actions">
           <a class="btn" href="catalog3/catalogo_web/index.html">Abrir catálogo</a>
-          <a class="btn-pdf" href="catalog3/catalogo_web/catalogo_whatsapp_800-900.pdf" title="Descargar PDF (16 MB)">
+          <a class="btn-pdf" data-pdf="PS4/3" download href="catalog3/catalogo_web/catalogo_whatsapp_800-900.pdf" title="Descargar PDF (16 MB)">
             <svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>PDF</a>
         </div>
       </div>
@@ -434,10 +434,10 @@ footer a:hover{color:#fff}
       <div class="body">
         <h3>Catálogo 4</h3>
         <p>La última compilación, con los lanzamientos más recientes.</p>
-        <div class="count"><div><b>549</b>juegos</div><div><b>4.4 TB</b>en total</div></div>
+        <div class="count"><div><b data-n="PS4/4">545</b>juegos</div><div><b data-tb="PS4/4">4.4 TB</b>en total</div></div>
         <div class="actions">
           <a class="btn" href="catalog4/catalogo_web/index.html">Abrir catálogo</a>
-          <a class="btn-pdf" href="catalog4/catalogo_web/catalogo_whatsapp_1100.pdf" title="Descargar PDF (13 MB)">
+          <a class="btn-pdf" data-pdf="PS4/4" download href="catalog4/catalogo_web/catalogo_whatsapp_1100-1400.pdf" title="Descargar PDF (13 MB)">
             <svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>PDF</a>
         </div>
       </div>
@@ -485,7 +485,7 @@ footer a:hover{color:#fff}
 
 <footer>
   <img src="images/logo.png" alt="CEMT">
-  <span>Catálogos PS4 · 2 642 juegos en 4 catálogos</span>
+  <span>Catálogos PS4 · <span data-n="PS4">2 634</span> juegos en <span data-cats="PS4">4</span> catálogos</span>
   <a href="../index.html">← Ver otras plataformas</a>
 </footer>
 
